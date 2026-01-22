@@ -61,6 +61,7 @@
     "error-password-minlength": "A senha deve ter quantidade maior caracteres.",
     "error-password-pattern": "A senha está em um formato incorreto.",
     "error-password-strength": "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.",
+    "show-password": "Mostrar senha",
     "set-your-emailVerificationCode": "Define seu codigo de verificação de email",
     "emailVerificationCode": "Código de verificação de email",
     "error-emailVerificationCode-required": "Código de verificação de email é necessário ser preenchido",
