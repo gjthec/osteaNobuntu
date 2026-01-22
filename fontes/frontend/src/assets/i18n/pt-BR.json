@@ -3,8 +3,8 @@
     "do-login": "Fazer login", 
     "test-now": "Teste agora", 
     "product-name": "Osteo", 
-    "short-product-description": "", 
-    "long-product-description": "", 
+    "short-product-description": "Plataforma para gestão clínica e administrativa.", 
+    "long-product-description": "Centralize pacientes, avaliações e agenda em um só lugar para organizar o dia a dia da clínica.", 
     "workspace": "WorkSpace" 
   }, 
 
