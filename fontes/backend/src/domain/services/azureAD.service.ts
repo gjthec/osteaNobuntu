@@ -3,7 +3,7 @@ import { SignInOutputDTO } from '../../useCases/authentication/signIn.useCase';
 import { GetUserProfilePhotoOutputDTO } from '../../useCases/user/getUserProfilePhoto.useCase';
 import { IUser } from '../entities/user.model';
 import { IidentityService } from './Iidentity.service';
-import { ValidationError } from '../../errors/client.error';
+import { NotFoundError, ValidationError } from '../../errors/client.error';
 import { InternalServerError } from '../../errors/internal.error';
 
 export interface IAzureAdUser {
