@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../errors/client.error';
 import { IidentityService } from '../../domain/services/Iidentity.service';
 import { TokenGenerator } from '../../utils/tokenGenerator';
 import { IUser, User } from '../../domain/entities/user.model';
@@ -52,7 +51,7 @@ export class RegisterUserUseCase {
 				input.email
 			)) == false
 		) {
-			throw new NotFoundError('NOT_FOUND', {
+			throw new ValidationError('EMAIL_VERIFICATION_REQUIRED', {
 				cause: 'Verificação de email não realizada!'
 			});
 		}
