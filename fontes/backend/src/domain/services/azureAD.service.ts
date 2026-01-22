@@ -276,9 +276,8 @@ export class AzureADService implements IidentityService {
 				//     issuerAssignedId: user.email,
 				//   },
 				// ],
-				// mail: user.email,
-				// Armazene o Gmail como atributo para busca posterior
-				// mail: user.email
+				// Armazene o email informado para suportar busca por mail
+				mail: user.email
 			};
 
 			// Requisição para criar o usuário no Azure AD
