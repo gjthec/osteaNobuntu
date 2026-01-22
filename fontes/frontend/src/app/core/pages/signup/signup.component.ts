@@ -32,9 +32,14 @@ enum SignUpPageState {
 })
 export class SignupComponent {
 
-  nameForm: INameForm;
-  passwordForm: IPasswordForm;
-  birthDayAndGenderForm: IBirthDayAndGenderForm;
+  nameForm: INameForm = { firstName: '', lastName: '' };
+  passwordForm: IPasswordForm = { password: '' };
+  birthDayAndGenderForm: IBirthDayAndGenderForm = {
+    birthDay: 0,
+    birthMonth: 1,
+    birthYear: 0,
+    gender: 0
+  };
 
   emailFormGroup: FormGroup = this._formBuilder.group({
     email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],

@@ -15,7 +15,7 @@ export class NameFormComponent implements OnInit {
   /**
    * Campo para inserçào dos dados
    */
-  @Input() inputData: INameForm;
+  @Input() inputData: INameForm | null = null;
 
   //Campos de saída
   @Output() onFieldsChange = new EventEmitter<INameForm>();
@@ -37,7 +37,9 @@ export class NameFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Preenche o formulário com os dados recebidos do componente pai
-    this.nameFormGroup.patchValue(this.inputData);
+    if (this.inputData) {
+      this.nameFormGroup.patchValue(this.inputData);
+    }
     
     // Ouve mudanças nos campos
     this.nameFormGroup.valueChanges.subscribe(value => {

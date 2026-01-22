@@ -49,6 +49,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private shouldAddToken(url: string): boolean {
     // Lógica para determinar se o token deve ser adicionado
+    if (!environment.backendUrl) {
+      return url.startsWith('/api') || url.includes('/api/');
+    }
     return url.includes(environment.backendUrl);
   }
 
