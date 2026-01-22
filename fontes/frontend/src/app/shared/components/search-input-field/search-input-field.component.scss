@@ -1,0 +1,20 @@
+.sort-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  line-height: 1;
+}
+
+button[mat-icon-button] {
+  position: relative;
+}

@@ -1,0 +1,9 @@
+<mat-form-field style="width: 100%;" appearance="outline">
+  <mat-label>{{ displayedLabel }}</mat-label>
+  <!-- Input field to display the captured location -->
+  <input matInput [formControl]="inputValue" placeholder="Click the icon to get location" readonly [required]="isRequired">
+  <!-- Button to trigger the location capture -->
+  <button mat-icon-button matSuffix (click)="getLocation()">
+    <mat-icon>location_on</mat-icon>
+  </button>
+</mat-form-field>

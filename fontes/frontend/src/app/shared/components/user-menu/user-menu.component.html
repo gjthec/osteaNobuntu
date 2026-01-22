@@ -1,0 +1,144 @@
+<!-- Componente que chama função de tradução para dentro dos componentes -->
+<ng-container *transloco="let t; read: 'componentsBase.user-menu-component'">
+
+  <!-- Botão para quando o usuário estiver não tem acesso -->
+  <button *ngIf="!isLoggedIn" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <!-- Botão apresentando quando o usuário tem acesso -->
+  <button *ngIf="isLoggedIn" id="user-icon" mat-fab [matMenuTriggerFor]="menu">
+    <!-- Caso o usuário não tenha foto irá apresentar essa tag -->
+    <div id="user-icon-image" *ngIf="userProfilePhotoEnabled == false">
+      <!-- Apresenta a primeira letra do nome do usuário -->
+      <span class="letter">{{ currentUser.name[0] }}</span>
+    </div>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <div *ngIf="isLoggedIn" style="min-width: 250px; min-height: 200px;">
+
+      <!-- Painel que mostra o usuário atual -->
+      <div class="current-user">
+        <p>{{currentUser.email}}</p>
+
+        <!-- <img *ngIf="userProfilePhotoEnabled == true" src="assets/images/user-image-test.jpg" alt="user image" id="user-image"> -->
+
+        <div id="user-image" *ngIf="userProfilePhotoEnabled == false">
+          <span class="letter">{{ currentUser.name[0] }}</span>
+        </div>
+
+        <h4>{{t("hi")}} {{firstName}}!</h4>
+
+        <!-- <button mat-flat-button color="primary" style="display: flex; flex-direction: row;"
+          (click)="goToManageAccountPage()">
+          {{t("manage-your-account")}}
+        </button> -->
+      </div>
+
+      <!-- Botões apresentados quando só se tem um usuário com acesso na aplicação -->
+      <div>
+        <!-- Botão para trocar o menu caso o usuário tenha mais de um menu -->
+        <button mat-menu-item *ngIf="menus.length > 1" [matMenuTriggerFor]="switchMenu">
+          <mat-icon>swap_horiz</mat-icon>
+          {{t("switch-menu")}}
+        </button>
+        <!-- Botão para fazer acesso a outra conta -->
+        <!-- TODO arrumar para funcionar o esquema de acesso a mais de uma conta -->
+        <!-- <button mat-menu-item (click)="goToSignInPage()">
+          <mat-icon>add</mat-icon>
+          {{t("add-other-account")}}
+        </button> -->
+
+        <!-- Botão para sair de todas as contas -->
+        <button mat-menu-item (click)="signOutUser()">
+          <mat-icon>logout</mat-icon>
+          {{t("logout")}}
+        </button>
+      </div>
+
+      <!-- painel capaz de se expandir -->
+      <mat-expansion-panel *ngIf="users.length > 1" (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+        (click)="$event.stopPropagation()" style="background-color: #f3f3f3;">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title style="flex-basis: 60px;">
+            {{t("show-more-accounts")}}
+          </mat-panel-title>
+
+          <mat-panel-description id="other-users-panel-description">
+            <!-- <img *ngFor="let user of inactiveUsers" src="assets/images/user-image-test.jpg"
+              alt="user image" class="other-users-panel-description-image"> -->
+            <div *ngFor="let inactiveUser of inactiveUsers" alt="user image"
+              class="other-users-panel-description-image">
+              <span class="letter">{{ inactiveUser.name[0] }}</span>
+            </div>
+          </mat-panel-description>
+
+        </mat-expansion-panel-header>
+
+        <!-- Lista de sessões de usuário inativas -->
+        <button mat-menu-item *ngFor="let inactiveUser of inactiveUsers" (click)="switchCurrentUser(inactiveUser)">
+
+          <div
+            style="display: flex; flex-direction: row !important; align-items: center; margin-top: 10px; margin-bottom: 10px;">
+            <!-- Coluna da imagem da conta -->
+            <!-- <div>
+              <img src="assets/images/user-image-test.jpg" alt="user image" class="other-users-list-image">
+            </div> -->
+            <div id="inactive-user-default-image" *ngIf="userProfilePhotoEnabled == false">
+              <span class="letter">{{ inactiveUser.name[0] }}</span>
+            </div>
+            <!-- Coluna dos dados da conta -->
+            <div class="user-info">
+              <div>{{inactiveUser.name + " " + inactiveUser.lastName}}</div>
+              <div>{{inactiveUser.email}}</div>
+            </div>
+            <!-- Coluna do estado atual da conta, sendo sessão expirada ou não -->
+            <div>
+              <p *ngIf="checkUserExpired()">{{t("session-expired")}}</p>
+            </div>
+          </div>
+        </button>
+
+        <!-- Botão para fazer acesso a outra conta -->
+        <button mat-menu-item (click)="goToSignInPage()">
+          <mat-icon>add</mat-icon>
+          {{t("add-other-account")}}
+        </button>
+
+        <!-- Botão para sair de todas as contas -->
+        <button mat-menu-item (click)="signOutAllUsers()">
+          <mat-icon>logout</mat-icon>
+          {{t("logout")}}
+        </button>
+
+      </mat-expansion-panel>
+
+      <!-- <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        {{t("settings")}}
+      </button> -->
+
+    </div>
+
+    <!-- Ações quando não tem ninguém que realizou acesso a conta -->
+    <div *ngIf="!isLoggedIn">
+      <button mat-menu-item (click)="goToSignInPage()">
+        <mat-icon>login</mat-icon>
+        <span>Entrar</span>
+      </button>
+      <button mat-menu-item (click)="createUser()">
+        <mat-icon>person_add</mat-icon>
+        <span>Criar conta</span>
+      </button>
+    </div>
+  </mat-menu>
+</ng-container>
+
+<mat-menu #switchMenu="matMenu" [overlapTrigger]="false" [hasBackdrop]="true">
+  <button mat-menu-item *ngFor="let menu of menus" (click)="setCurrentMenu(menu)"
+    [disabled]="menu.id === currentMenuId.id">
+    <span>{{menu.fileName}}</span>
+  </button>
+</mat-menu>

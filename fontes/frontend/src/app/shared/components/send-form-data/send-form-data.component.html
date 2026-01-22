@@ -1,0 +1,20 @@
+<button mat-fab style="width: 100%;" extended [matMenuTriggerFor]="linksAvaible" [disabled]="!isButtonActive">
+  {{ label }}  
+</button>
+
+<mat-menu #linksAvaible="matMenu">
+  <ng-container *ngFor="let link of links">
+    <button mat-menu-item [matMenuTriggerFor]="menu" [matMenuTriggerData]="{link: link}">{{
+      link.title[translocoService.getActiveLang()] }}</button>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #menu="matMenu">
+  <ng-container *transloco="let t; read: 'componentsBase.send-form-data'">
+    <ng-template matMenuContent let-item="link">
+      <button mat-menu-item (click)="goToPage(item)">{{t("go-to-page")}}</button>
+      <button mat-menu-item (click)="exportDocument(item)">{{t("download-document")}}</button>
+    </ng-template>
+  </ng-container>
+
+</mat-menu>

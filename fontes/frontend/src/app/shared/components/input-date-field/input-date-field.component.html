@@ -1,0 +1,30 @@
+<ng-container *transloco="let t; read: 'home-page-component'">
+
+  <mat-form-field style="width: 100%;" appearance="outline">
+    <mat-label>{{displayedLabel}}</mat-label>
+
+    <input 
+      matInput 
+      [mask]="mask" 
+      [placeholder]="'dd/mm/aaaa'"
+      [formControl]="displayedInput" 
+      (blur)="atualizarValorDatePicker()"
+      [attr.field-id]="label"/>
+
+    <input 
+      matInput
+      style="display: none;"
+      [matDatepicker]="picker1"
+      [formControl]="inputValue" 
+      [required]="isRequired" 
+      (dateChange)="applyMaskOnInput($event)"/>
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+
+    <mat-error *ngIf="inputValue.invalid && inputValue.touched">
+      {{t("invalid-date-error")}}
+    </mat-error>
+  </mat-form-field>
+
+</ng-container>

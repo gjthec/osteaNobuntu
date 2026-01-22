@@ -1,0 +1,14 @@
+<div class="app-header">
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>apps</mat-icon>
+  </button>
+  <mat-menu #appMenu="matMenu">
+    <div class="app-grid-menu">
+      <button mat-menu-item *ngFor="let app of apps" (click)="openApp(app)">
+        <img *ngIf="app.icon" [src]="app.icon" alt="{{ app.displayName }} icon" class="app-icon-menu" />
+        <mat-icon *ngIf="!app.icon">star</mat-icon>
+        <span>{{ app.displayName }}</span>
+      </button>
+    </div>
+  </mat-menu>
+</div>

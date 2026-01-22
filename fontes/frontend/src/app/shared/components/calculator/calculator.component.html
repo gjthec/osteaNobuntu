@@ -1,0 +1,64 @@
+<div class="container" *ngIf="isVisible">
+  <div class="calculator" *transloco="let t; read: 'componentsBase.filter-number-range-component'">
+    <input class="calculator-display" [value]="display" readonly />
+
+    <div class="calculator-buttons">
+      <button (click)="clear()">C</button>
+      <button (click)="backspace()">
+        <i class="material-icons">backspace</i>
+      </button>
+      <button (click)="calculatePercentage()">%</button> <!-- Botão de porcentagem -->
+      <button (click)="appendCharacter('/')">÷</button>
+
+
+      <button (click)="appendCharacter('7')">7</button>
+      <button (click)="appendCharacter('8')">8</button>
+      <button (click)="appendCharacter('9')">9</button>
+      <button (click)="appendCharacter('*')">x</button>
+
+
+      <button (click)="appendCharacter('4')">4</button>
+      <button (click)="appendCharacter('5')">5</button>
+      <button (click)="appendCharacter('6')">6</button>
+      <button (click)="appendCharacter('-')">-</button>
+   
+      <button (click)="appendCharacter('1')">1</button>
+      <button (click)="appendCharacter('2')">2</button>
+      <button (click)="appendCharacter('3')">3</button>
+      <button (click)="appendCharacter('+')">+</button>
+
+
+      <button  (click)="appendCharacter('0')">0</button>
+      <button (click)="appendCharacter('.')">{{t("decimalOperator")}}</button>
+   
+      <button  (click)="toggleHistoryVisibility()" *ngIf="isMobile">
+        <i class="material-icons">history</i></button>
+
+        <button (click)="calculate()">=</button>
+        
+    </div>
+    <div class="action-buttons">
+      <!-- <button (click)="cancel()" >{{t("cancel")}}</button> -->
+      <button mat-fab class="px-6 ml-3" (click)="cancel()">
+        <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
+      </button>
+      <button (click)="confirm()" mat-fab class="px-6 ml-3">{{t("ok")}}</button>
+    </div>
+  </div>
+
+  <div class="history-container">
+    <div class="history" *ngIf="isMobile && isHistoryVisible">
+      <h3>Histórico</h3>
+      <ul>
+        <li *ngFor="let item of history">{{ item }}</li>
+      </ul>
+    </div>
+
+    <div class="history" *ngIf="!isMobile">
+      <h3>Histórico</h3>
+      <ul>
+        <li *ngFor="let item of history">{{ item }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

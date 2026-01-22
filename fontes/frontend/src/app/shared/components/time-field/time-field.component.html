@@ -1,0 +1,17 @@
+<mat-form-field style="width: 100%;" appearance="outline" class="centered-input">
+  <mat-label>{{ displayedLabel }}</mat-label>
+  <input 
+    matInput 
+    [formControl]="inputValue" 
+    [required]="isRequired" 
+    placeholder="HH:MM"
+    (input)="onInputChange($event)"
+    pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+  >
+  <button mat-icon-button matSuffix (click)="openDialog()">
+    <mat-icon>access_time</mat-icon>
+  </button>
+  <mat-error *ngIf="inputValue.invalid && inputValue.touched">
+    Please enter a valid time (HH:MM).
+  </mat-error>
+</mat-form-field>

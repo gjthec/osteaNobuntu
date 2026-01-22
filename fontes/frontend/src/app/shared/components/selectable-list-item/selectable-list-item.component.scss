@@ -1,0 +1,26 @@
+.list-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+
+  background-color: #ffffff;
+  align-items: center;
+}
+
+.data-field-list-layout {
+  display: flex;
+  flex-grow: 1;/* Ocupa o máximo de expaço no componente */
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.button-container-list-layout {
+  display: flex;
+  flex-direction: column;
+  /* Joga o botão para o final */
+  justify-content: flex-end;
+}

@@ -1,0 +1,36 @@
+<mat-form-field style="width: 100%;" appearance="outline">
+  <mat-label><ng-container *transloco='let t; read:"componentsBase"'>{{ t('selector-list.search')
+      }}</ng-container></mat-label>
+
+  <input matInput type="text" [formControl]="searchInputValue" />
+
+  <button mat-icon-button matSuffix 
+  *ngIf="usingFilter" 
+  (click)="clearSearchInput()">
+    <mat-icon>clear</mat-icon>
+  </button>
+
+  <button mat-icon-button matSuffix class="h-full flex flex-col"
+      *ngIf="sortableFields && sortableFields.length > 0"
+      [class.text-primary]="currentSortOrder && currentSortOrder.length > 0"
+      matTooltip="Ordenar lista"
+      (click)="openSortOrderDialog()">
+      <mat-icon>sort_by_alpha</mat-icon>
+      <span *ngIf="currentSortOrder && currentSortOrder.length > 0" 
+            class="sort-count">
+        {{ currentSortOrder.length }}
+      </span>
+  </button>
+
+  <button mat-icon-button matSuffix [matMenuTriggerFor]="filterMenu.menu">
+    <mat-icon svgIcon="filter_alt"></mat-icon>
+  </button>
+
+  <filter-menu #filterMenu 
+  (returnFetchParameters)="search($event)"
+  [className]="className"
+  [filterParameters]="filterParameters"
+  [JSONURL]="JSONURL"
+  ></filter-menu>
+
+</mat-form-field>

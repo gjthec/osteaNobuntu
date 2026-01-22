@@ -1,0 +1,177 @@
+{
+    "base-resource-filter-component": {
+        "field": "Campo",
+        "and": "E",
+        "or": "Ou",
+        "ok": "Ok",
+        "cancel": "Cancelar",
+        "removeFilter": "Remover Filtro",
+        "addFilter": "Adicionar Filtro"
+    },
+    "filter-period-component": {
+        "field": "Campo",
+        "initialDate": "Data inicial",
+        "finalDate": "Data final",
+        "dateFormatLabel": "DD/MM/YYYY",
+        "ok": "Ok",
+        "cancel": "Cancelar",
+        "operation": "Operação",
+        "day": "Dia",
+        "month": "Mês",
+        "year": "Ano",
+        "week": "Semana",
+        "completeDate": "Data Completa",
+        "equal": "É Igual a",
+        "different": "É Diferente De...",
+        "afterThan": "Depois de...",
+        "afterOrEqualThan": "Depois ou Igual...",
+        "beforeThan": "Antes de...",
+        "beforeOrEqualThan": "Antes ou Igual...",
+        "between": "Entre.."
+    },
+    "filter-number-range-component": {
+        "field": "Campo",
+        "initialNumber": "Numero inicial",
+        "finalNumber": "Numero final",
+        "ok": "Ok",
+        "cancel": "Cancelar",
+        "decimalOperator": ","
+    },
+    "filter-text-component": {
+        "operation": "Operação",
+        "equal": "É Igual a",
+        "different": "É Diferente De...",
+        "startWith": "Começa Com...",
+        "endWith": "Termina Com...",
+        "contains": "Contém...",
+        "dontContains": "Não Contém...",
+        "match": "Combina com.."
+    },
+    "filter-number-component": {
+        "operation": "Operação",
+        "equal": "É Igual a",
+        "different": "É Diferente De...",
+        "biggerThan": "Maior Que...",
+        "biggerOrEqualThan": "Maior ou Igual...",
+        "smallerThan": "Menor que...",
+        "smallerOrEqualThan": "Menor ou Igual...",
+        "between": "Entre..",
+        "initialNumber": "Numero inicial",
+        "finalNumber": "Numero final"
+    },
+    "filter-boolean-component": {
+        "value": "Valor",
+        "true": "Verdadeiro",
+        "false": "Falso",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar"
+    },
+    "selector-list": {
+        "search": "Pesquisar",
+        "selectedValues": "Valor(es) Selecionado(s)",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar"
+    },
+    "Alerts": {
+        "createErrorMessage": "Erro ao criar",
+        "createSuccessMessage": "Criação bem-sucedida",
+        "readErrorMessage": "Erro ao ler os dados",
+        "updateErrorMessage": "Erro ao atualizar",
+        "updateSuccessMessage": "Atualização bem-sucedida",
+        "deleteErrorMessage": "Erro ao excluir",
+        "deleteSuccessMessage": "Exclusão bem-sucedida",
+        "defaultSuccessMessage": "Operação bem-sucedida",
+        "defaultErrorMessage": "Erro ao realizar a operação",
+        "errorMessageLimitation": "Quantidade de caracteres excedida",
+        "rememberToSave": "Tem certeza de que deseja sair? Suas alterações podem não ser salvas",
+        "deselectMessage": "Os itens foram removido da seleção"
+    },
+    "foreign-key-input-field": {
+        "search": "Pesquisar",
+        "add": "Adicionar",
+        "edit": "Alterar",
+        "clean": "Limpar"
+    },
+    "confirmation-dialog": {
+        "title": "Confirmar",
+        "messageToConfirmDelete": "Você tem certeza que deseja remover este item permanentemente?",
+        "confirm": "Sim",
+        "cancel": "Não"
+    },
+    "default-list": {
+        "noData": "Sem dados na lista",
+        "downloadCSV": "Baixar CSV",
+        "downloadXLSX": "Baixar XLSX"
+    },
+    "send-form-data": {
+        "go-to-page": "Ir para a pagina",
+        "download-document": "Baixar documento"
+    },
+    "search-input-field-component":{
+        "add-filter": "Adicionar filtro",
+        "edit-filter": "Editar filtro"
+    },
+    "sort-order": {
+        "instructions": "Clique para alterar a ordem de classificação",
+        "field": "Campo",
+        "add-sort": "Adicionar ordenação",
+        "clear": "Limpar ordenação",
+        "cancel": "Cancelar",
+        "apply": "Aplicar",
+        "priority": "Prioridade",
+        "title": "Ordenação"
+    },
+    "selector-input-field": {
+        "other": "outro",
+        "others": "outros"
+    },
+    "auth-callback-page": {
+        "authentication-error-clientId-missmatch": "Esta aplicação não tem permissão de acesso ao provedor de identidade do domínio. Consulte o administrador da aplicação.",
+        "redirect-to-callback": "Redirecionando para a última página.."
+    },
+    "auth-signin-page": {
+        "authentication-error-redirect-to-signin": "Esta aplicação não tem permissão de acesso ao provedor de identidade do domínio. Consulte o administrador da aplicação.",
+        "redirect-to-signin": "Redirecionar para a página de inscrição"
+    },
+    "months": {
+        "january": "Janeiro",
+        "february": "Fevereiro",
+        "march": "Março",
+        "april": "Abril",
+        "may": "Maio",
+        "june": "Junho",
+        "july": "Julho",
+        "august": "Agosto",
+        "september": "Setembro",
+        "october": "Outubro",
+        "november": "Novembro",
+        "december": "Dezembro"
+    },
+    "user-menu-component": {
+        "edit-user": "Editar Perfil",
+        "add-other-account": "Adicionar outra conta",
+        "logout": "Sair",
+        "show-more-accounts": "Mostrar mais contas",
+        "session-expired": "Session expired",
+        "signed-out": "Signed out",
+        "settings": "Configurações",
+        "hi": "Hi",
+        "manage-your-account": "Gerencie sua conta",
+        "switch-menu": "Trocar menu"
+    },
+    "tenant-menu-component": {
+        "add-tenant": "Add Tenant",
+        "manage-tenants": "Manage Tenants"
+    },
+    "location-field": {
+        "select": "Selecione a Localização",
+        "buttonCancel": "Cancelar",
+        "buttonConfirm": "Confirmar"
+    },
+    "upload": {
+        "unallowedExtensions": "Extensões não permitidas",
+        "maxFileSizeExceeded": "Tamanho máximo do arquivo excedido",
+        "fileSizeExceeded": "Tamanho do arquivo excedido",
+        "fileTypeUnknown": "Tipo de arquivo desconhecido"
+    }
+}

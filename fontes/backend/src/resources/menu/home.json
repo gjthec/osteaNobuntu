@@ -1,0 +1,35 @@
+{
+    "config":{ 
+        "modified": "2026-01-15T19:22:34.302528Z", 
+        "name": "home", 
+        "type": "sandwich",
+        "defaultMenu": true
+    }, 
+    "itens": [ 
+        { 
+            "name": "paciente", 
+            "subMenu": [ 
+        { 
+            "name": "Paciente", 
+            "routeUrl": "/pacientes", 
+            "icon": "feather:box"
+        },
+        { 
+            "name": "Avaliacao", 
+            "routeUrl": "/AvaliacoesColunaLombar", 
+            "icon": "feather:box"
+        }
+            ] 
+        },
+        { 
+            "name": "agenda", 
+            "subMenu": [ 
+        { 
+            "name": "Agenda", 
+            "routeUrl": "/agenda", 
+            "icon": "feather:box"
+        }
+            ] 
+        }
+    ] 
+}

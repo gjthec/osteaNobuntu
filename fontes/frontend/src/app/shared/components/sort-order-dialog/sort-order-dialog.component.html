@@ -1,0 +1,144 @@
+<div mat-dialog-title>
+  <ng-container *transloco='let t; read:"componentsBase"'>
+    {{ t('sort-order.title') }}
+  </ng-container>
+</div>
+
+<div mat-dialog-content>
+  <form [formGroup]="sortForm">
+    <div class="flex flex-col gap-4">
+      
+      <!-- Instruções -->
+      <div class="instruction-text">
+        <ng-container *transloco='let t; read:"componentsBase"'>
+          {{ t('sort-order.instructions') }}
+        </ng-container>
+      </div>
+
+      <!-- Lista de ordenações -->
+      <div formArrayName="sortOptions">
+        <div *ngFor="let sortOption of sortOptionsArray.controls; let i = index" 
+             [formGroupName]="i" 
+             class="sort-option-row">
+          
+          <div class="sort-option-header">
+            <span class="order-number">{{ i + 1 }}.</span>
+            <span class="priority-label">
+              <ng-container *transloco='let t; read:"componentsBase"'>
+                {{ t('sort-order.priority') }} {{ i + 1 }}
+              </ng-container>
+            </span>
+            
+            <div class="sort-controls">
+              <!-- Mover para cima -->
+              <button mat-icon-button type="button" 
+                      [disabled]="i === 0"
+                      (click)="moveUp(i)"
+                      matTooltip="Mover para cima">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+              
+              <!-- Mover para baixo -->
+              <button mat-icon-button type="button" 
+                      [disabled]="i === sortOptionsArray.length - 1"
+                      (click)="moveDown(i)"
+                      matTooltip="Mover para baixo">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
+              
+              <!-- Remover -->
+              <button mat-icon-button type="button" 
+                      color="warn"
+                      [disabled]="!canRemove()"
+                      (click)="removeSortOption(i)"
+                      matTooltip="Remover ordenação">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="sort-option-fields">
+            <!-- Campo para seleção -->
+            <mat-form-field appearance="outline" class="field-select">
+              <mat-label>
+                <ng-container *transloco='let t; read:"componentsBase"'>
+                  {{ t('sort-order.field') }}
+                </ng-container>
+              </mat-label>
+              <mat-select formControlName="field">
+                <mat-option *ngFor="let field of availableFieldsForIndex(i)" [value]="field.name">
+                  {{ field.displayName[this.translocoService.getActiveLang()] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="sortOption.get('field')?.hasError('required')">
+                <ng-container *transloco='let t; read:"componentsBase"'>
+                  {{ t('sort-order.field-required') }}
+                </ng-container>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Direção da ordenação -->
+            <mat-form-field appearance="outline" class="direction-select">
+              <mat-label>
+                <ng-container *transloco='let t; read:"componentsBase"'>
+                  {{ t('sort-order.direction') }}
+                </ng-container>
+              </mat-label>
+              <mat-select formControlName="direction">
+                <mat-option *ngFor="let direction of sortDirections" [value]="direction.value">
+                  {{ direction.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="sortOption.get('direction')?.hasError('required')">
+                <ng-container *transloco='let t; read:"componentsBase"'>
+                  {{ t('sort-order.direction-required') }}
+                </ng-container>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Botão para adicionar nova ordenação -->
+      <div class="add-sort-container">
+        <button mat-stroked-button type="button" 
+                (click)="addSortOption()"
+                [disabled]="!hasAvailableFields(sortOptionsArray.length)"
+                class="add-sort-button">
+          <mat-icon>add</mat-icon>
+          <ng-container *transloco='let t; read:"componentsBase"'>
+            {{ t('sort-order.add-sort') }}
+          </ng-container>
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions class="flex justify-between">
+  <div>
+    <button mat-button color="warn" (click)="onClearSort()">
+      <ng-container *transloco='let t; read:"componentsBase"'>
+        {{ t('sort-order.clear') }}
+      </ng-container>
+    </button>
+  </div>
+  
+  <div class="flex gap-2">
+    <button mat-button (click)="onCancel()">
+      <ng-container *transloco='let t; read:"componentsBase"'>
+        {{ t('sort-order.cancel') }}
+      </ng-container>
+    </button>
+    
+    <button mat-raised-button color="primary" 
+            [disabled]="!sortForm.valid"
+            (click)="onConfirm()">
+      <ng-container *transloco='let t; read:"componentsBase"'>
+        {{ t('sort-order.apply') }}
+      </ng-container>
+    </button>
+  </div>
+</div>

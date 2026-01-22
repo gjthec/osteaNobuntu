@@ -1,0 +1,32 @@
+<ng-container *transloco="let t; read: 'core.tenant-form'">
+
+  <div class="panel" >
+  
+    <form [formGroup]="tenantFormGroup" style="display: flex; flex-direction: column;">
+      <ng-template matStepLabel>{{ t('create-new-database-credential-tittle') }}</ng-template>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('name') }}</mat-label>
+        <input matInput formControlName="name" placeholder="Example: business1" required (keydown.enter)="registerNewTenant()">
+  
+        <!-- <mat-error *ngIf="registerNewTenantFormGroup.get('name').hasError('required')">{{t("error-name-required")}}</mat-error> -->
+        <!-- <mat-error *ngIf="registerNewTenantFormGroup.get('name').hasError('minlength') ">
+          {{t("error-name-minlength")}}
+        </mat-error>
+        <mat-error *ngIf="registerNewTenantFormGroup.get('name').hasError('maxlength') ">
+          {{t("error-name-maxlength")}}
+        </mat-error> -->
+      </mat-form-field>
+  
+  
+      <div style="display: flex; justify-content: center;">
+        <button mat-raised-button color="primary" class="save-button" *ngIf="isLoading == false" (click)="registerNewTenant()">{{
+          t('button-save') }}</button>
+      </div>
+  
+      <mat-spinner style="margin: auto;" *ngIf="isLoading == true"></mat-spinner>
+    </form>
+  </div>
+
+  
+</ng-container>

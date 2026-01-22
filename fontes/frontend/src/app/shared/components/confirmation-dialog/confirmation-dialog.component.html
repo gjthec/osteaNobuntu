@@ -1,0 +1,8 @@
+<div class="confirm-dialog-container">
+    <h2 style="font-weight: bold;">{{ 'componentsBase.confirmation-dialog.title' | transloco }}</h2>
+    <p style="text-align: center;">{{ message }}</p>
+    <div style="display: inline-flex; flex-direction: row;">
+        <button mat-raised-button (click)="closeDialog(true)">{{ 'componentsBase.confirmation-dialog.confirm' | transloco }}</button>
+        <button mat-button (click)="closeDialog(false)">{{ 'componentsBase.confirmation-dialog.cancel' | transloco }}</button>
+    </div>
+</div>

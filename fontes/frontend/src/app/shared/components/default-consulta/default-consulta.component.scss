@@ -1,0 +1,83 @@
+// Variáveis para breakpoints
+$breakpoint-small: 576px; // Exemplo: smartphones
+$breakpoint-medium: 768px; // Exemplo: tablets
+$breakpoint-large: 992px; // Exemplo: laptops/desktops
+$breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
+
+#fixedButtons {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  z-index: 99;
+  bottom: 50px;
+  right: 50px;
+}
+
+#fixedButtons > * {
+  margin-left: 10px;
+}
+
+// Estilos para dispositivos pequenos (exemplo: smartphones)
+@media screen and (max-width: $breakpoint-small) {
+  #fixedButtons {
+    bottom: 30px;
+    right: 30px;
+  }
+
+}
+
+// Estilos para dispositivos médios (exemplo: tablets)
+@media screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large) {
+
+}
+
+// Estilos para dispositivos grandes (exemplo: laptops/desktops)
+@media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-extra-large) {
+
+}
+
+// Estilos para dispositivos extra grandes (exemplo: monitores grandes)
+@media screen and (min-width: $breakpoint-extra-large) {
+
+}
+
+
+.search-fab {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  left: 0;
+  background: white; /* Adicione fundo para não ficar transparente */
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1); /* Sombra opcional */
+}
+
+.list-layout {
+  padding-bottom: 20px; /* Ajuste conforme a altura do paginator */
+}
+
+// Estilos específicos para quando o componente está dentro de um mat-dialog
+:host-context(.mat-dialog-container) .paginator-container {
+  position: relative;
+  bottom: auto;
+}
+
+.list-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  /* Faz .list-layout preencher o espaço vertical do seu pai flex */
+  min-height: 0;
+  /* Importante! Evita que o conteúdo interno force .list-layout a ser maior que o espaço flexível disponível. */
+  margin-bottom: 10px;
+  /* Espaçamento entre .list-layout e o próximo elemento, se necessário */
+}

@@ -1,0 +1,65 @@
+<ng-container *transloco="let t; read: 'core.sign-up-component'">
+  <!-- Formulário para inserção da data de nascimeno e genero -->
+  <div id="birthDayAndGender-form" [formGroup]="birthDayAndGenderFormGroup">
+
+    <h2>{{t("create-product-account")}}</h2>
+
+    <!-- Campo de inserção de data de nascimento -->
+    <div id="birthDayInputsRow">
+      <!-- Campo de inserção de dia de nascimento -->
+      <mat-form-field appearance="outline" style="display: block;">
+        <mat-label>{{t("birthDay")}}</mat-label>
+
+        <input matInput type="number" id="birthDay" formControlName="birthDay" name="birthDay" placeholder="{{t('birthDay')}}">
+
+        <!-- Mensagens de erro do campo -->
+        <mat-error *ngIf="birthDayAndGenderFormGroup.get('birthDay').hasError('required')">
+          {{t("error-birthDay-required")}}
+        </mat-error>
+        <mat-error *ngIf="birthDayAndGenderFormGroup.get('birthDay').hasError('invalidFormat')">
+          {{t("error-birthDay-invalidFormat")}}
+        </mat-error>
+
+      </mat-form-field>
+
+      <!-- Campo de inserção de mês de nascimento -->
+      <month-selector (monthSelected)="getDataFromMonthForm($event)"></month-selector>
+
+      <!-- Campo de inserção do ano de nascimento -->
+      <mat-form-field appearance="outline" style="display: block;">
+        <mat-label>{{t("birthYear")}}</mat-label>
+
+        <input matInput type="number" id="birthYear" formControlName="birthYear" name="birthYear" placeholder="{{t('birthYear')}}">
+
+        <!-- Mensagens de erro do campo -->
+        <mat-error *ngIf="birthDayAndGenderFormGroup.get('birthYear').hasError('required')">
+          {{t("error-birthYear-required")}}
+        </mat-error>
+        <mat-error *ngIf="birthDayAndGenderFormGroup.get('birthYear').hasError('invalidFormat')">
+          {{t("error-birthYear-invalidFormat")}}
+        </mat-error>
+
+      </mat-form-field>
+
+      <!-- Campo de inserção de genero -->
+      <mat-form-field appearance="outline" style="display: block;">
+
+        <mat-label>{{t("gender")}}</mat-label>
+
+        <mat-select formControlName="gender">
+          <mat-select-trigger>
+            {{birthDayAndGenderFormGroup.get("gender").value || ''}}
+          </mat-select-trigger>
+    
+          <mat-option *ngFor="let gender of genderList" [value]="gender">{{gender}}</mat-option>
+    
+        </mat-select>
+      </mat-form-field>
+
+      <div class="buttonsColumn">
+        <button mat-raised-button color="primary" id="nextButton" type="submit" [disabled]="!birthDayAndGenderFormGroup.valid"
+          (click)="checkDate()">{{t("next")}}</button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,3 @@
+As anotações abaixo são lembretes do funcionamento do funcionamento de códigos presentes nesse diretório e nos diretórios filhos
+
+- Nos pacotes de ORMs usados (sequelize e mongoose), a função se set dos schemas definidos é chamada antes da validação; 

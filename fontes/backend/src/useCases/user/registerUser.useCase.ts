@@ -1,0 +1,128 @@
+import { NotFoundError } from '../../errors/client.error';
+import { IidentityService } from '../../domain/services/Iidentity.service';
+import { TokenGenerator } from '../../utils/tokenGenerator';
+import { IUser, User } from '../../domain/entities/user.model';
+import UserRepository from '../../domain/repositories/user.repository';
+import VerificationEmailRepository from '../../domain/repositories/verificationEmail.repository';
+import { checkEmailIsValid } from '../../utils/verifiers.util';
+import { ValidationError } from '../../errors/client.error';
+import { JwtPayload } from 'jsonwebtoken';
+import DatabaseCredentialRepository from '../../domain/repositories/databaseCredential.repository';
+
+export type signupInputDTO = {
+	userName: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	invitedTenantsToken: string;
+};
+
+export class RegisterUserUseCase {
+	constructor(
+		private userRepository: UserRepository,
+		private verificationEmailRepository: VerificationEmailRepository,
+		private identityService: IidentityService,
+		private tokenGenerator: TokenGenerator,
+		private databaseCredentialRepository: DatabaseCredentialRepository
+	) {}
+
+	async execute(input: signupInputDTO): Promise<IUser> {
+		if (checkEmailIsValid(input.email) == false) {
+			throw new ValidationError('VALITADION', { cause: 'Email is invalid.' });
+		}
+
+		let user: IUser | null = null;
+
+		try {
+			user = await this.identityService.getUserByEmail(input.email);
+		} catch (error) {
+			//
+		}
+
+		if (user != null) {
+			throw new ValidationError('VALITADION', {
+				cause: 'User already exists.'
+			});
+		}
+
+		//Verificar se dados do usuário são válidos novamente (verificar se o registro de confirmação de email foi validado)
+		if (
+			(await this.verificationEmailRepository.ifEmailWasValidated(
+				input.email
+			)) == false
+		) {
+			throw new NotFoundError('NOT_FOUND', {
+				cause: 'Verificação de email não realizada!'
+			});
+		}
+
+		let registeredUserOnIdentityServer: IUser;
+
+		try {
+			registeredUserOnIdentityServer = await this.identityService.createUser({
+				email: input.email,
+				firstName: input.firstName,
+				lastName: input.lastName,
+				userName: input.userName,
+				password: input.password
+			});
+		} catch (error) {
+			throw new Error('Error to register user on identity server.');
+		}
+
+		let userWillBeAdministrator: boolean = false;
+		//Verificar se é o primeiro usuário da aplicação, para assim definir ele como admin
+		if ((await this.userRepository.hasRegisteredUser()) == false) {
+			userWillBeAdministrator = true;
+		}
+
+		const tenantUID = process.env.TENANT_ID;
+
+		if (tenantUID == undefined) {
+			throw new Error('TENANT_ID environment variables not populed');
+		}
+
+		let newUser: IUser | null = null;
+
+		try {
+			//Registra o usuário no banco de dados
+			newUser = await this.userRepository.create(
+				new User({
+					identityProviderUID:
+						registeredUserOnIdentityServer.identityProviderUID, //UID do servidor de identidade
+					userName: input.userName,
+					firstName: input.firstName,
+					lastName: input.lastName,
+					isAdministrator: userWillBeAdministrator,
+					email: input.email,
+					tenantUID: tenantUID
+				})
+			);
+		} catch (error) {
+			throw new Error('Error to create user. Details: ' + error);
+		}
+
+		if (
+			input.invitedTenantsToken != null &&
+			input.invitedTenantsToken != undefined &&
+			input.invitedTenantsToken != ''
+		) {
+			//Validar JWT e pegar o payload (dados contidos dentro do JWT)
+			const data = this.tokenGenerator.verifyToken(
+				input.invitedTenantsToken
+			) as JwtPayload;
+
+			// const registerTenantPermissionUseCase: RegisterTenantPermissionUseCase = new RegisterTenantPermissionUseCase();
+			// registerTenantPermissionUseCase.execute({
+			//   databaseCredentialId: data.databaseCredentialId,
+			//   tenantId: data.databaseCredentialId,
+			//   userId: newUser.id!
+			// });
+			//TODO registrar acesso do usuário ao tenant
+			// this.databaseCredentialRepository.advancedSearches.setUserPermissionForDatabaseCredential();
+		}
+
+		return newUser;
+	}
+}

@@ -1,0 +1,25 @@
+<ng-container *transloco="let t; read: 'componentsBase.filter-entity-component'">
+  <mat-form-field style="width: 100%;" appearance="outline">
+    <mat-label>{{ label }}</mat-label>
+
+    <input matInput [formControl]="selectedValuesDisplayed" [placeholder]="placeholder" required readonly> 
+    
+    <button mat-icon-button matSuffix [matMenuTriggerFor]="menu" class="h-full flex flex-col">
+      <mat-icon svgIcon="feather:more-vertical"></mat-icon>
+    </button>
+    
+    <mat-menu #menu="matMenu">
+
+      <button mat-menu-item (click)="openDefaultListToSelectItems(this.selectedFilterData.filterParameters.className, this.selectedFilterData.filterParameters.selectItemsLimit, this.selectedFilterData.filterParameters.fieldDisplayedInLabel)">
+        <mat-icon svgIcon="feather:search"></mat-icon>
+        <ng-container *transloco='let t, read: "componentsBase"'>{{ t('foreign-key-input-field.search')}}</ng-container>
+      </button>
+
+      <button mat-menu-item (click)="removeSelectedItems()">
+        <mat-icon svgIcon="feather:x"></mat-icon>
+        <ng-container *transloco='let t; read:"componentsBase"'>{{ t('foreign-key-input-field.clean') }}</ng-container>
+      </button>
+    </mat-menu>
+  </mat-form-field>
+
+</ng-container>

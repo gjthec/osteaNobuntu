@@ -1,0 +1,16 @@
+<div id="card-container">
+  <mat-radio-button [value]="isSelected" (click)="selectItem(null)"
+    *ngIf="isSelectable == true && isCheckBox == false && isSingleOption == true"></mat-radio-button>
+
+  <mat-checkbox [checked]="isSelected" (change)="selectItem($event)"
+    *ngIf="isSelectable == true && isCheckBox == true"></mat-checkbox>
+
+  <ng-container #placeToRender></ng-container>
+
+  <div class="button-container">
+    <button mat-icon-button aria-label="Edit value" *ngIf="isEditable == true" (click)="onClickToEdit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+
+</div>

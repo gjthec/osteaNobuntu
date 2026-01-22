@@ -1,0 +1,27 @@
+<mat-card>
+    <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
+      <mat-card-title>Filtro de Gráfico</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Data Inicial</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill">
+          <mat-label>Data Final</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
+        <!-- <button mat-raised-button *ngIf="!data.endDate === null && !data.startDate === null" color="accent" type="button" (click)="onClear()">Limpar</button> -->
+        <button mat-raised-button [disabled]="!filterForm.valid" color="primary" type="submit">Pesquisar</button>
+
+      </mat-card-actions>
+    </form>
+  </mat-card>
+  

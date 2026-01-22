@@ -1,0 +1,36 @@
+<!-- Componente que chama função de tradução para dentro dos componentes -->
+<ng-container *transloco="let t; read: 'core.tenant-invite-user-form-component'">
+  <!-- Formulário para inserção do email -->
+  <div id="email-form">
+
+    <h2>{{t("insert-user-email")}}</h2>
+
+    <mat-form-field appearance="outline" [formGroup]="emailFormGroup" style="display: block;">
+      <mat-label>{{t("email")}}</mat-label>
+
+      <input matInput type="email" id="email" formControlName="email" name="email" placeholder="youEmailhere@domain.com"
+        (keydown.enter)="sendInvite()">
+
+      <mat-error *ngIf="emailFormGroup.get('email').hasError('required')">{{t("error-email-required")}}</mat-error>
+      <mat-error *ngIf="emailFormGroup.get('email').hasError('minlength') ">
+        {{t("error-email-minlength")}}
+      </mat-error>
+      <mat-error *ngIf="emailFormGroup.get('email').hasError('maxlength') ">
+        {{t("error-email-maxlength")}}
+      </mat-error>
+      <mat-error *ngIf="emailFormGroup.get('email').hasError('email')">
+        {{t("error-email-format")}}
+      </mat-error>
+
+    </mat-form-field>
+
+    <div class="buttonsColumn" *ngIf="isLoading == false">
+      <button mat-raised-button color="primary" [disabled]="!emailFormGroup.valid" id="sendInviteButton" type="submit"
+        (click)="sendInvite()">{{t("send-invite")}}</button>
+    </div>
+
+    <mat-spinner style="margin: auto;" *ngIf="isLoading == true"></mat-spinner>
+  </div>
+
+  
+</ng-container>

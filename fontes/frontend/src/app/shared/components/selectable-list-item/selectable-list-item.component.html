@@ -1,0 +1,19 @@
+<div class="list-layout">
+
+  <mat-radio-button [value]="isSelected" (click)="selectItem(null)"
+    *ngIf="isSelectable == true && isCheckBox == false && isSingleOption == true"></mat-radio-button>
+
+  <mat-checkbox [checked]="isSelected" (change)="selectItem($event)"
+    *ngIf="isSelectable == true && isCheckBox == true"></mat-checkbox>
+
+  <div class="data-field-list-layout" [ngStyle]="{ 'display': 'grid', 'gridTemplateColumns': 'repeat(' + columnsQuantity + ', 1fr)' }">
+    <ng-container #placeToRender></ng-container>
+  </div>
+
+  <div class="button-container-list-layout">
+    <button mat-icon-button aria-label="Edit value" *ngIf="isEditable == true" (click)="onClickToEdit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+
+</div>

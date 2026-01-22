@@ -1,0 +1,22 @@
+<div class="avaliacao-unica-container">
+  <label class="avaliacao-unica-label">{{ label }}</label>
+  <mat-form-field style="width: 100%;" appearance="outline">
+    <div class="icon-selector" *ngIf="showSelector">
+      <ng-container *ngFor="let icon of icones">
+        <mat-icon
+          class="icon"
+          (click)="selectIcon(icon)"
+        >
+          {{ icon.nome }}
+        </mat-icon>
+      </ng-container>
+    </div>
+    <div class="selected-icon" *ngIf="!showSelector" (click)="showIconSelector()">
+      <mat-icon>{{ selectedIcon?.nome }}</mat-icon>
+    </div>
+    <input matInput [formControl]="inputValue" hidden>
+    <mat-error *ngIf="inputValue.invalid && inputValue.touched">
+      Please select an icon.
+    </mat-error>
+  </mat-form-field>
+</div>

@@ -1,0 +1,42 @@
+<div class="file-viewer-container">
+
+  <div class="file-counter">
+    {{ indexActual + 1 }} / {{ arquivo.length }}
+  </div>
+
+  <button class="nav-btn prev" (click)="voltar()" [disabled]="indexActual === 0" *ngIf="arquivo.length > 1">
+    &#10094;
+  </button>
+
+  <mat-card class="file-card">
+    <mat-card-content>
+      <div *ngIf="identificarTipoArquivo(arquivo[indexActual].mimeType) === 'imagem'" class="viewer-content">
+        <img [src]="getBase64Src(arquivo[indexActual])" class="mini-thumb">
+      </div>
+
+      <div *ngIf="identificarTipoArquivo(arquivo[indexActual].mimeType) === 'pdf'" class="viewer-content">
+        <object [data]="getBase64Src(arquivo[indexActual])" type="application/pdf" width="100%" height="500px">
+          <p>Seu navegador não possui plugin para PDF.
+            <a [href]="getBase64Src(arquivo[indexActual])" target="_blank">Baixe o arquivo aqui.</a>
+          </p>
+        </object>
+      </div>
+
+      <div *ngIf="identificarTipoArquivo(arquivo[indexActual].mimeType) === 'video'" class="viewer-content">
+        <video controls width="100%" [src]="getBase64Src(arquivo[indexActual])">
+          Seu navegador não suporta a tag de vídeo.
+        </video>
+      </div>
+
+      <div *ngIf="identificarTipoArquivo(arquivo[indexActual].mimeType) === 'desconhecido'" class="viewer-content fallback">
+        <div class="icon-placeholder">📁</div>
+        <p>Visualização não disponível para: {{ arquivo[indexActual].nome }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <button class="nav-btn next" (click)="proximo()" [disabled]="indexActual === arquivo.length - 1" *ngIf="arquivo.length > 1">
+    &#10095;
+  </button>
+
+</div>

@@ -1,0 +1,217 @@
+{
+    "config":{ 
+        "modified": "2026-01-15T19:22:12.973046Z", 
+        "description": "",  
+        "name": "Paciente", 
+        "apiUrl": "api/pacientes",
+        "route": "pacientes",
+        "title": { 
+            "pt-BR": "", 
+            "en": "" 
+        }, 
+        "searchableFields": [
+        ], 
+        "sortableFields": [
+        ], 
+
+        "localStorage": true,
+        "filter": true, 
+        "addNew": true, 
+        "edit": true, 
+        "columnsQuantity": 3,
+        "isAbleToCreate": true,
+        "hasCustomFunctionButton": false,
+        "delete": true,
+        "isFormStepper": false,
+        "formLinear": false,
+        "isLinearFormStepper": false
+    }, 
+    "attributes": [ 
+        { 
+            "name":"nome", 
+            "type": "string", 
+            "limiteOfChars": 50, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sexo", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Feminino", 
+                    "en": "", 
+                    "id": "Feminino" 
+                },
+                {
+                    "pt-BR": "Masculino", 
+                    "en": "", 
+                    "id": "Masculino" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"dataNascimento", 
+            "type": "date", 
+            "mask": "Data", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"cpf", 
+            "type": "string", 
+            "mask": "CPF", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"telefone", 
+            "type": "string", 
+            "limiteOfChars": 20, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"email", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Email", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"indicacao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Clinico", 
+                    "en": "", 
+                    "id": "Clinico" 
+                },
+                {
+                    "pt-BR": "Ortopédico", 
+                    "en": "", 
+                    "id": "Ortopedico" 
+                },
+                {
+                    "pt-BR": "Própria", 
+                    "en": "", 
+                    "id": "Propria" 
+                },
+                {
+                    "pt-BR": "Outra", 
+                    "en": "", 
+                    "id": "Outra" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"exigenciasTrabalho", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"atividadesLazer", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"posturaStress", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"limitacaoFuncionalAtual", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"pontuacaoIncapacidadeFuncional", 
+            "type": "number", 
+            "mask": "Inteiro", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"pontuacaoEVA", 
+            "type": "number", 
+            "mask": "Inteiro", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        }
+    ] 
+}

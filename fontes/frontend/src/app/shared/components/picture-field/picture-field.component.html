@@ -1,0 +1,54 @@
+<div [class]="className">
+  <!-- Exibir o restante do componente apenas quando showImageUrl for false -->
+  <ng-container *ngIf="!showImageUrl; else showThumbnail">
+    <!-- Botão estilizado para abrir a câmera como um campo de entrada -->
+    <ng-container *ngIf="!inputValue.value; else showImage">
+      <button *ngIf="label" (click)="openCamera()" type="button" class="input-like-button">
+        <mat-icon>camera_alt</mat-icon>
+        {{ label }} <span *ngIf="isRequired" class="required-asterisk">*</span>
+      </button>
+    </ng-container>
+
+    <!-- Exibição da câmera (visível apenas quando a câmera está aberta) -->
+    <div *ngIf="isCameraOpen" class="camera-container">
+      <video #videoElement autoplay></video>
+
+      <!-- Botões de captura e fechar, lado a lado -->
+      <div class="button-group">
+        <button (click)="captureImage()" type="button" class="capture-button">
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+        <button (click)="closeCamera()" type="button" class="close-button">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button (click)="toggleCamera()" type="button" class="toggle-camera-button">
+          <mat-icon>switch_camera</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Exibir imagem capturada como pré-visualização -->
+    <ng-template #showImage>
+      <div class="image-preview-container">
+        <img [src]="inputValue.value" alt="Captured Image" class="image-preview" />
+        <!-- Botões para reabrir a câmera e salvar a imagem -->
+        <div class="button-group">
+          <button (click)="openCamera()" type="button" class="repeat-capture-button">
+            <mat-icon>photo_camera</mat-icon>
+          </button>
+          <button (click)="saveImage()" type="button" class="save-image-button">
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <!-- Exibir a miniatura da imagem quando showImageUrl for true -->
+  <ng-template #showThumbnail>
+    <div class="thumbnail-container">
+      <img [src]="savedImageUrl" alt="Thumbnail Image" class="thumbnail-image" />
+    </div>
+  </ng-template>
+</div>
+<br>

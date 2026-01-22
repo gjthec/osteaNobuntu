@@ -1,0 +1,26 @@
+<div class="content">
+  <mat-card class="card" >
+    <mat-card-header class="card-tittle">
+        <div class="header-content">
+          <mat-card-title>{{ graphic.charts.title }}</mat-card-title>
+          <div class="menu">
+            <button mat-icon-button [matMenuTriggerFor]="appMenu" class="menu-btn">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-menu #appMenu="matMenu">
+          <!-- <button mat-menu-item (click)="captureAndCopy()">Copiar</button>
+          <button mat-menu-item (click)="captureAndDownload()">Download</button> -->
+          <button mat-menu-item (click)="captureAndDownload()"><mat-icon>download</mat-icon> <span>Download</span></button>
+          <button mat-menu-item (click)="captureAndCopy()"><mat-icon>content_copy</mat-icon> <span>Copiar</span></button>
+          <button mat-menu-item (click)="filterData()" *ngIf="graphic.charts.type === 'line-chart'"><mat-icon>filter_alt</mat-icon> <span>Filtrar</span></button>
+        </mat-menu>
+    </mat-card-header>
+    <div mat-card-content class="chart-container">
+      <div class="chart">
+        <ng-container #placeToRender style="width: 100%; height: 100%;" id="graphic"></ng-container>
+      </div>
+    </div>
+  </mat-card>
+</div>

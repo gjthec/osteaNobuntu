@@ -1,0 +1,55 @@
+// Variáveis para breakpoints
+$breakpoint-small: 576px; // Exemplo: smartphones
+$breakpoint-medium: 768px; // Exemplo: tablets
+$breakpoint-large: 992px; // Exemplo: laptops/desktops
+$breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
+
+.panel {
+  padding: 10px;
+  min-height: 300px;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.w-full {
+  width: 100%;
+}
+
+#conditionSelector {
+  display: flex;
+  justify-content: center;
+}
+
+:host ::ng-deep label {
+  margin-bottom: 0 !important;
+}
+
+
+#fixedButtons {
+  position: fixed;
+  z-index: 99;
+  bottom: 50px;
+  right: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+#fixedButtons>* {
+  margin-left: 10px;
+}
+
+
+// Estilos para dispositivos pequenos (exemplo: smartphones)
+@media screen and (max-width: $breakpoint-small) {
+  #fixedButtons {
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+.w-full {
+  width: 100%;
+}

@@ -1,0 +1,51 @@
+// Variáveis para breakpoints
+$breakpoint-small: 576px; // Exemplo: smartphones
+$breakpoint-medium: 768px; // Exemplo: tablets
+$breakpoint-large: 992px; // Exemplo: laptops/desktops
+$breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
+
+#fixedButtons {
+    position: fixed;
+    z-index: 99;
+    bottom: 50px;
+    right: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+#fixedButtons > * {
+    margin-left: 10px;
+}
+
+// Estilos para dispositivos pequenos (exemplo: smartphones)
+@media screen and (max-width: $breakpoint-small) {
+    #formBase {
+        display: grid; grid-template-columns: repeat(1, 1fr); column-gap: 20px; padding: 10px;
+    }
+
+    #fixedButtons {
+        bottom: 30px;
+        right: 30px;
+    }
+}
+
+// Estilos para dispositivos médios (exemplo: tablets)
+@media screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large) {
+    #formBase {
+        display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 20px; padding: 10px;
+    }
+}
+
+// Estilos para dispositivos grandes (exemplo: laptops/desktops)
+@media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-extra-large) {
+    #formBase {
+        display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 20px; padding: 10px;
+    }
+}
+
+// Estilos para dispositivos extra grandes (exemplo: monitores grandes)
+@media screen and (min-width: $breakpoint-extra-large) {
+    #formBase {
+        display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 20px; padding: 10px;
+    }
+}

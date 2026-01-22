@@ -1,0 +1,69 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  padding: 30px;
+  border-radius: 8px;
+  min-height: 500px;
+  text-align: left;
+}
+
+.buttonsColumn {
+  display: flex;
+  flex-direction: row;
+}
+
+#testButton {
+  margin-left: 10px;
+}
+
+/* Estilos para dispositivos móveis (celulares) - até 576px */
+@media (max-width: 576px) {
+  /* CSS específico para telas pequenas */
+  .panel {
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+  }
+  .buttonsColumn {
+    flex-direction: column;
+  }
+  #testButton {
+    margin-top: 10px;
+    margin-left: 0px;
+  }
+}
+
+/* Estilos para dispositivos móveis (celulares grandes e tablets em modo retrato) - até 768px */
+@media (max-width: 768px) {
+  
+}
+
+/* Estilos para tablets (modo retrato) e dispositivos móveis maiores - até 992px */
+@media (max-width: 992px) {
+ 
+}
+
+/* Estilos para tablets (modo paisagem) e laptops menores - até 1200px */
+@media (max-width: 1200px) {
+
+}
+
+/* Estilos para desktops grandes - até 1400px */
+@media (max-width: 1400px) {
+  
+}
+
+/* Estilos para desktops ultra largos */
+@media (min-width: 1400px) {
+  
+}

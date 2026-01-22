@@ -1,0 +1,13 @@
+#card-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  /* Joga o botão para o final */
+  justify-content: flex-end;
+}

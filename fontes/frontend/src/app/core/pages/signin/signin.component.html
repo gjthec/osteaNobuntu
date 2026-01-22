@@ -1,0 +1,108 @@
+<mat-toolbar class="toolbar">
+
+  <div>
+    <img src="assets/images/logo_RMZK.png" style="width: 80px;">
+    <span>Workspace</span>
+  </div>
+
+  <change-language-button></change-language-button>
+</mat-toolbar>
+
+<ng-container *transloco="let t; read: 'core.sign-in-component'">
+  <div class="container">
+
+    <div class="panel">
+
+      <!-- Formulário para inserção do email -->
+      <div *ngIf="pageState == signInPageStates.SetEmail" id="email-form">
+
+        <h2>{{t("sign-in-with-your-email")}}</h2>
+
+        <mat-form-field appearance="outline" [formGroup]="emailFormGroup" style="display: block;">
+          <mat-label>{{t("email")}}</mat-label>
+
+          <input matInput type="email" id="email" formControlName="email" name="email"
+            placeholder="youEmailhere@domain.com" (keydown.enter)="checkEmailExist()">
+
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('required')">{{t("error-email-required")}}</mat-error>
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('minlength') ">
+            {{t("error-email-minlength")}}
+          </mat-error>
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('maxlength') ">
+            {{t("error-email-maxlength")}}
+          </mat-error>
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('email')">
+            {{t("error-email-format")}}
+          </mat-error>
+
+        </mat-form-field>
+
+        <div class="buttonsColumn" *ngIf="isLoading == false">
+          <button mat-button color="primary" type="submit" (click)="goToSignUpPage()">{{t("sign-up")}}</button>
+          <button mat-raised-button color="primary" [disabled]="!emailFormGroup.valid" id="nextButton" type="submit"
+            (click)="checkEmailExist()">{{t("next")}}</button>
+        </div>
+
+      </div>
+
+      <!-- Formulário para inserção de senha -->
+      <div *ngIf="pageState == signInPageStates.SetPassword" id="password-form" >
+
+        <h2>{{t("enter-your-password")}}</h2>
+
+        <!-- Campo de inserção de senha -->
+        <mat-form-field appearance="outline" style="display: block;" [formGroup]="passwordFormGroup">
+          <mat-label>{{t("password")}}</mat-label>
+
+          <input matInput [type]="passwordHide == false ? 'password' : 'text'" id="password" formControlName="password"
+            name="password" (keydown.enter)="signIn()">
+
+          <!-- Mensagens de erro do campo -->
+          <mat-error *ngIf="passwordFormGroup.get('password').hasError('required')">
+            {{t("error-password-required")}}
+          </mat-error>
+          <mat-error *ngIf="passwordFormGroup.get('password').hasError('pattern') ">
+            {{t("error-password-pattern")}}
+          </mat-error>
+          <mat-error *ngIf="passwordFormGroup.get('password').hasError('minlength') ">
+            {{t("error-password-minlength")}}
+          </mat-error>
+          <mat-error *ngIf="passwordFormGroup.get('password').hasError('maxlength') ">
+            {{t("error-password-maxlength")}}
+          </mat-error>
+
+        </mat-form-field>
+
+        <div>
+          <mat-checkbox [(ngModel)]="passwordHide" [disabled]="!passwordHideCheckBoxEnabled"></mat-checkbox>
+          {{t("show-password")}}
+        </div>
+  
+        <div class="buttonsColumn" *ngIf="isLoading == false">
+          <button mat-button color="primary" id="nextButton" type="submit"
+            (click)="resetPassword()">{{t("forgot-password")}}</button>
+  
+          <button mat-raised-button color="primary" id="nextButton" type="submit" [disabled]="!passwordFormGroup.valid"
+            (click)="signIn()">{{t("next")}}</button>
+        </div>
+        
+      </div>
+
+      <!-- Mensagem para criar conta se o email não existir -->
+      <div style="display: flex; flex-direction: column;" *ngIf="pageState == signInPageStates.CreatingAccount">
+        <p>{{t("email-not-found")}}</p>
+        <button (click)="goToSignUpPage()">{{t("create-account")}}</button>
+        <button class="back-button" (click)="goBackToLogin()">{{t("back-to-access-page")}}</button>
+      </div>
+
+      <!-- Mostrar erro se estiver na página de erro -->
+      <div *ngIf="pageState === signInPageStates.Error">
+        <p>{{t("generic-error")}}</p>
+      </div>
+
+      <mat-spinner style="margin: auto;" *ngIf="isLoading == true"></mat-spinner>
+    </div>
+
+
+  </div>
+</ng-container>

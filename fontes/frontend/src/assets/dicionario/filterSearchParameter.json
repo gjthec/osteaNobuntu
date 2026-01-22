@@ -1,0 +1,42 @@
+{
+    "config":{ 
+        "modified": "2025-06-06T20:11:16.631966Z", 
+        "description": "Parametros de pesquisa usado no filtro de busca",  
+        "name": "FilterSearchParameter", 
+        "apiUrl": "api/filter-search-parameters",
+        "route": "filter-search-parameters",
+        "title": { 
+            "pt": "", 
+            "en": "" 
+        }, 
+        "searchableFields": [
+           { 
+            "name": "name" 
+           }
+        ], 
+
+        "localStorage": false,
+        "filter": false, 
+        "isAbleToCreate": true, 
+        "edit": true, 
+        "columnsQuantity": 1,
+        "delete": true,
+        "hasCustomFunctionButton": false,
+        "isFormStepper": false,
+        "isLinearFormStepper": false
+    }, 
+    "attributes": [ 
+        { 
+            "name":"name", 
+            "type": "string", 
+            "limiteOfChars": 60, 
+            "mask": "Texto", 
+            "isRequired": true, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        }
+    ] 
+}

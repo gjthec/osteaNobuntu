@@ -1,0 +1,6 @@
+# Ignora os diretórios:
+build
+coverage
+dist
+vpn
+node_modules

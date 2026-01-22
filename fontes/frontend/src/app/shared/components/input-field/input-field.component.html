@@ -1,0 +1,15 @@
+<mat-form-field style="width: 100%; padding-top: 5px;" appearance="outline"
+  [ngClass]="{ 'input-error': inputValue.invalid && inputValue.touched }">
+  <mat-label>{{ displayedLabel }}</mat-label>
+  <input matInput placeholder="{{ placeholder }}" [formControl]="inputValue" 
+    [required]="isRequired" [mask]="mask" [name]="label" [attr.field-id]="label"/>
+
+  <mat-icon (click)="actionOnClickInIcon && actionOnClickInIcon()"
+    *ngIf="svgIcon != null && setIconPosition() == 'start'" [matIconPrefix]>{{ svgIcon }}</mat-icon>
+  <mat-icon (click)="actionOnClickInIcon && actionOnClickInIcon()" *ngIf="svgIcon != null && setIconPosition() == 'end'"
+    [matIconSuffix]>{{ svgIcon }}</mat-icon>
+
+  <mat-error *ngIf="inputValue.hasError('characterLimitExceeded') && inputValue.touched">
+    {{ translocoService.translate('componentsBase.Alerts.errorMessageLimitation') }}
+  </mat-error>
+</mat-form-field>

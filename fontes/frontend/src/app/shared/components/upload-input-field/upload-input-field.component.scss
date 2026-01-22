@@ -1,0 +1,21 @@
+.preview-container {
+  display: flex;
+  justify-content: center; /* Centraliza a imagem */
+  align-items: center;
+  margin-bottom: 16px; /* Espaço entre a imagem e o input */
+  padding: 10px;
+  border: 2px dashed #e0e0e0; /* Borda tracejada estilo "dropzone" */
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  min-height: 150px; /* Altura mínima da área */
+
+  .big-preview-image {
+    max-width: 100%;
+    max-height: 250px; /* Altura máxima da imagem (ajuste conforme necessário) */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Garante que a imagem inteira apareça sem cortar */
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave para destacar */
+  }
+}

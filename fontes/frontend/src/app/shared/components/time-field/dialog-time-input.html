@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ title || 'Selecione a hora' }}</h2>
+<mat-dialog-content class="time-dialog-content">
+  <mat-form-field class="time-field">
+    <input matInput type="time" [(ngModel)]="selectedTime" [min]="minTime" [max]="maxTime" placeholder="Escolha a hora">
+  </mat-form-field>
+
+  <div class="time-adjust-container">
+    <div class="adjust-group">
+      <div class="time-picker-label">Hora</div> 
+      <button mat-icon-button class="adjust-button" (click)="adjustTime(1, 'hour')" matTooltip="Aumentar hora">
+        <mat-icon>add</mat-icon> 
+      </button>
+      <button mat-icon-button class="adjust-button" (click)="adjustTime(-1, 'hour')" matTooltip="Diminuir hora">
+        <mat-icon>remove</mat-icon> 
+      </button>
+    </div>
+
+    <div class="adjust-group">
+      <div class="time-picker-label">Minuto</div> 
+      <button mat-icon-button class="adjust-button" (click)="adjustTime(1, 'minute')" matTooltip="Aumentar minuto">
+        <mat-icon>add</mat-icon> 
+      </button>
+      <button mat-icon-button class="adjust-button" (click)="adjustTime(-1, 'minute')" matTooltip="Diminuir minuto">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" class="action-buttons">
+  <button mat-button matTooltip="Cancelar" (click)="onCancel()">Cancelar</button>
+  <button mat-button matTooltip="Confirmar" (click)="onConfirm()">Confirmar</button>
+</mat-dialog-actions>

@@ -1,0 +1,38 @@
+<div [ngClass]="className">
+  <div *ngIf="!showVideoUrl" class="video-container">
+    <ng-container *ngIf="!isCameraOpen">
+      <button (click)="openCamera()" type="button" class="input-like-button">
+        <mat-icon>videocam</mat-icon>
+        {{ label }} <span *ngIf="isRequired" class="required-asterisk">*</span>
+      </button>
+    </ng-container>
+    <div class="camera-container" *ngIf="isCameraOpen">
+      <video #videoElement autoplay></video>
+      <div class="button-group">
+        <button (click)="startRecording()" type="button" class="capture-button">
+          <mat-icon>videocam</mat-icon>
+        </button>
+        <button (click)="stopRecording()" type="button" class="close-button">
+          <mat-icon>stop</mat-icon>
+        </button>
+        <button (click)="toggleCamera()" type="button" class="toggle-camera-button">
+          <mat-icon>switch_camera</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showVideoUrl" class="video-container">
+    <video [src]="savedVideoUrl" controls></video>
+    <div class="button-group-two">
+      <button (click)="saveVideo()" *ngIf="!isVideoSaved" type="button" class="save-video-button">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button (click)="clearVideo()" *ngIf="!isVideoSaved" type="button" class="repeat-capture-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <!-- Campo de entrada associado ao inputValue -->
+  <input [formControl]="inputValue" type="hidden">
+</div>
+<br>

@@ -1,0 +1,5 @@
+// ng-deep -> irá mudar dados internos de estilização do componente
+::ng-deep .mat-mdc-menu-panel  {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}

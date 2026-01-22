@@ -1,0 +1,21 @@
+.background {
+    /* Propriedades para ocupar toda a tela */
+    position: fixed;
+    /* Posicionamento fixo na tela */
+    top: 0;
+    /* Topo da tela */
+    left: 0;
+    /* Esquerda da tela */
+    width: 100%;
+    /* Largura total */
+    height: 100%;
+    /* Altura total */
+
+    /* Propriedades para cor preta */
+    background-color: black;
+    /* Cor de fundo preto */
+
+    display: flex;//Transforma a div em um container flexbox, permitindo o alinhamento dos elementos filhos.
+    justify-content: center;//Alinha os elementos filhos horizontalmente no centro do container.
+    align-items: center;//Alinha os elementos filhos verticalmente no centro do container.
+}

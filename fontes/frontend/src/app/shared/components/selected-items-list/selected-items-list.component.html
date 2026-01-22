@@ -1,0 +1,46 @@
+<div style="display: flex; flex-direction: column; height: 100%;">
+
+  <!-- Campo de busca -->
+  <search-input-field
+    (removeAllComponentsOnViewFunction)="removeAllComponentsOnView()"
+    (returnedItemsToCreate)="createItemsOnList($event)" [searchableFields]="searchableFields">
+  </search-input-field>
+
+  <!-- Barra que indica quantos itens foram selecionados e permite selecionar e desselecioanr todos -->
+  <div *ngIf="isSelectable == true"
+    style="display: flex; flex-direction: row; width: 100%; background-color: white; border-radius: 5px; margin-bottom: 5px;">
+    <mat-checkbox [checked]="selectAllCheckBox" *ngIf="selectedItemsLimit == itemsDisplayed?.length"
+      (change)="onSelectedItemsCheckBoxChange($event)"></mat-checkbox>
+    <p style="margin: auto;">{{selectedItems.length}}
+      <ng-container *transloco='let t'>{{t('selector-list.selectedValues') }}</ng-container>
+    </p>
+  </div>
+
+  <!-- Lista com cards com informações dos itens -->
+  <div style="flex:1; overflow-y: auto; overflow-x: auto;">
+    <ng-container #placeToRender></ng-container>
+  </div>
+
+  <!-- TODO colocar o transoco nesse componente, ler a documentacao dele pra ver como fazer -->
+  <div style="display: flex; justify-content: center; width: 100%; background-color: white;">
+    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="itemsDisplayed != null ? itemsDisplayed.length : 0"
+      [pageSize]="maxDisplayedItems" [disabled]="false" [showFirstLastButtons]="true"
+      [pageSizeOptions]="[5,10,25,50,100]" [hidePageSize]="false" [pageIndex]="0" aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <!-- Botões fixos -->
+  <div id="fixedButtons">
+    <button *ngIf="isOpenedOnDialog == true" mat-fab class="px-6 ml-3" (click)="return()">
+      <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
+    </button>
+    <button *ngIf="selectedItems.length > 0 && isAbleToDelete == true" (click)="deselectItens()" mat-fab
+      class="">
+      <mat-icon svgIcon="mat_solid:delete"></mat-icon>
+    </button>
+    <a *ngIf="isAbleToCreate == true" mat-fab matTooltip="Add" routerLink="new">
+      <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+    </a>
+  </div>
+
+</div>

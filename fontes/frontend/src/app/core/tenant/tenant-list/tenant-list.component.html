@@ -1,0 +1,53 @@
+<!-- Componente que chama função de tradução para dentro dos componentes -->
+<ng-container *transloco="let t; read: 'core.tenant-list-component'">
+
+  <div class="panel">
+
+    <h3>{{t("tittle")}}</h3>
+
+    <button mat-button (click)="goToCreateTenantPage()">
+      <mat-icon>add</mat-icon>
+      {{t("create-new-tenant")}}
+    </button>
+
+    <table mat-table [dataSource]="tenants" class="mat-elevation-z8">
+      <!-- TenantName Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> {{t("name")}} </th>
+        <td mat-cell *matCellDef="let element"> {{ element.tenant.name }} </td>
+      </ng-container>
+
+      <!-- Manage Users Tenant button -->
+      <ng-container matColumnDef="userPermissionTenant">
+        <th mat-header-cell *matHeaderCellDef> {{t("user-permission")}} </th>
+        <td mat-cell *matCellDef="let element">
+
+          <button mat-stroked-button (click)="goToUserTenantPage()">
+            {{t("manage-access")}}
+            <mat-icon>group</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+      <!-- Manage Database Credential button -->
+      <ng-container matColumnDef="databaseCredential">
+        <th mat-header-cell *matHeaderCellDef> {{t("databaseCredential")}} </th>
+        <td mat-cell *matCellDef="let element">
+
+          <button mat-stroked-button (click)="goToDatabaseCredentialPage()">
+            {{t("manage")}}
+            <mat-icon>settings</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+    </table>
+  </div>
+
+</ng-container>

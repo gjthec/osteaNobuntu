@@ -1,0 +1,19 @@
+<mat-toolbar class="toolbar">
+
+  <div>
+    <img src="assets/images/logo_RMZK.png" style="width: 80px;">
+    <span>Workspace</span>
+  </div>
+
+  <change-language-button></change-language-button>
+</mat-toolbar>
+
+<ng-container *transloco="let t; read: 'core.error-500-component'">
+  <div class="container">
+
+    <h1 class="panel">
+      {{t("error-message")}}
+    </h1>
+
+  </div>
+</ng-container>

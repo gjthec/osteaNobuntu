@@ -1,0 +1,32 @@
+<div class="preview-container" *ngIf="isImage(files[0])">
+  <img [src]="getBase64Src(files[0])" class="big-preview-image">
+</div>
+
+<mat-form-field style="width: 100%;" appearance="outline">
+  <mat-label>{{displayedLabel}}</mat-label>
+
+  <input matInput 
+         placeholder="{{placeholder}}" 
+         [value]="fileName" 
+         readonly 
+         [required]="isRequired"
+         (click)="visualizarArquivo(files)" 
+         style="cursor: pointer;">
+
+  <input type="file" 
+         (change)="onFileSelected($event)" 
+         [multiple]="selectItemsLimit > 1" 
+         hidden 
+         #fileInput>
+
+  <div matSuffix class="actions-suffix">
+    <button mat-icon-button *ngIf="fileName" (click)="visualizarArquivo(files)" matTooltip="Visualizar Arquivos" type="button">
+      <mat-icon>visibility</mat-icon>
+    </button>
+    
+    <button mat-icon-button (click)="fileInput.click()" matTooltip="Alterar Imagem" type="button">
+      <mat-icon>{{ fileName ? 'edit' : 'cloud_upload' }}</mat-icon>
+    </button>
+  </div>
+
+</mat-form-field>

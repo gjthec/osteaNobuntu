@@ -1,0 +1,42 @@
+<div id="lista" fxLayout="column" fxLayoutAlign="center" style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+  <table mat-table fxFill [dataSource]="itemsDisplayed" class="mat-elevation-z8" *ngIf="itemsDisplayed.length != 0">
+
+    <ng-container *ngFor="let column of displayedfieldsName; let i = index" [matColumnDef]="column">
+
+      <div *ngIf="column == 'selectableField'">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox *ngIf="selectedItemsLimit == null" (change)="$event ? selectAll() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="select(element)"
+            [checked]="selection.isSelected(element)">
+          </mat-checkbox>
+        </td>
+      </div>
+
+      <div *ngIf="column != 'selectableField'">
+        <th mat-header-cell *matHeaderCellDef (click)="sortByProperty(displayedfieldsName[i])"
+          (mousedown)="setPressedColumn(column)" (mouseup)="clearPressedColumn()"
+          [ngClass]="pressedColumn === column ? 'pressed' : null">
+          {{displayedfieldsName[i]}}
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <div>{{ element[column] }}</div>
+        </td>
+      </div>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedfieldsName"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedfieldsName;"></tr>
+
+  </table>
+
+  <div fxLayout="column" fxLayoutAlign="center center" *ngIf="itemsDisplayed.length == 0">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</div>

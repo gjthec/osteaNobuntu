@@ -1,0 +1,8 @@
+<h1 *transloco='let t, read: "componentsBase"' mat-dialog-title>{{ t('location-field.select') }}</h1>
+<div mat-dialog-content>
+    <div id="map" ></div>
+</div>
+<div mat-dialog-actions>
+    <button *transloco='let t, read: "componentsBase"' mat-button (click)="closeDialog()">{{ t('location-field.buttonCancel') }}</button>
+    <button *transloco='let t, read: "componentsBase"' mat-button (click)="confirmLocation()">{{ t('location-field.buttonConfirm') }}</button>
+</div>

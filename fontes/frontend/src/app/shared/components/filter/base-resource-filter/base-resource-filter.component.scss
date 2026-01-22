@@ -1,0 +1,38 @@
+button{
+  width: 100%;
+}
+
+.base{
+
+  display: flex;
+  flex-direction: column;
+ padding: 2rem;
+ gap: 2rem;
+ height: 100vh;
+
+
+ .divf{
+
+  // .list{
+  // }
+
+   .actions{
+    margin-top: 2rem;
+     display: flex;
+     gap: 1rem;
+     padding: 0 1rem;
+     .delete{
+       width: fit-content;
+      }
+    }
+  }
+
+  .submit{
+    position: relative;
+    bottom: 0;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+  }
+
+}

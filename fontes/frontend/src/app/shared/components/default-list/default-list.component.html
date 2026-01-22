@@ -1,0 +1,102 @@
+<div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+  <div style="height: 150px; padding: 10px;">
+
+    <search-input-field *ngIf="filterParameters != null" [filterParameters]="filterParameters" 
+      [className]="className" [sortableFields]="sortableFields" 
+      (removeAllComponentsOnViewFunction)="removeAllComponentsOnView()"
+      (returnedItemsToCreate)="createItemsOnList($event, isSelectable, viewMode)"
+      (returnFetchParameters)="fetchWithCustomQuery($event, apiUrl, maxDisplayedItems, 1)"
+      (sortOrderChanged)="fetchWithSortedQuery($event, apiUrl, maxDisplayedItems, 1)"
+      (clearSearchInputEvent)="clearSearchInputEvent()" [searchableFields]="searchableFields">
+    </search-input-field>
+
+    <div *ngIf="isSelectable == true" style="
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        background-color: white;
+        border-radius: 5px;
+        height: 50px;
+      ">
+      <mat-checkbox [checked]="selectAllCheckBox" *ngIf="isSelectable && itemsDisplayed.length > 0 && itemsDisplayed.length <= selectedItemsLimit"
+        (change)="onSelectedItemsCheckBoxChange($event)"></mat-checkbox>
+
+      <p style="margin: auto">
+        {{ selectedItems.length }}
+        <ng-container *transloco="let t; read: 'componentsBase'">{{
+          t("selector-list.selectedValues")
+          }}</ng-container>
+      </p>
+      <!-- mudança de card, list, grid -->
+      <view-mode-selector></view-mode-selector>
+    </div>
+  </div>
+
+  <div [style.height]="isOpenedOnDialog ? '400px' : 'auto'" [style.flex]="isOpenedOnDialog ? 'none' : '1'"
+    style="overflow-y: auto; padding-left: 10px; padding-right: 10px;">
+
+    <div [ngClass]="viewMode">
+      <ng-container #placeToRender></ng-container>
+    </div>
+
+    <div *ngIf="isLoading == true" style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="error" style="display: flex; flex-direction: column; width: 100%; align-items: center;">Error</div>
+
+    <!-- Mensagem caso não tenha nada apresentado na lista -->
+    <div *ngIf="isLoading == false && itemsDisplayed.length == 0" style="margin: auto; display: flex; justify-content: center;">
+      <p>{{ "componentsBase.default-list.noData" | transloco }}</p>
+    </div>
+
+
+  </div>
+
+  <!-- TODO colocar o transoco nesse componente, ler a documentacao dele pra ver como fazer -->
+  <div style="
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      background-color: white;
+    ">
+    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalItems" [pageSize]="maxDisplayedItems"
+      [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50, 100]" [hidePageSize]="false"
+      [pageIndex]="0" aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <!-- Menu fixo -->
+  <div [id]="menuIsFixedOnScreen == true ? 'fixedButtons' : ''">
+    <button *ngIf="isOpenedOnDialog == true" mat-fab class="px-6 ml-3" (click)="return()">
+      <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
+    </button>
+    <button *ngIf="selectedItems.length > 0 && isOpenedOnDialog == true" mat-fab class="px-6 ml-3"
+      (click)="returnWithSelectedItems()">
+      <mat-icon svgIcon="mat_solid:check"></mat-icon>
+    </button>
+
+    <button *ngIf="selectedItems.length > 0 && isAbleToDelete == true" (click)="deleteSelectedItens()" mat-fab class="">
+      <mat-icon svgIcon="mat_solid:delete"></mat-icon>
+    </button>
+
+    <!-- Botão de download com menu -->
+    <button mat-fab [matMenuTriggerFor]="downloadMenu" class="ml-3">
+      <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
+    </button>
+    <mat-menu #downloadMenu="matMenu">
+      <button mat-menu-item (click)="downloadData('csv')">
+        <mat-icon svgIcon="mat_solid:table_view"></mat-icon>
+        <span>{{ "componentsBase.default-list.downloadCSV" | transloco }}</span>
+      </button>
+      <button mat-menu-item (click)="downloadData('xlsx')">
+        <mat-icon svgIcon="mat_solid:grid_on"></mat-icon>
+        <span>{{ "componentsBase.default-list.downloadXLSX" | transloco }}</span>
+      </button>
+    </mat-menu>
+
+    <button *ngIf="isAbleToCreate == true" mat-fab (click)="createItem()">
+      <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+    </button>
+  </div>
+</div>

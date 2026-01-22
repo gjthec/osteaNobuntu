@@ -1,0 +1,15 @@
+<mat-dialog-content class="dialog-container">
+    <h2 class="dialog-title">Escolha o Ambiente</h2>
+    <p>Por favor, selecione o ambiente que deseja utilizar:</p>
+    <div class="environment-options">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngFor="let environment of environments"
+        (click)="onChooseEnvironment(environment)"
+      >
+        {{ environment.fileName.replace('.json', '') }}
+      </button>
+    </div>
+  </mat-dialog-content>
+  

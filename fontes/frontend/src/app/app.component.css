@@ -1,0 +1,71 @@
+.sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    width: 200px;
+  }
+  
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+  
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+ 
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button{
+  background-color: #988BE9;
+  padding: 0;
+  min-width: 0;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+}
+ 
+.toolbarNav {
+  height: 56px;
+  position: fixed; 
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  background-color: #988BE9;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 4px 5px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+ 
+.mat-toolbar.mat-primary {
+  color: black;
+  position: fixed;
+  background-color: #988BE9 ;
+}
+ 
+.fix{
+  height: 56px;
+}
+ 
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+ 
+#mat-icon{
+  background-color: #988BE9;
+} 
+ 
+button:hover,
+.active-link {
+  color: blueviolet;
+}
+ 
+h6{
+  font: 500 20px/32px Roboto,"Helvetica Neue", sans-serif;;
+}

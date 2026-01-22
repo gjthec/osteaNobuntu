@@ -1,0 +1,47 @@
+<div *ngIf="formStepperStructure.length > 0" class="content">
+	<mat-horizontal-stepper style="background-color: rgb(255, 255, 255); min-height: 300px;" #stepper [linear]="isLinear">
+		<form id="formBase" [formGroup]="resourceForm">
+			<mat-step *ngFor="let pagina of formStepperStructure; let i = index" [label]="pagina.name">
+				<form id="formBase" class="lateral-margin" [formGroup]="resourceForm">
+					<ng-container style="display: flex; padding: 4px;" #placeToRender></ng-container>
+				</form>
+				<ng-content></ng-content>
+			</mat-step>
+		</form>
+	</mat-horizontal-stepper>
+
+
+	<div id="fixedButtons" class="flex justify-end items-center px-6 py-4 space-x-2">
+		<button mat-fab class="px-6 ml-3" (click)="return()" *ngIf="isFirstStep(stepper)" color="warn">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<button (click)="stepper.previous()" mat-fab class="px-6 ml-3" *ngIf="!isFirstStep(stepper)">
+			<mat-icon svgIcon="mat_solid:arrow_back"></mat-icon>
+		</button>
+		<button (click)="stepper.next()" mat-fab class="px-6 ml-3" *ngIf="!isLastStep(stepper)">
+			<mat-icon svgIcon="mat_solid:arrow_forward"></mat-icon>
+		</button>
+		<button (click)="submitFormFunction()" [disabled]="submitFormLoadingEnabled" mat-fab class="px-6 ml-3"
+			*ngIf="isLastStep(stepper)">
+			<mat-icon *ngIf="submitFormLoadingEnabled == false" svgIcon="mat_solid:save"></mat-icon>
+			<mat-spinner [diameter]="30" [strokeWidth]="10" *ngIf="submitFormLoadingEnabled == true"></mat-spinner>
+		</button>
+	</div>
+</div>
+
+<div style="background-color: white;" class="mb-4 p-2 rounded-2xl shadow w-full inline-block"
+	*ngIf="formStepperStructure.length == 0">
+	<form id="formBase" [formGroup]="resourceForm">
+		<ng-container style="display: flex; padding: 4px;" #placeToRender></ng-container>
+	</form>
+
+	<div id="fixedButtons" class="flex justify-end items-center px-6 py-4 space-x-2">
+		<button mat-fab class="px-6 ml-3" (click)="return()" color="warn">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<button (click)="submitFormFunction()" [disabled]="submitFormLoadingEnabled" mat-fab class="px-6 ml-3">
+			<mat-icon *ngIf="submitFormLoadingEnabled == false" svgIcon="mat_solid:save"></mat-icon>
+			<mat-spinner [diameter]="30" [strokeWidth]="10" *ngIf="submitFormLoadingEnabled == true"></mat-spinner>
+		</button>
+	</div>
+</div>

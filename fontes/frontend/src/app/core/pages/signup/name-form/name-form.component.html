@@ -1,0 +1,54 @@
+<ng-container *transloco="let t; read: 'core.sign-up-component'">
+
+
+  <!-- Formulário para inserção do nome e sobrenome -->
+  <div id="name-form" [formGroup]="nameFormGroup">
+
+    <h2>{{t("create-product-account")}}</h2>
+
+    <!-- Campo de inserção de nome -->
+    <mat-form-field appearance="outline" style="display: block;">
+      <mat-label>{{t("name")}}</mat-label>
+
+      <input matInput type="text" id="name" formControlName="firstName" name="name" (keydown.enter)="focusNextInputField($event, input2)"
+      #input1>
+
+      <!-- Mensagens de erro do campo -->
+      <mat-error *ngIf="nameFormGroup.get('firstName').hasError('required')">
+        {{t("error-name-required")}}
+      </mat-error>
+      <mat-error *ngIf="nameFormGroup.get('firstName').hasError('minlength') ">
+        {{t("error-name-minlength")}}
+      </mat-error>
+      <mat-error *ngIf="nameFormGroup.get('firstName').hasError('maxlength') ">
+        {{t("error-name-maxlength")}}
+      </mat-error>
+
+    </mat-form-field>
+
+    <!-- Campo de inserção de sobrenome -->
+    <mat-form-field appearance="outline" style="display: block;">
+      <mat-label>{{t("lastName")}}</mat-label>
+
+      <input matInput type="text" id="lastName" formControlName="lastName" name="lastName" (keydown.enter)="checkName()" #input2>
+
+      <!-- Mensagens de erro do campo -->
+      <mat-error *ngIf="nameFormGroup.get('lastName').hasError('required')">
+        {{t("error-lastName-required")}}
+      </mat-error>
+      <mat-error *ngIf="nameFormGroup.get('lastName').hasError('minlength') ">
+        {{t("error-lastName-minlength")}}
+      </mat-error>
+      <mat-error *ngIf="nameFormGroup.get('lastName').hasError('maxlength') ">
+        {{t("error-lastName-maxlength")}}
+      </mat-error>
+
+    </mat-form-field>
+
+    <div class="buttonsColumn">
+      <button mat-raised-button color="primary" id="nextButton" type="submit" [disabled]="!nameFormGroup.valid"
+        (click)="checkName()">{{t("next")}}</button>
+    </div>
+
+  </div>
+</ng-container>

@@ -1,0 +1,2340 @@
+{
+    "config":{ 
+        "modified": "2026-01-15T19:22:14.134156Z", 
+        "description": "Avaliações Coluna Lombar",  
+        "name": "Avaliacao", 
+        "apiUrl": "api/AvaliacoesColunaLombar",
+        "route": "AvaliacoesColunaLombar",
+        "title": { 
+            "pt-BR": "", 
+            "en": "" 
+        }, 
+        "searchableFields": [
+        ], 
+        "sortableFields": [
+        ], 
+
+        "localStorage": true,
+        "filter": true, 
+        "addNew": true, 
+        "edit": true, 
+        "columnsQuantity": 3,
+        "isAbleToCreate": true,
+        "hasCustomFunctionButton": false,
+        "delete": true,
+        "isFormStepper": false,
+        "formLinear": false,
+        "isLinearFormStepper": false
+    }, 
+    "attributes": [ 
+        { 
+            "name":"paciente", 
+            "type": "foreignKey", 
+            "className": "Paciente", 
+            "many": false, 
+            "apiUrl": "",
+            "fieldDisplayedInLabel": "",
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "forageinKey": "id", 
+            "lookup": true, 
+            "viewDetails": true, 
+        "addNew": true, 
+            "properties": [ 
+                { 
+                    "type": "string", 
+                    "name": "nome", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "selector", 
+                    "name": "sexo", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "date", 
+                    "name": "dataNascimento", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "cpf", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "telefone", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "email", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "selector", 
+                    "name": "indicacao", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "exigenciasTrabalho", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "atividadesLazer", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "posturaStress", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "string", 
+                    "name": "limitacaoFuncionalAtual", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "number", 
+                    "name": "pontuacaoIncapacidadeFuncional", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                },
+                { 
+                    "type": "number", 
+                    "name": "pontuacaoEVA", 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+                }
+            ] 
+        },
+        { 
+            "name":"dataAvaliacao", 
+            "type": "date", 
+            "mask": "Data", 
+            "isRequired": true, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"tipo", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Coluna Lombar", 
+                    "en": "", 
+                    "id": "coluna-lombar" 
+                },
+                {
+                    "pt-BR": "Coluna Cervical", 
+                    "en": "", 
+                    "id": "coluna-cervical" 
+                },
+                {
+                    "pt-BR": "Membros Superiores", 
+                    "en": "", 
+                    "id": "membros-superiores" 
+                },
+                {
+                    "pt-BR": "Membros Inferiores", 
+                    "en": "", 
+                    "id": "membros-inferiores" 
+                },
+                {
+                    "pt-BR": "Toráxica", 
+                    "en": "", 
+                    "id": "toraxica" 
+                }
+            ],
+            "selectItemsLimit": 5,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"localSintoma", 
+            "type": "upload", 
+             "allowedExtensions": ["jpg","png","pdf","txt","docx"],
+            "selectItemsLimit": 1,
+            "mask": "Arquivo", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasAtuais", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPresentesDesde", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"situacaoSintomas", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Melhorando", 
+                    "en": "", 
+                    "id": "Melhorando" 
+                },
+                {
+                    "pt-BR": "Estável", 
+                    "en": "", 
+                    "id": "Estavel" 
+                },
+                {
+                    "pt-BR": "Piorando", 
+                    "en": "", 
+                    "id": "Piorando" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasResultado", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasInicio", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"localInicioSintomas", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Lombar", 
+                    "en": "", 
+                    "id": "Lombar" 
+                },
+                {
+                    "pt-BR": "Coxa", 
+                    "en": "", 
+                    "id": "Coxa" 
+                },
+                {
+                    "pt-BR": "Pernas", 
+                    "en": "", 
+                    "id": "Pernas" 
+                },
+                {
+                    "pt-BR": "Pescoço", 
+                    "en": "", 
+                    "id": "Pescoco" 
+                },
+                {
+                    "pt-BR": "Braço", 
+                    "en": "", 
+                    "id": "braco" 
+                },
+                {
+                    "pt-BR": "Cefaleia", 
+                    "en": "", 
+                    "id": "cefaleia" 
+                },
+                {
+                    "pt-BR": "Antebraço", 
+                    "en": "", 
+                    "id": "antebraco" 
+                },
+                {
+                    "pt-BR": "Tronco", 
+                    "en": "", 
+                    "id": "tronco" 
+                },
+                {
+                    "pt-BR": "Costas", 
+                    "en": "", 
+                    "id": "costas" 
+                },
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "Nenhum" 
+                }
+            ],
+            "selectItemsLimit": 9,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"localSintomasConstantes", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Lombar", 
+                    "en": "", 
+                    "id": "Lombar" 
+                },
+                {
+                    "pt-BR": "Coxa", 
+                    "en": "", 
+                    "id": "Coxa" 
+                },
+                {
+                    "pt-BR": "Pernas", 
+                    "en": "", 
+                    "id": "Pernas" 
+                },
+                {
+                    "pt-BR": "Pescoço", 
+                    "en": "", 
+                    "id": "Pescoco" 
+                },
+                {
+                    "pt-BR": "Braço", 
+                    "en": "", 
+                    "id": "braco" 
+                },
+                {
+                    "pt-BR": "Cefaleia", 
+                    "en": "", 
+                    "id": "cefaleia" 
+                },
+                {
+                    "pt-BR": "Antebraço", 
+                    "en": "", 
+                    "id": "antebraco" 
+                },
+                {
+                    "pt-BR": "Tronco", 
+                    "en": "", 
+                    "id": "tronco" 
+                },
+                {
+                    "pt-BR": "Costas", 
+                    "en": "", 
+                    "id": "costas" 
+                },
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "Nenhum" 
+                }
+            ],
+            "selectItemsLimit": 9,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"localSintomasIntermitentes", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Lombar", 
+                    "en": "", 
+                    "id": "Lombar" 
+                },
+                {
+                    "pt-BR": "Coxa", 
+                    "en": "", 
+                    "id": "Coxa" 
+                },
+                {
+                    "pt-BR": "Pernas", 
+                    "en": "", 
+                    "id": "Pernas" 
+                },
+                {
+                    "pt-BR": "Pescoço", 
+                    "en": "", 
+                    "id": "Pescoco" 
+                },
+                {
+                    "pt-BR": "Braço", 
+                    "en": "", 
+                    "id": "braco" 
+                },
+                {
+                    "pt-BR": "Cefaleia", 
+                    "en": "", 
+                    "id": "cefaleia" 
+                },
+                {
+                    "pt-BR": "Antebraço", 
+                    "en": "", 
+                    "id": "antebraco" 
+                },
+                {
+                    "pt-BR": "Tronco", 
+                    "en": "", 
+                    "id": "tronco" 
+                },
+                {
+                    "pt-BR": "Costas", 
+                    "en": "", 
+                    "id": "costas" 
+                },
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "Nenhum" 
+                }
+            ],
+            "selectItemsLimit": 9,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"pioraAcao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Curvando", 
+                    "en": "", 
+                    "id": "curvando" 
+                },
+                {
+                    "pt-BR": "Sentando", 
+                    "en": "", 
+                    "id": "sentando" 
+                },
+                {
+                    "pt-BR": "Levantando", 
+                    "en": "", 
+                    "id": "levantando" 
+                },
+                {
+                    "pt-BR": "Em pé", 
+                    "en": "", 
+                    "id": "em-pe" 
+                },
+                {
+                    "pt-BR": "Andando", 
+                    "en": "", 
+                    "id": "andando" 
+                },
+                {
+                    "pt-BR": "Deitado", 
+                    "en": "", 
+                    "id": "deitado" 
+                },
+                {
+                    "pt-BR": "Parado", 
+                    "en": "", 
+                    "id": "parado" 
+                },
+                {
+                    "pt-BR": "Movimentando", 
+                    "en": "", 
+                    "id": "movimentando" 
+                },
+                {
+                    "pt-BR": "Virando tronco/pescoço", 
+                    "en": "", 
+                    "id": "virando" 
+                },
+                {
+                    "pt-BR": "Respirando profundo", 
+                    "en": "", 
+                    "id": "respirando_profundo" 
+                },
+                {
+                    "pt-BR": "Vestindo", 
+                    "en": "", 
+                    "id": "vestindo" 
+                },
+                {
+                    "pt-BR": "Alcançando", 
+                    "en": "", 
+                    "id": "alcancando" 
+                },
+                {
+                    "pt-BR": "Pegando", 
+                    "en": "", 
+                    "id": "pegando" 
+                },
+                {
+                    "pt-BR": "Agachando", 
+                    "en": "", 
+                    "id": "agachando" 
+                },
+                {
+                    "pt-BR": "Ajoelhando", 
+                    "en": "", 
+                    "id": "ajoelhando" 
+                },
+                {
+                    "pt-BR": "Escada", 
+                    "en": "", 
+                    "id": "escada" 
+                },
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "nenhum" 
+                }
+            ],
+            "selectItemsLimit": 16,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"pioraMomento", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Manhã", 
+                    "en": "", 
+                    "id": "manha" 
+                },
+                {
+                    "pt-BR": "Durante o dia", 
+                    "en": "", 
+                    "id": "durante-o-dia" 
+                },
+                {
+                    "pt-BR": "Final do dia", 
+                    "en": "", 
+                    "id": "final-do-dia" 
+                },
+                {
+                    "pt-BR": "À noite", 
+                    "en": "", 
+                    "id": "noite" 
+                },
+                {
+                    "pt-BR": "Outros", 
+                    "en": "", 
+                    "id": "outros" 
+                }
+            ],
+            "selectItemsLimit": 4,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"melhoraAcao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Curvando", 
+                    "en": "", 
+                    "id": "curvando" 
+                },
+                {
+                    "pt-BR": "Sentando", 
+                    "en": "", 
+                    "id": "sentando" 
+                },
+                {
+                    "pt-BR": "Levantando", 
+                    "en": "", 
+                    "id": "levantando" 
+                },
+                {
+                    "pt-BR": "Em pé", 
+                    "en": "", 
+                    "id": "em-pe" 
+                },
+                {
+                    "pt-BR": "Andando", 
+                    "en": "", 
+                    "id": "andando" 
+                },
+                {
+                    "pt-BR": "Deitado", 
+                    "en": "", 
+                    "id": "deitado" 
+                },
+                {
+                    "pt-BR": "Parado", 
+                    "en": "", 
+                    "id": "parado" 
+                },
+                {
+                    "pt-BR": "Movimentando", 
+                    "en": "", 
+                    "id": "movimentando" 
+                },
+                {
+                    "pt-BR": "Virando tronco/pescoço", 
+                    "en": "", 
+                    "id": "virando" 
+                },
+                {
+                    "pt-BR": "Respirando profundo", 
+                    "en": "", 
+                    "id": "respirando-profundo" 
+                },
+                {
+                    "pt-BR": "Vestindo", 
+                    "en": "", 
+                    "id": "vestindo" 
+                },
+                {
+                    "pt-BR": "Alcançando", 
+                    "en": "", 
+                    "id": "alcancando" 
+                },
+                {
+                    "pt-BR": "Pegando", 
+                    "en": "", 
+                    "id": "pegando" 
+                },
+                {
+                    "pt-BR": "Agachando", 
+                    "en": "", 
+                    "id": "agachando" 
+                },
+                {
+                    "pt-BR": "Ajoelhando", 
+                    "en": "", 
+                    "id": "ajoelhando" 
+                },
+                {
+                    "pt-BR": "Escada", 
+                    "en": "", 
+                    "id": "escada" 
+                },
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "nenhum" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"melhoraMomento", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Manhã", 
+                    "en": "", 
+                    "id": "manha" 
+                },
+                {
+                    "pt-BR": "Durante o dia", 
+                    "en": "", 
+                    "id": "durante-o-dia" 
+                },
+                {
+                    "pt-BR": "Final do dia", 
+                    "en": "", 
+                    "id": "final-do-dia" 
+                },
+                {
+                    "pt-BR": "À noite", 
+                    "en": "", 
+                    "id": "noite" 
+                },
+                {
+                    "pt-BR": "Outros", 
+                    "en": "", 
+                    "id": "outros" 
+                }
+            ],
+            "selectItemsLimit": 4,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"disturbioSono", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"travesseiro", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"posicaoDormir", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Prono", 
+                    "en": "", 
+                    "id": "prono" 
+                },
+                {
+                    "pt-BR": "Supino", 
+                    "en": "", 
+                    "id": "supino" 
+                },
+                {
+                    "pt-BR": "Lado Direito", 
+                    "en": "", 
+                    "id": "lado-direito" 
+                },
+                {
+                    "pt-BR": "Lado Esquerdo", 
+                    "en": "", 
+                    "id": "lado-esquerdo" 
+                }
+            ],
+            "selectItemsLimit": 4,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"tipoColchao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Firme", 
+                    "en": "", 
+                    "id": "firme" 
+                },
+                {
+                    "pt-BR": "Duro", 
+                    "en": "", 
+                    "id": "duro" 
+                },
+                {
+                    "pt-BR": "Macio", 
+                    "en": "", 
+                    "id": "macio" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"episodiosAnteriores", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Nenhum", 
+                    "en": "", 
+                    "id": "Nenhum" 
+                },
+                {
+                    "pt-BR": "1 a 5 vezes", 
+                    "en": "", 
+                    "id": "um_a_cinco" 
+                },
+                {
+                    "pt-BR": "6 a 10 vezes", 
+                    "en": "", 
+                    "id": "seis_a_dez" 
+                },
+                {
+                    "pt-BR": "11 ou mais vezes", 
+                    "en": "", 
+                    "id": "onze_mais" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"anoPrimeiroEpisodio", 
+            "type": "number", 
+            "limiteOfChars": 10, 
+            "mask": "Inteiro", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"historiaPreviaColuna", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"tratamentosAnteriores", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"ocorreDor", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Tossir", 
+                    "en": "", 
+                    "id": "tossir" 
+                },
+                {
+                    "pt-BR": "Espirrar", 
+                    "en": "", 
+                    "id": "espirrar" 
+                },
+                {
+                    "pt-BR": "Esforço", 
+                    "en": "", 
+                    "id": "esforco" 
+                }
+            ],
+            "selectItemsLimit": 3,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"funcionamentoBexiga", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Normal", 
+                    "en": "", 
+                    "id": "normal" 
+                },
+                {
+                    "pt-BR": "Anormal", 
+                    "en": "", 
+                    "id": "anormal" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"funcionamentoIntestino", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Normal", 
+                    "en": "", 
+                    "id": "normal" 
+                },
+                {
+                    "pt-BR": "Anormal", 
+                    "en": "", 
+                    "id": "anormal" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"modoAndar", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Normal", 
+                    "en": "", 
+                    "id": "normal" 
+                },
+                {
+                    "pt-BR": "Anormal", 
+                    "en": "", 
+                    "id": "anormal" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"medicacaoConsumida", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Nenhuma", 
+                    "en": "", 
+                    "id": "nenhuma" 
+                },
+                {
+                    "pt-BR": "Antiinflamatórios", 
+                    "en": "", 
+                    "id": "antiinflamatorios" 
+                },
+                {
+                    "pt-BR": "Analgésicos", 
+                    "en": "", 
+                    "id": "analgesicos" 
+                },
+                {
+                    "pt-BR": "Esteróides", 
+                    "en": "", 
+                    "id": "esteroides" 
+                },
+                {
+                    "pt-BR": "Anticoagulantes", 
+                    "en": "", 
+                    "id": "anticoagulantes" 
+                },
+                {
+                    "pt-BR": "Outros", 
+                    "en": "", 
+                    "id": "outros" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"complementoMedicacao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"situacaoSaudeGeral", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Boa", 
+                    "en": "", 
+                    "id": "normal" 
+                },
+                {
+                    "pt-BR": "Regular", 
+                    "en": "", 
+                    "id": "anormal" 
+                },
+                {
+                    "pt-BR": "Ruim", 
+                    "en": "", 
+                    "id": "ruim" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"comorbidades", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"complementoSaudeGeral", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"historicoCancer", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"historicoTrauma", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"cirurgiaRecente", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"cirurgiaGrandePorte", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"complementoCirurgia", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"imagens", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"dorDuranteNoite", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"acidentes", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaInexplicavelPeso", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"outrosRelatos", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"objetivosExpectativas", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"posturaSentada", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Lordótica", 
+                    "en": "", 
+                    "id": "lordotica" 
+                },
+                {
+                    "pt-BR": "Neutra", 
+                    "en": "", 
+                    "id": "neutra" 
+                },
+                {
+                    "pt-BR": "Cifótica", 
+                    "en": "", 
+                    "id": "cifotica" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"mudancaPostura", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Melhor", 
+                    "en": "", 
+                    "id": "melhor" 
+                },
+                {
+                    "pt-BR": "Pior", 
+                    "en": "", 
+                    "id": "pior" 
+                },
+                {
+                    "pt-BR": "Sem Efeito", 
+                    "en": "", 
+                    "id": "sem-efeito" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"posturaEmPe", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Lordótica", 
+                    "en": "", 
+                    "id": "lordotica" 
+                },
+                {
+                    "pt-BR": "Neutra", 
+                    "en": "", 
+                    "id": "neutra" 
+                },
+                {
+                    "pt-BR": "Cifótica", 
+                    "en": "", 
+                    "id": "cifotica" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"posturaLateralShifi", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Direita", 
+                    "en": "", 
+                    "id": "direita" 
+                },
+                {
+                    "pt-BR": "Esquerda", 
+                    "en": "", 
+                    "id": "esquerda" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"desvioRelevante", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Sim", 
+                    "en": "", 
+                    "id": "sim" 
+                },
+                {
+                    "pt-BR": "Não", 
+                    "en": "", 
+                    "id": "nao" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"observacaoPostura", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"deficitMotor", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"reflexos", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"deficitSensorial", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sinaisDura", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaMovFlexao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Grande", 
+                    "en": "", 
+                    "id": "Gde" 
+                },
+                {
+                    "pt-BR": "Moderada", 
+                    "en": "", 
+                    "id": "Mod" 
+                },
+                {
+                    "pt-BR": "Miníma", 
+                    "en": "", 
+                    "id": "Min" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "Sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomaFlexao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaMovExtensao", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Grande", 
+                    "en": "", 
+                    "id": "Gde" 
+                },
+                {
+                    "pt-BR": "Moderada", 
+                    "en": "", 
+                    "id": "Mod" 
+                },
+                {
+                    "pt-BR": "Miníma", 
+                    "en": "", 
+                    "id": "Min" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "Sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomaExtensao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaMovDeslocLatDir", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Grande", 
+                    "en": "", 
+                    "id": "Gde" 
+                },
+                {
+                    "pt-BR": "Moderada", 
+                    "en": "", 
+                    "id": "Mod" 
+                },
+                {
+                    "pt-BR": "Miníma", 
+                    "en": "", 
+                    "id": "Min" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "Sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomaDeslocLatDir", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaMovDeslocLatEsq", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Grande", 
+                    "en": "", 
+                    "id": "Gde" 
+                },
+                {
+                    "pt-BR": "Moderada", 
+                    "en": "", 
+                    "id": "Mod" 
+                },
+                {
+                    "pt-BR": "Miníma", 
+                    "en": "", 
+                    "id": "Min" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "Sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomaDeslocLatEsq", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"perdaMovOutro", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Grande", 
+                    "en": "", 
+                    "id": "Gde" 
+                },
+                {
+                    "pt-BR": "Moderada", 
+                    "en": "", 
+                    "id": "Mod" 
+                },
+                {
+                    "pt-BR": "Miníma", 
+                    "en": "", 
+                    "id": "Min" 
+                },
+                {
+                    "pt-BR": "Sem", 
+                    "en": "", 
+                    "id": "Sem" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomaOutro", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteEmPe", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteFEP", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteFEPRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPosTesteFEPRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteEEP", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteEEPRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPosTesteEEPRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteDeitado", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteFD", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteFDRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteED", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteEDRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPosTesteEDRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTeste", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteDLEPD", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteDLEPDRep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteDLEPE", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteDLEPERep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPosTesteDLEPERep", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPreTesteOutrosMovi", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"sintomasPosTesteOutrosMovi", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"testeSentar", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Relaxado", 
+                    "en": "", 
+                    "id": "relaxado" 
+                },
+                {
+                    "pt-BR": "Ereto", 
+                    "en": "", 
+                    "id": "ereto" 
+                },
+                {
+                    "pt-BR": "Prono em Extensão", 
+                    "en": "", 
+                    "id": "prono_extensao" 
+                },
+                {
+                    "pt-BR": "Sentar Alongado", 
+                    "en": "", 
+                    "id": "sentar_alongado" 
+                }
+            ],
+            "selectItemsLimit": 4,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"testeSentarComplemento", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"outrosTestes", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"derangement", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Central ou Simétrico", 
+                    "en": "", 
+                    "id": "central-simetrico" 
+                },
+                {
+                    "pt-BR": "Unilateral Assimetrico Acima Joelho", 
+                    "en": "", 
+                    "id": "unilateral-assimetrico-acima-joelho" 
+                },
+                {
+                    "pt-BR": "Prono em Extensão", 
+                    "en": "", 
+                    "id": "Unilateral Assimetrico Abaixo Joellho" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"direcionalPreference", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"dysfunction", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"outrosSubgrupo", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"fatoresCondDorIncapa", 
+            "type": "selector", 
+             "optionList": [
+                {
+                    "pt-BR": "Contextual", 
+                    "en": "", 
+                    "id": "Contextual" 
+                },
+                {
+                    "pt-BR": "Cognitivo", 
+                    "en": "", 
+                    "id": "Cognitivo" 
+                },
+                {
+                    "pt-BR": "Emocional", 
+                    "en": "", 
+                    "id": "Emocional" 
+                },
+                {
+                    "pt-BR": "Comorbidades", 
+                    "en": "", 
+                    "id": "Comorbidades" 
+                }
+            ],
+            "selectItemsLimit": 1,
+            "mask": "Opcoes", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"educacao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"tipoExercicio", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"equipamentoIndicado", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"principioExtensao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"principioLateral", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"principioFlexao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"outrosExerciciosInterv", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"frequencia", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"barreirasRecuperacao", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        },
+        { 
+            "name":"objetivosTratamento", 
+            "type": "string", 
+            "limiteOfChars": 255, 
+            "mask": "Texto", 
+            "isRequired": false, 
+            "visibleCard": true, 
+            "visibleGrid": true, 
+            "visibleFilter": true, 
+            "visibleList": true, 
+            "visibleForm": true
+        }
+    ] 
+}

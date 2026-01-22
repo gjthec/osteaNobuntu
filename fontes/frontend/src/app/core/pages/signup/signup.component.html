@@ -1,0 +1,102 @@
+<mat-toolbar class="toolbar">
+
+  <div>
+    <img src="assets/images/logo.png" style="width: 80px;">
+    <span>Workspace</span>
+  </div>
+
+  <change-language-button></change-language-button>
+</mat-toolbar>
+
+<ng-container *transloco="let t; read: 'core.sign-up-component'; path: 'core.sign-up-component'">
+  <div class="container">
+    <div class="panel">
+
+      <!-- Formulário para inserção do nome e sobrenome -->
+      <div *ngIf="pageState == signUpPageStates.SetName" id="name-form">
+
+        <name-form [inputData]="nameForm" (onFieldsChange)="getDataFromNameForm($event)"
+          (buttonFunction)="passToSetBirthDayAndGenderPageState($event)">
+        </name-form>
+
+      </div>
+
+      <!-- Formulário para inserção da data de nascimeno e genero -->
+      <div *ngIf="pageState == signUpPageStates.SetBirthDayAndGender" id="birthDayAndGender-form">
+
+        <birth-day-and-gender-form [inputData]="birthDayAndGenderForm"
+          (onFieldsChange)="getDataFromBirthDayAndGenderForm($event)"
+          (buttonFunction)="passToSetEmailPageState($event)"></birth-day-and-gender-form>
+
+      </div>
+
+
+      <!-- Formulário para inserção do email -->
+      <div *ngIf="pageState == signUpPageStates.SetEmail" id="email-form" [formGroup]="emailFormGroup">
+
+        <h2>{{t("set-your-email")}}</h2>
+
+        <!-- Campo de inserção de nome -->
+        <mat-form-field appearance="outline" style="display: block;">
+          <mat-label>{{t("email")}}</mat-label>
+
+          <input matInput type="email" id="email" formControlName="email" name="email" (keydown.enter)="sendVerificationCodeToEmail()">
+
+          <!-- Mensagens de erro do campo -->
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('required')">
+            {{t("error-email-required")}}
+          </mat-error>
+          <mat-error *ngIf="emailFormGroup.get('email').hasError('email') ">
+            {{t("error-email-pattern")}}
+          </mat-error>
+
+        </mat-form-field> 
+
+        <div class="buttonsColumn">
+          <button mat-raised-button color="primary" id="nextButton" type="submit" [disabled]="!emailFormGroup.valid"
+            (click)="sendVerificationCodeToEmail()">{{t("next")}}</button>
+        </div>
+
+      </div>
+      
+      <!-- Formulário para inserção do código de verificação de email -->
+      <div *ngIf="pageState == signUpPageStates.ValidateEmailVerificationCode" id="emailVerificationCode-form" [formGroup]="emailVerificationCodeFormGroup">
+
+        <h2>{{t("set-your-emailVerificationCode")}}</h2>
+
+        <!-- Campo de inserção do código de verificação de email -->
+        <mat-form-field appearance="outline" style="display: block;">
+          <mat-label>{{t("emailVerificationCode")}}</mat-label>
+
+          <input matInput type="string" id="emailVerificationCode" formControlName="emailVerificationCode" name="emailVerificationCode" (keydown.enter)="validateEmailVerificationCode()">
+
+          <!-- Mensagens de erro do campo -->
+          <mat-error *ngIf="emailVerificationCodeFormGroup.get('emailVerificationCode').hasError('required')">
+            {{t("error-emailVerificationCode-required")}}
+          </mat-error>
+          <mat-error *ngIf="emailVerificationCodeFormGroup.get('emailVerificationCode').hasError('pattern') ">
+            {{t("error-emailVerificationCode-pattern")}}
+          </mat-error>
+
+        </mat-form-field>
+
+        <div class="buttonsColumn">
+          <button mat-raised-button color="primary" id="nextButton" type="submit" [disabled]="!emailVerificationCodeFormGroup.valid"
+            (click)="validateEmailVerificationCode()">{{t("next")}}</button>
+        </div>
+
+      </div>
+
+      <!-- Formulário para inserção de senha -->
+      <div *ngIf="pageState == signUpPageStates.SetPassword" id="password-form">
+
+        <password-form [inputData]="passwordForm" (onFieldsChange)="getPasswordFromPasswordForm($event)"
+          (buttonFunction)="registerNewUser($event)">
+        </password-form>
+
+      </div>
+ 
+      <mat-spinner style="margin: auto;" *ngIf="isLoading == true"></mat-spinner>
+    </div>
+  </div>
+</ng-container>

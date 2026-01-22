@@ -1,0 +1,48 @@
+.sidenav-content {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+}
+
+.custom-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+}
+
+.custom-button .icon-menu {
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+}
+
+.custom-button span {
+	font-size: 14px;
+	font-weight: 500;
+
+}
+
+.flex-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.spacer {
+	flex: 1;
+}
+
+// host -> só vai mudar para esse componente
+// ng-deep -> irá mudar dados internos de estilização do componente
+:host ::ng-deep {
+
+	.mdc-list-item__primary-text {
+		display: flex;
+		align-items: center;
+	}
+
+}

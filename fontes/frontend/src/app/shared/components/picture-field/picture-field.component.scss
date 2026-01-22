@@ -1,0 +1,245 @@
+.input-like-button {
+  display: flex;
+  align-items: center; /* Centraliza o ícone e o texto */
+  gap: 8px; /* Espaço entre o ícone e o label */
+  width: 100%; 
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.required-asterisk {
+  color: rgb(0, 0, 0);
+  margin-left: 4px; /* Espaço entre o texto e o asterisco */
+}
+
+.input-like-button:hover {
+  background-color: #e0e0e0;
+}
+
+.input-like-button:active {
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 15px;
+}
+
+.capture-button,
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #4CAF50; /* Cor do botão de captura */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s ease;
+}
+
+.capture-button:hover {
+  background-color: #45A049;
+}
+
+.close-button {
+  background-color: #DC3545; /* Cor do botão de fechar */
+}
+
+.close-button:hover {
+  background-color: #C82333;
+}
+.input-like-button {
+  display: flex;
+  align-items: center; /* Centraliza o ícone e o texto */
+  gap: 8px; /* Espaço entre o ícone e o label */
+  width: 100%; 
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.required-asterisk {
+  color: rgb(0, 0, 0);
+  margin-left: 4px; /* Espaço entre o texto e o asterisco */
+}
+
+.input-like-button:hover {
+  background-color: #e0e0e0;
+}
+
+.input-like-button:active {
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 15px;
+}
+
+.capture-button,
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #4CAF50; /* Cor do botão de captura */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s ease;
+}
+
+.capture-button:hover {
+  background-color: #45A049;
+}
+
+.close-button {
+  background-color: #DC3545; /* Cor do botão de fechar */
+}
+
+.close-button:hover {
+  background-color: #C82333;
+}
+
+.repeat-capture-button {
+  margin-top: 10px; /* Espaço acima do botão */
+  padding: 8px 12px; /* Espaçamento interno */
+  background-color: #2196F3; /* Cor do botão */
+  color: white; /* Cor do texto */
+  border: none;
+  border-radius: 4px; /* Bordas arredondadas */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.repeat-capture-button:hover {
+  background-color: #1976D2; /* Cor ao passar o mouse */
+}
+
+
+/* Estilos para a câmera em formato de celular */
+@media (max-width: 768px) {
+  .camera-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .camera-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .button-group {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .image-preview-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .image-preview-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .repeat-capture-button, .save-image-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .repeat-capture-button:hover, .save-image-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .repeat-capture-button mat-icon, .save-image-button mat-icon {
+    font-size: 24px;
+  }
+
+  .thumbnail-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .thumbnail-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}
+.toggle-camera-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}

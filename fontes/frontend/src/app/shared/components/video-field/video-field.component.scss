@@ -1,0 +1,187 @@
+.input-like-button {
+  display: flex;
+  align-items: center; /* Centraliza o ícone e o texto verticalmente */
+  gap: 8px; /* Espaço entre o ícone e o label */
+  width: 100%; 
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+}
+
+.input-like-button mat-icon {
+  margin-right: 8px;
+}
+
+.input-like-button:hover {
+  background-color: #e0e0e0;
+}
+
+.input-like-button:active {
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.required-asterisk {
+  color: rgb(0, 0, 0);
+  margin-left: 4px; /* Espaço entre o texto e o asterisco */
+}
+
+.video-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camera-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.button-group-two {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 10px; /* Espaço entre o vídeo e os botões */
+  justify-content: center;
+}
+
+button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 50%; /* Torna os botões redondos */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Estilos para a câmera em formato de celular */
+@media (max-width: 768px) {
+  .camera-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .camera-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .button-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .video-preview-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .video-preview-container video {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .video-preview-container .button-group-two {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: static;
+    margin-top: 10px; /* Espaço entre o vídeo e os botões */
+  }
+
+  .repeat-capture-button, .save-video-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .repeat-capture-button:hover, .save-video-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .repeat-capture-button mat-icon, .save-video-button mat-icon {
+    font-size: 24px;
+  }
+
+  .thumbnail-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .thumbnail-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+}

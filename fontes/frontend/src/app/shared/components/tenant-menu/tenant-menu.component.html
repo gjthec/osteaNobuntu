@@ -1,0 +1,31 @@
+<!-- Componente que chama função de tradução para dentro dos componentes -->
+<ng-container *transloco="let t; read: 'componentsBase.tenant-menu-component'">
+  <!-- Botão que chamará o menu -->
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <!-- <mat-icon>database</mat-icon> -->
+    <mat-icon svgIcon="feather:database"></mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <div style="min-width: 250px;">
+      <!-- Botões para trocar de Tenant que está sendo usado no momento -->
+      <button *ngFor="let tenant of tenants" mat-menu-item (click)="changeTenant(tenant.id)"
+        [disabled]="currentTenant.tenantCredentialId === tenant.tenantCredentialId" class="btn-tenant">
+        {{tenant.tenant.name}}
+      </button>
+
+      <!-- Botão para adicionar novo Tenant -->
+      <button mat-menu-item (click)="goToAddTenantPage()" class="btn-add-tenant">
+        <mat-icon>add</mat-icon>
+        {{t("add-tenant")}}
+      </button>
+
+      <!-- Botão para adicionar novo Tenant -->
+      <button mat-menu-item (click)="goToTenantPage()" class="btn-add-tenant">
+        <mat-icon>settings</mat-icon>
+        {{t("manage-tenants")}}
+      </button>
+    </div>
+  </mat-menu>
+
+</ng-container>

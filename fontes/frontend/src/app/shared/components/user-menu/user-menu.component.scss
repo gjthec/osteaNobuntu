@@ -1,0 +1,112 @@
+.user-entry {
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.current-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#user-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff; /* Cor de fundo */
+  color: white; /* Cor da letra */
+  width: 100px; /* Largura do círculo */
+  height: 100px; /* Altura do círculo */
+  border-radius: 50%; /* Forma de círculo */
+  font-size: 48px; /* Tamanho da letra */
+  font-weight: bold; /* Deixa a letra em negrito */
+  text-transform: uppercase; /* Letra maiúscula */
+}
+
+#user-icon {
+
+  border-radius: 50%; 
+  height: 30px; 
+  width: 30px;
+  
+  // Estilo da imagem do icone de usuário com acesso
+  #user-icon-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff; /* Cor de fundo */
+    color: white; /* Cor da letra */
+    width: 30px; /* Largura do círculo */
+    height: 30px; /* Altura do círculo */
+    border-radius: 50%; /* Forma de círculo */
+    font-size: 12px; /* Tamanho da letra */
+    font-weight: bold; /* Deixa a letra em negrito */
+    text-transform: uppercase; /* Letra maiúscula */
+  }
+}
+
+
+#inactive-user-default-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff; /* Cor de fundo */
+  color: white; /* Cor da letra */
+  width: 40px; /* Largura do círculo */
+  height: 40px; /* Altura do círculo */
+  border-radius: 50%; /* Forma de círculo */
+  font-size: 20px; /* Tamanho da letra */
+  font-weight: bold; /* Deixa a letra em negrito */
+  text-transform: uppercase; /* Letra maiúscula */
+}
+
+.inactive-user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.letter {
+  user-select: none; /* Impede a seleção da letra */
+}
+
+.other-users-panel-description-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff; /* Cor de fundo */
+  color: white; /* Cor da letra */
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 10px; /* Tamanho da letra */
+  text-transform: uppercase; /* Letra maiúscula */
+}
+
+
+
+#other-users-panel-description {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  /* Define a margem entre os itens */
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 10px;
+}
+
+// Para acessar dados do componente no angular material, fazer uso do "::ng-deep" para substituir o estilo interno de um componente do Angular Material
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 0px 0px !important;
+}
+
+mat-menu-item {
+  white-space: normal;
+  /* Evita que os nomes sejam cortados */
+}

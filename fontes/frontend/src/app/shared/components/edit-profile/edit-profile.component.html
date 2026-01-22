@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="panel">
+      <h2>Editar Perfil</h2>
+  
+      <form (ngSubmit)="onSubmit()">
+        <label for="displayName">Nome de Exibição</label>
+        <input type="text" id="displayName" [(ngModel)]="user.displayName" name="displayName" placeholder="Nome de Exibição" required>
+  
+        <label for="givenName">Nome</label>
+        <input type="text" id="givenName" [(ngModel)]="user.givenName" name="givenName" placeholder="Seu nome" required>
+  
+        <label for="surname">Sobrenome</label>
+        <input type="text" id="surname" [(ngModel)]="user.surname" name="surname" placeholder="Seu sobrenome" required>
+  
+        <button type="submit">Salvar Alterações</button>
+      </form>
+    </div>
+  </div>
+  

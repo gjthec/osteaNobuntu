@@ -1,0 +1,36 @@
+<ng-container *transloco="let t; read: 'componentsBase.filter-number-component'">
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>{{t("operation")}}</mat-label>
+    <mat-select [formControl]="selectedNumberFiltersOption" name="numberFiltersOptions.value">
+      <mat-option *ngFor="let numberFiltersOption of numberFiltersOptions" [value]="numberFiltersOption.value">
+        {{t(numberFiltersOption.value)}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full" *ngIf="selectedNumberFiltersOption.value!='between'">
+    <input matInput required [formControl]="searchableNumber">
+    <button matSuffix mat-icon-button (click)="openCalculator('initial')">
+      <mat-icon>calculate</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div *ngIf="selectedNumberFiltersOption.value == 'between'" style="display: flex; flex-direction: column;">
+    <mat-form-field appearance="outline">
+      <mat-label>{{t("initialNumber")}}</mat-label>
+      <input matInput required [formControl]="searchableInitialNumber" mask="0*.0*">
+      <button matSuffix mat-icon-button (click)="openCalculator('initial')">
+        <mat-icon>calculate</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{t("finalNumber")}}</mat-label>
+      <input matInput required [formControl]="searchableFinalNumber" mask="0*.0*">
+      <button matSuffix mat-icon-button (click)="openCalculator('final')">
+        <mat-icon>calculate</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+</ng-container>

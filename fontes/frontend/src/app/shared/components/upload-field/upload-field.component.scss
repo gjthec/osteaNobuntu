@@ -1,0 +1,107 @@
+/* Estilo do CHIP (O que aparece na lista) */
+.file-trigger-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 24px; /* Arredondado estilo Chip */
+    padding: 4px 12px 4px 4px; /* Padding ajustado para a imagem na esquerda */
+    cursor: pointer;
+    transition: all 0.2s;
+    max-width: 100%;
+
+    &.has-file {
+        border-color: #2196f3; /* Borda azul se tiver arquivo */
+        background-color: #e3f2fd;
+    }
+
+    .chip-thumbnail {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        margin-right: 8px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: #666;
+        }
+    }
+
+    .chip-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        margin-right: 8px;
+
+        .chip-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #777;
+            text-transform: uppercase;
+        }
+
+        .chip-filename {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .chip-empty {
+            font-size: 12px;
+            font-style: italic;
+            color: #999;
+        }
+    }
+
+}
+
+/* Estilo interno do MENU (Coloque isso no styles.scss global ou use ::ng-deep com cuidado) */
+::ng-deep .file-actions-menu {
+    min-width: 300px !important;
+    padding: 0;
+
+    .menu-header {
+        padding: 8px 16px;
+        background: #f5f5f5;
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+        border-bottom: 1px solid #eee;
+    }
+
+    .menu-file-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 16px;
+        border-bottom: 1px solid #f0f0f0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: #fafafa;
+        }
+
+        .file-name-display {
+            font-size: 14px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+    }
+}

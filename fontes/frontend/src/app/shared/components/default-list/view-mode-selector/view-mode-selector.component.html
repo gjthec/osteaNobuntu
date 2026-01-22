@@ -1,0 +1,35 @@
+<ng-container *transloco="let t; read: 'view-toggle'">
+
+  <div>
+    <button mat-icon-button aria-label="View Mode menu icon" [matMenuTriggerFor]="menu" >
+      <mat-icon aria-hidden="true" svgIcon="feather:more-vertical" style="display: flex; height: 100%;"></mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <!-- Botão de seleção de layout -->
+      <button mat-menu-item [matMenuTriggerFor]="personalize">
+
+        <mat-icon *ngIf="listState === 'list-layout'" svgIcon="list"></mat-icon>
+        <span *ngIf="listState === 'list-layout'">Lista</span>
+
+        <mat-icon *ngIf="listState === 'card-layout'" svgIcon="list_alt"></mat-icon>
+        <span *ngIf="listState === 'card-layout'">Card</span>
+
+      </button>
+
+    </mat-menu>
+
+    <mat-menu #personalize="matMenu" xPosition="before">
+      <button mat-menu-item (click)="changeViewMode('list-layout')">
+        <mat-icon svgIcon="list"></mat-icon>
+        <span>Lista</span>
+      </button>
+      <button mat-menu-item (click)="changeViewMode('card-layout')">
+        <mat-icon svgIcon="list_alt"></mat-icon>
+        <span>Card</span>
+      </button>
+
+    </mat-menu>
+
+  </div>
+</ng-container>

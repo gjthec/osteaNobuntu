@@ -1,0 +1,30 @@
+<mat-form-field appearance="outline" class="w-full" *ngIf="selectItemsLimit > 1">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="inputValue" multiple>
+    
+    <mat-select-trigger *ngIf="inputValue.value != null">
+      <span *ngFor="let item of inputValue.value; let last = last" class="selected-item">
+        {{ item[translocoService.getActiveLang()] }}
+        {{ !last ? ', ' : '' }}
+      </span>
+    </mat-select-trigger>
+
+    <mat-option *ngFor="let value of valuesList" [value]="value">
+      {{ value[translocoService.getActiveLang()] }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="w-full" *ngIf="selectItemsLimit <= 1">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="inputValue" [attr.field-id]="label">
+    <mat-select-trigger>
+      <span *ngIf="inputValue.value != null">
+        {{ inputValue.value[this.translocoService.getActiveLang()] }}
+      </span>
+    </mat-select-trigger>
+    <mat-option *ngFor="let value of valuesList" [value]="value">
+      {{value[this.translocoService.getActiveLang()]}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

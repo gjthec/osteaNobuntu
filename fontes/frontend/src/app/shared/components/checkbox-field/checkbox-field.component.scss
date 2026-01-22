@@ -1,0 +1,13 @@
+/* Centraliza o mat-checkbox dentro do componente */
+:host {
+	display: flex;
+	width: 100%;
+	justify-content: center; /* Centraliza horizontal */
+	align-items: center;      /* Centraliza vertical (caso altura maior) */
+}
+
+mat-checkbox {
+	margin: 0; /* Remove possíveis offsets padrão */
+}
+
+

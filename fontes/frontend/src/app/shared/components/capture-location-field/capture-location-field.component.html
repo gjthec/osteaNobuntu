@@ -1,0 +1,21 @@
+<mat-form-field style="width: 100%;" appearance="outline">
+  <mat-label>{{ displayedLabel }}</mat-label>
+  <input 
+    matInput 
+    placeholder="{{ placeholder }}" 
+    [formControl]="inputValue" 
+    [maxlength]="charactersLimit" 
+    [required]="isRequired" 
+    [mask]="mask"
+    readonly
+    (click)="getCurrentLocation()"
+  >
+  
+  <!-- Ícone de captura de localização -->
+  <mat-icon 
+    (click)="getCurrentLocation()" 
+    *ngIf="svgIcon != null && setIconPosition() == 'end'" 
+    [matIconSuffix] 
+    svgIcon="{{ svgIcon }}"
+  ></mat-icon>
+</mat-form-field>

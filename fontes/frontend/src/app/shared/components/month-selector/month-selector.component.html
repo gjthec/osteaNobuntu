@@ -1,0 +1,12 @@
+<ng-container *transloco="let t; read: 'components'; path: 'components'">
+  <mat-form-field appearance="outline" style="display: block;">
+    <mat-select [formControl]="monthControl" (opened)="setDefaultIfEmpty()">
+      <mat-select-trigger>
+        {{ monthsTranslations[monthList.indexOf(monthControl.value)] }} 
+      </mat-select-trigger>
+      <mat-option *ngFor="let monthKey of monthList; let i = index" [value]="monthKey">
+        {{ monthsTranslations[i] }} 
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

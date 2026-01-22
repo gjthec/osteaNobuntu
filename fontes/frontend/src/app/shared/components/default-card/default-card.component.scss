@@ -1,0 +1,32 @@
+// Variáveis para breakpoints
+$breakpoint-small: 576px; // Exemplo: smartphones
+$breakpoint-medium: 768px; // Exemplo: tablets
+$breakpoint-large: 992px; // Exemplo: laptops/desktops
+$breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
+
+#cardBase {
+    display: grid; width: 100%; overflow: auto; align-content: space-evenly; margin: auto;
+}
+
+
+// Estilos para dispositivos pequenos (exemplo: smartphones)
+@media screen and (max-width: $breakpoint-small) {
+    #cardBase {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+
+// Estilos para dispositivos médios (exemplo: tablets)
+@media screen and (min-width: $breakpoint-medium) and (max-width: $breakpoint-large) {
+    
+}
+
+// Estilos para dispositivos grandes (exemplo: laptops/desktops)
+@media screen and (min-width: $breakpoint-large) and (max-width: $breakpoint-extra-large) {
+    
+}
+
+// Estilos para dispositivos extra grandes (exemplo: monitores grandes)
+@media screen and (min-width: $breakpoint-extra-large) {
+    
+}

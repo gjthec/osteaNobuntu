@@ -1,0 +1,68 @@
+<mat-sidenav-container style="height: 100%">
+  <mat-sidenav #drawer [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="sideNavBarIsOpened">
+    <mat-toolbar>{{ menuTitle }}</mat-toolbar>
+  
+    <!-- Template recursivo para a árvore de navegação -->
+    <ng-template #recursiveMenu let-options>
+      <mat-nav-list>
+        <ng-container *ngFor="let option of options">
+          <!-- Se o item tiver subMenu, renderiza um expansion panel -->
+          <div *ngIf="option.subMenu && option.subMenu.length > 0">
+            <mat-expansion-panel [class.mat-elevation-z0]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <!-- Ícone e nome do item -->
+                  <mat-icon *ngIf="option.icon" class="icon-menu">{{ option.icon }}</mat-icon>
+                  <span>{{ option.name }}</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- Chamada recursiva do mesmo template para renderizar o subMenu -->
+              <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: option.subMenu }"></ng-container>
+            </mat-expansion-panel>
+          </div>
+  
+          <!-- Caso o item não tenha subMenu, renderiza como um link simples -->
+          <div *ngIf="!option.subMenu || option.subMenu.length === 0">
+            <a mat-list-item [routerLink]="option.routeUrl" (mouseup)="closeSideNavBar()" class="custom-button" >
+              <mat-icon mat-list-icon *ngIf="option.icon" class="icon-menu">{{ option.icon }}</mat-icon>
+              <span>{{ option.name }}</span>
+            </a>
+          </div>
+        </ng-container>
+      </mat-nav-list>
+    </ng-template>
+  
+    <!-- Inicia a renderização da árvore com a lista principal -->
+    <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: navListOptions }"></ng-container>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar id="toolbar" class="flex-container" style="height: 10vh;">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button
+        (click)="this.sideNavBarIsOpened = !this.sideNavBarIsOpened">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>{{ applicationTitle }}</span>
+
+      <div class="spacer"></div>
+
+      <app-list-apps *ngIf="canShowLogOutButton == true" class="toolbar-item"></app-list-apps>
+      <!-- <button *ngIf="canShowLogOutButton == true" mat-button (click)="logout()" class="toolbar-item">LogOut</button>
+      <button *ngIf="canShowLogOutButton == false" mat-button (click)="redirectToSignInPage()" class="toolbar-item">SignIn</button> -->
+
+      <!-- Menu para alteração da linguagem do site -->
+      <languages class="toolbar-item"></languages>
+
+      <!-- Menu de Tenant/Banco de dados -->
+      <tenant-menu *ngIf="enableTenantSwitch"></tenant-menu>
+
+      <!-- Menu de usuário -->
+      <user-menu class="user-menu toolbar-item"></user-menu>
+
+    </mat-toolbar>
+    <div style="flex:1; overflow-y: auto">
+      <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+                 Otherwise, layout changes won't be registered and the view won't be updated! -->
+      <router-outlet *ngIf="true"></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

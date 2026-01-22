@@ -1,0 +1,64 @@
+<!-- ====== VARIANTE RMZK ====== -->
+<ng-container *ngIf="variant === 'MSAL'">
+  <mat-toolbar class="toolbar">
+    <div>
+      <img src="assets/images/logo_RMZK.png" style="width: 80px;">
+      <span>Workspace</span>
+    </div>
+    <change-language-button></change-language-button>
+  </mat-toolbar>
+
+  <ng-container *transloco="let t; read: 'home-page-component'">
+    <div class="container">
+      <div class="panel">
+        <h2>{{ t('product-name') }}</h2>
+        <h1>{{ t('short-product-description') }}</h1>
+        <p>{{ t('long-product-description') }}</p>
+
+        <div class="buttonsColumn">
+          <button mat-raised-button color="primary" (click)="login()">
+            {{ t('do-login') }}
+          </button>
+          <!--
+          <button mat-button color="primary" id="testButton" (click)="goToSignUpPage()">
+            {{ t('test-now') }}
+          </button>
+          -->
+        </div>
+
+        <mat-spinner style="margin: auto;" *ngIf="loading == true"></mat-spinner>
+        <p class="error" *ngIf="error">{{ error }}</p>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- ====== VARIANTE NOBUNTU ====== -->
+<ng-container *ngIf="variant === 'NORMAL'">
+  <mat-toolbar class="toolbar">
+    <div>
+      <img src="assets/images/nobuntu_logo.png" style="width: 80px;">
+      <span>Workspace</span>
+    </div>
+    <change-language-button></change-language-button>
+  </mat-toolbar>
+
+  <ng-container *transloco="let t; read: 'home-page-component'">
+    <div class="container">
+      <div class="panel">
+        <h2>{{ t('product-name') }}</h2>
+        <h1>{{ t('short-product-description') }}</h1>
+        <p>{{ t('long-product-description') }}</p>
+
+        <div class="buttonsColumn">
+          <button mat-raised-button color="primary" (click)="goToSignInPage()">
+            {{ t('do-login') }}
+          </button>
+          <button mat-button color="primary" id="testButton" (click)="goToSignUpPage()">
+            {{ t('test-now') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

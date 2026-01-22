@@ -1,0 +1,10 @@
+  <mat-label>{{ label }}</mat-label>
+  <br>
+  <mat-radio-group [formControl]="inputValue">
+    <mat-radio-button 
+      *ngFor="let value of valuesOptionList" 
+      [value]="value.value" 
+      class="custom-radio-button">
+      {{ value.label }}
+    </mat-radio-button>
+  </mat-radio-group>

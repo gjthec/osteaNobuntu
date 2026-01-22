@@ -1,0 +1,17 @@
+.custom-radio-button {
+    margin: 8px 0; /* Adiciona espaço entre os botões */
+    background-color: #f5f5f5; /* Cor de fundo suave */
+    border-radius: 4px; /* Bordas arredondadas */
+    padding: 10px; /* Espaçamento interno */
+    transition: background-color 0.3s; /* Efeito de transição suave */
+  
+    &:hover {
+      background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+    }
+  
+    &.mat-radio-checked {
+      background-color: #2196F3; /* Cor de fundo quando selecionado */
+      color: white; /* Cor do texto quando selecionado */
+    }
+  }
+  

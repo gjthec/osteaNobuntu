@@ -1,0 +1,44 @@
+<ng-container *transloco="let t; read: 'componentsBase'">
+    <div class="panel">
+
+      <!-- Formulário -->
+      <mat-form-field appearance="outline" [formGroup]="filterFormGroup" style="display: block;">
+        <mat-label>{{t("filter-form-component.name")}}</mat-label>
+
+        <input matInput id="name" formControlName="name" name="name" placeholder="{{t('filter-form-component.name-placeholder')}}"
+          (keydown.enter)="null">
+
+          <mat-error *ngIf="filterFormGroup.get('name').hasError('required')">{{t("default-form-alerts.error-required")}}</mat-error>
+          <mat-error *ngIf="filterFormGroup.get('name').hasError('minlength') ">
+            {{t("default-form-alerts.error-minlength")}}
+          </mat-error>
+          <mat-error *ngIf="filterFormGroup.get('name').hasError('maxlength') ">
+            {{t("default-form-alerts.error-maxlength")}}
+          </mat-error>
+
+      </mat-form-field>
+
+      <div [formGroup]="filterFormGroup">
+        <mat-checkbox formControlName="isPublic" [disabled]="false"></mat-checkbox>
+        {{t("filter-form-component.is-public")}}
+      </div>
+
+    </div>
+
+</ng-container>
+
+<div id="fixedButtons">
+  <button mat-fab (click)="returnToLastPage()" color="warn">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <button *ngIf="formMode === FormMode.save" (click)="submit()" [disabled]="isAbleToSave == false" mat-fab>
+    <mat-icon *ngIf="isLoading==false" svgIcon="mat_solid:save"></mat-icon>
+    <mat-spinner *ngIf="isLoading==true" [diameter]="30" [strokeWidth]="10"></mat-spinner>
+  </button>
+
+  <button *ngIf="formMode === FormMode.edit" (click)="update()" [disabled]="isAbleToSave == false" mat-fab>
+    <mat-icon *ngIf="isLoading==false" svgIcon="mat_solid:edit"></mat-icon>
+    <mat-spinner *ngIf="isLoading==true" [diameter]="30" [strokeWidth]="10"></mat-spinner>
+  </button>
+</div>

@@ -1,0 +1,38 @@
+.avaliacao-unica-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.avaliacao-unica-label {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.icon-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .icon {
+    cursor: pointer;
+    font-size: 24px;
+    color: #e0e0e0;
+
+    &:hover {
+      color: #ffca28;
+    }
+  }
+}
+
+.selected-icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 24px;
+    color: #ffca28;
+  }
+}

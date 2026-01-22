@@ -1,0 +1,103 @@
+<div class="content-wrapper">
+  <div class="header">
+    <div class="header-title-group">
+      <div class="icon-container">
+        <mat-icon>view_module</mat-icon>
+      </div>
+      <h2>{{ className }}</h2>
+    </div>
+  </div>
+
+  <div class="search-section" *ngIf="searchInputFieldVisible && searchableFields.length > 0 && filterParameters.length > 0">
+    <search-input-field
+      *ngIf="searchableFields.length > 0 && filterParameters.length > 0"
+      [filterParameters]="filterParameters"
+      [className]="className"
+      [sortableFields]="sortableFields"
+      (removeAllComponentsOnViewFunction)="removeAllComponentsOnView()"
+      (returnFetchParameters)="fetchWithCustomQuery($event, apiUrl, maxDisplayedItems, 1)"
+      (sortOrderChanged)="fetchWithSortedQuery($event, apiUrl, maxDisplayedItems, 1)"
+      (clearSearchInputEvent)="clearSearchInputEvent()"
+      [searchableFields]="searchableFields">
+    </search-input-field>
+  </div>
+
+  <div class="grid-scroll-area">
+    <div class="grid-container" [class.few-items]="itemsDisplayed.length < 3">
+      <ng-container #placeToRender></ng-container>
+    </div>
+    
+    <div *ngIf="isLoading" class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  </div>
+
+  <div class="footer-actions">
+    
+    <div class="action-buttons">
+      <button mat-flat-button color="primary" (click)="openFormOnDialog()" matTooltip="Adicionar novo item">
+        <mat-icon>add</mat-icon>
+        <span>Novo</span>
+      </button>
+
+      <button mat-stroked-button [matMenuTriggerFor]="importMenu" matTooltip="Importar">
+        <mat-icon>file_upload</mat-icon>
+      </button>
+
+      <button mat-stroked-button [matMenuTriggerFor]="downloadMenu" *ngIf="currentAction == 'edit'" matTooltip="Exportar">
+        <mat-icon svgIcon="mat_solid:file_download"></mat-icon>
+      </button>
+      
+      <button mat-stroked-button color="warn" (click)="deleteSubForm(selectedItems)" *ngIf="selectedItems.length > 0" matTooltip="Deletar selecionados">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <div class="pagination-controls" *ngIf="itemsDisplayed.length > itemsPerPage">
+      <span class="page-info">Pg. {{ currentPage }} / {{ getTotalPages() }}</span>
+      <div class="page-buttons">
+        <button mat-icon-button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === getTotalPages()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <mat-menu #downloadMenu="matMenu">
+    <button mat-menu-item (click)="downloadData('csv')">
+      <mat-icon svgIcon="mat_solid:table_view"></mat-icon>
+      <span>CSV</span>
+    </button>
+    <button mat-menu-item (click)="downloadData('xlsx')">
+      <mat-icon svgIcon="mat_solid:grid_on"></mat-icon>
+      <span>Excel (XLSX)</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #importMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="importMenuClass" *ngIf="classImported && classImported.length > 0">
+      <mat-icon>sync</mat-icon>
+      <span>Sincronizar</span>
+    </button>
+    <button mat-menu-item (click)="abrirDialogoImportar()">
+      <mat-icon>cloud_download</mat-icon>
+      <span>Importar de {{className}}</span>
+    </button>
+    <button mat-menu-item (click)="importarCsv()">
+      <mat-icon>file_upload</mat-icon>
+      <span>Importar CSV</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #importMenuClass="matMenu">
+    <div *ngFor="let item of classImported">
+      <button mat-menu-item (click)="importFromSameSubform(item)">
+        <mat-icon>sync</mat-icon>
+        <span>{{ item.nameClass }}</span>
+      </button>
+    </div>
+  </mat-menu>
+</div>

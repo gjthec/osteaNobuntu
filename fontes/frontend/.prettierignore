@@ -1,0 +1,6 @@
+# Ignora os diretórios:
+.angular
+dist
+node_modules
+coverage
+build

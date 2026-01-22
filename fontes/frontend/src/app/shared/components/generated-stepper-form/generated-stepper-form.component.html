@@ -1,0 +1,37 @@
+<mat-horizontal-stepper linear style="background-color: white;"
+    [linear]="isLinear">
+    <mat-step *ngFor="let pagina of formStepperStructure; let i = index" [label]="pagina">
+        <form id="formBase" [formGroup]="resourceForm" style="margin-top: 10px;">
+            <ng-container style="display: flex; padding: 4px;" #placeToRender></ng-container>
+        </form>
+
+        <div *ngIf="i == formStepperStructure.length - 1 && isLinear == true"
+            class="flex justify-end items-center px-6 py-4 space-x-2">
+            <button mat-fab class="px-6 ml-3" (click)="return()">
+                <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
+            </button>
+            <!-- <button *ngIf="currentFormAction == 'edit'" (click)="deleteFormFunction()" mat-fab class="px-6 ml-3">
+                <mat-icon svgIcon="mat_solid:delete"></mat-icon>
+            </button> -->
+            <button (click)="submitFormFunction()" mat-fab class="px-6 ml-3">
+                <mat-icon svgIcon="mat_solid:save"></mat-icon>
+            </button>
+        </div>
+
+    </mat-step>
+
+    <ng-content></ng-content>
+
+</mat-horizontal-stepper>
+
+<div id="fixedButtons" *ngIf="isLinear == false">
+    <button mat-fab class="px-6 ml-3" (click)="return()">
+        <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
+    </button>
+    <!-- <button *ngIf="currentFormAction == 'edit'" (click)="deleteFormFunction()" mat-fab class="px-6 ml-3">
+        <mat-icon svgIcon="mat_solid:delete"></mat-icon>
+    </button> -->
+    <button (click)="submitFormFunction()" mat-fab class="px-6 ml-3">
+        <mat-icon svgIcon="mat_solid:save"></mat-icon>
+    </button>
+</div>

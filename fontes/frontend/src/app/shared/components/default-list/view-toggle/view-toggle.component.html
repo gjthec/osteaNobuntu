@@ -1,0 +1,31 @@
+<div>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon svgIcon="feather:more-vertical"></mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <!-- Botão de seleção de layout -->
+    <button mat-menu-item [matMenuTriggerFor]="personalize">
+
+      <mat-icon *ngIf="listState === 'list-layout'" svgIcon="list"></mat-icon>
+      <span *ngIf="listState === 'list-layout'">Lista</span>
+
+      <mat-icon *ngIf="listState === 'card-layout'" svgIcon="list_alt"></mat-icon>
+      <span *ngIf="listState === 'card-layout'">Card</span>
+
+    </button>
+
+  </mat-menu>
+
+  <mat-menu #personalize="matMenu" xPosition="before">
+    <button mat-menu-item (click)="changeViewMode('list-layout')">
+      <mat-icon svgIcon="list"></mat-icon>
+      <span>Lista</span>
+    </button>
+    <button mat-menu-item (click)="changeViewMode('card-layout')">
+      <mat-icon svgIcon="list_alt"></mat-icon>
+      <span>Card</span>
+    </button>
+
+  </mat-menu>
+
+</div>

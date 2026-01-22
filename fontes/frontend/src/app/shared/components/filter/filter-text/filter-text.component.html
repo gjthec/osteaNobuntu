@@ -1,0 +1,18 @@
+<ng-container *transloco="let t; read: 'componentsBase.filter-text-component'">
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>{{t("operation")}}</mat-label>
+    <mat-select [formControl]="selectedTextFiltersOptions" name="textFiltersOptions.value">
+      <mat-option *ngFor="let textFiltersOption of textFiltersOptions" [value]="textFiltersOption.value">
+        {{t(textFiltersOption.value)}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <input matInput required [formControl]="searchableText">
+    <button matSuffix mat-icon-button [cdkCopyToClipboard]="searchableText">
+      <mat-icon>copy_all</mat-icon>
+    </button>
+  </mat-form-field>
+
+</ng-container>

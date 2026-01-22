@@ -1,0 +1,29 @@
+<mat-form-field style="width: 100%; padding-top: 5px;" appearance="outline">
+
+	<mat-label>{{ label }}</mat-label>
+	<input matInput [value]="displayedValue" [placeholder]="placeholder" required readonly>
+
+	<button mat-icon-button matSuffix [matMenuTriggerFor]="menu" class="h-full flex flex-col">
+		<mat-icon svgIcon="feather:more-vertical"></mat-icon>
+	</button>
+
+	<mat-menu #menu="matMenu">
+		<button mat-menu-item (click)="openDefaultListToSelectItems()">
+			<mat-icon svgIcon="feather:search"></mat-icon>
+			<ng-container *transloco='let t, read: "componentsBase"'>{{ t('foreign-key-input-field.search') }}</ng-container>
+		</button>
+		<button mat-menu-item (click)="openSelectableItemsListDialogToEditItems()" *ngIf="enableToEdit == true">
+			<mat-icon svgIcon="create"></mat-icon>
+			<ng-container *transloco='let t; read:"componentsBase"'>{{ t('foreign-key-input-field.edit') }}</ng-container>
+		</button>
+		<button mat-menu-item (click)="openFormDialogToCreateItem()">
+			<mat-icon svgIcon="feather:plus"></mat-icon>
+			<ng-container *transloco='let t; read:"componentsBase"'>{{ t('foreign-key-input-field.add') }}</ng-container>
+		</button>
+		<button mat-menu-item (click)="removeItensOnInputField()">
+			<mat-icon svgIcon="feather:x"></mat-icon>
+			<ng-container *transloco='let t; read:"componentsBase"'>{{ t('foreign-key-input-field.clean') }}</ng-container>
+		</button>
+	</mat-menu>
+
+</mat-form-field>

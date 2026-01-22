@@ -1,0 +1,26 @@
+.app-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px;
+}
+
+.app-grid-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  max-width: 360px;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.app-icon-menu {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+mat-menu-item {
+  display: flex;
+  align-items: center;
+}

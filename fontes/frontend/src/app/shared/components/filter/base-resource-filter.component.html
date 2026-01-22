@@ -1,0 +1,100 @@
+<div *ngIf="filterSubmitFormEnabled == false">
+  <ng-container *transloco="let t; read: 'componentsBase.base-resource-filter-component'">
+
+    <div class="panel">
+
+      <div style="overflow-y: auto; padding-top: 10px;">
+
+        <div *ngFor="let selectedFilter of selectedFilters; let i = index">
+          <!-- <p>{{selectedFilter.filterParameters.fieldName}}</p> -->
+
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>{{t("field")}}</mat-label>
+            <!-- <mat-select [(ngModel)]="selectedFilter" -->
+            <mat-select [ngModel]="selectedFilter.filterParameters.fieldName"
+              (ngModelChange)="onSelectedFieldChange($event, selectedFilter.index)">
+
+              <ng-container *transloco="let translationClassFields;">
+                <mat-option *ngFor="let field of filterParameters" [value]="field.fieldName">
+                  <!-- <mat-option *ngFor="let field of filterParameters" [value]="field"> -->
+                  {{ translationClassFields(className?.trim()? className +"."+ field.fieldName : field.fieldName) }}
+                </mat-option>
+              </ng-container>
+
+            </mat-select>
+          </mat-form-field>
+
+          <filter-number-with-conditions *ngIf="selectedFilter.selectedFilterOption==0"
+            [variables]="filterparameters" [selectedFilterData]="selectedFilter"
+            (newNumberEvent)="getChildData(selectedFilter.index,$event)"></filter-number-with-conditions>
+          <filter-period *ngIf="selectedFilter.selectedFilterOption==1" [variables]="filterparameters"
+            [selectedFilterData]="selectedFilter"
+            (newDateEvent)="getChildData(selectedFilter.index, $event)"></filter-period>
+          <filter-text *ngIf="selectedFilter.selectedFilterOption==2" [variables]="filterparameters"
+            [selectedFilterData]="selectedFilter"
+            (newTextEvent)="getChildData(selectedFilter.index, $event)"></filter-text>
+          <filter-boolean *ngIf="selectedFilter.selectedFilterOption==3"
+            [selectedFilterData]="selectedFilter"
+            (newBooleanEvent)="getChildData(selectedFilter.index, $event)"></filter-boolean>
+          <filter-entity *ngIf="selectedFilter.selectedFilterOption==4"
+            [selectedFilter]="selectedFilters[i]" [className]="className" [selectedFilterData]="selectedFilter"
+            (newEntityEvent)="getChildData(selectedFilter.index, $event)"></filter-entity>
+          <filter-option *ngIf="selectedFilter.selectedFilterOption==5"
+            [selectorOptionValues]="selectedFilters[i].filterParameters.optionsToSelect"
+            [selectedFilterData]="selectedFilter"
+            (newOptionEvent)="getChildData(selectedFilter.index, $event)"></filter-option>
+
+          <div id="conditionSelector" *ngIf="selectedFilter.index != selectedFilters.length">
+            <mat-radio-group [checked]="selectedFilter.condition.value" [formControl]="selectedFilter.condition">
+              <mat-radio-button value="and">{{t("and")}}</mat-radio-button>
+              <mat-radio-button value="or">{{t("or")}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div>
+
+        <button mat-button *ngIf="selectedFilters.length > 1" class="w-full" (click)="removeFilter()">
+          <mat-icon aria-hidden="true" svgIcon="feather:trash-2" style="color: red; height: 100%;"></mat-icon>
+          {{t("removeFilter")}}
+        </button>
+
+        <button *ngIf="isAbleToAddSearchFilterParameter" mat-button class="w-full" (click)="addNewFilterParameter()">
+          <mat-icon aria-hidden="true" svgIcon="feather:plus" style="height: 100%"></mat-icon>
+          {{t("addFilter")}}
+        </button>
+
+        <button *ngIf="isAbleToSearch" mat-button class="w-full" (click)="applyFilters()">
+          {{t("search")}}
+        </button>
+
+      </div>
+
+    </div>
+
+    <div id="fixedButtons">
+
+      <button mat-fab (click)="closeThisDialog()" color="warn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <button mat-fab *ngIf="selectedFilters.length > 0 && isAbleToEdit == true"
+        (click)="copyPageUrlWithFilterSearchParameterId()">
+        <mat-icon aria-hidden="true" svgIcon="mat_solid:link"></mat-icon>
+      </button>
+
+      <button (click)="openDialogToSubmitFilterParameters()"
+        [disabled]="isAbleToCreate == false && isAbleToEdit == false" mat-fab>
+        <mat-icon svgIcon="mat_solid:save"></mat-icon>
+      </button>
+    </div>
+
+  </ng-container>
+</div>
+
+<filter-form *ngIf="filterSubmitFormEnabled == true" [initialData]="filterFormData" [mode]="filterMode"
+  (notifyParentToReturnToLastPage)="returnToLastPage($event)">
+  ></filter-form>
