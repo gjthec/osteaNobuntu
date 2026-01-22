@@ -251,14 +251,18 @@ export class AzureADService implements IidentityService {
 
 			const accessToken: string = await this.getAccessToken();
 
+			const mailNickname = this.getUsernameFromEmail(user.email!);
+			const displayName =
+				[user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+				user.userName ||
+				mailNickname;
+			const userPrincipalName = `${mailNickname}@${this.tenantDomain}`;
+
 			const _user = {
 				accountEnabled: true,
-				displayName: user.userName, //Nome completo
-				givenName: user.firstName,
-				surname: user.lastName,
-				mailNickname: this.getUsernameFromEmail(user.email!),
-				userPrincipalName:
-					this.getUsernameFromEmail(user.email!) + '@' + this.tenantDomain,
+				displayName,
+				mailNickname,
+				userPrincipalName,
 				passwordProfile: {
 					forceChangePasswordNextSignIn: false, //Aqui estava como verdadeiro
 					password: user.password
@@ -274,7 +278,7 @@ export class AzureADService implements IidentityService {
 				// ],
 				// mail: user.email,
 				// Armazene o Gmail como atributo para busca posterior
-				mail: user.email
+				// mail: user.email
 			};
 
 			// Requisição para criar o usuário no Azure AD
