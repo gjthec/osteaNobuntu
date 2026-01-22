@@ -5,7 +5,7 @@ import {
 } from '../../../useCases/authentication/refreshToken.useCase';
 import { NotFoundError } from '../../../errors/client.error';
 import { IidentityService } from '../../../domain/services/Iidentity.service';
-import { AzureADService } from '../../../domain/services/azureAD.service';
+import { EntraIdService } from '../../../domain/services/entraId.service';
 import {
 	SignInOutputDTO,
 	SignInUseCase
@@ -41,7 +41,7 @@ export class AuthenticationController {
 			);
 			const verificationEmailRepository: VerificationEmailRepository =
 				new VerificationEmailRepository(req.tenantConnection);
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
 			const databaseCredentialRepository: DatabaseCredentialRepository =
 				new DatabaseCredentialRepository(req.tenantConnection);
@@ -83,7 +83,7 @@ export class AuthenticationController {
 			const userRepository: UserRepository = new UserRepository(
 				req.tenantConnection
 			);
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const signInUseCase: SignInUseCase = new SignInUseCase(
 				azureADService,
 				userRepository
@@ -149,7 +149,7 @@ export class AuthenticationController {
 
 			const refreshToken = req.cookies['refreshToken_' + sessionUserId];
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const signoutUseCase: SignOutUseCase = new SignOutUseCase(azureADService);
 
 			await signoutUseCase.execute({
@@ -214,7 +214,7 @@ export class AuthenticationController {
 					: process.env.ACCEPTED_COOKIE_DOMAINS;
 
 			//Define o serviço de servidor de Identidade
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 
 			const newAccessData: RefreshTokenOutputDTO[] = [];
 
@@ -310,7 +310,7 @@ export class AuthenticationController {
 					: process.env.ACCEPTED_COOKIE_DOMAINS;
 
 			//Define o serviço de servidor de Identidade
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 
 			const newAccessData: RefreshTokenOutputDTO[] = [];
 
@@ -384,7 +384,7 @@ export class AuthenticationController {
 
 			const verificationEmailRepository: VerificationEmailRepository =
 				new VerificationEmailRepository(req.tenantConnection);
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const sendVerificationCodeUseCase: SendVerificationCodeToEmailUseCase =
 				new SendVerificationCodeToEmailUseCase(
 					verificationEmailRepository,
@@ -431,7 +431,7 @@ export class AuthenticationController {
 			//Definir o servico de email que será usado
 			const emailService: EmailService = new EmailService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const sendPasswordResetLinkToEmailUseCase: SendPasswordResetLinkToEmailUseCase =
 				new SendPasswordResetLinkToEmailUseCase(
 					azureADService,
@@ -458,7 +458,7 @@ export class AuthenticationController {
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
 			const resetUserPasswordUseCase: ResetUserPasswordUseCase =
 				new ResetUserPasswordUseCase(azureADService, tokenGenerator);
@@ -522,7 +522,7 @@ export class AuthenticationController {
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const checkEmailExistUseCase: CheckEmailExistUseCase =
 				new CheckEmailExistUseCase(azureADService);
 			const emailIsValid = await checkEmailExistUseCase.execute(req.body);

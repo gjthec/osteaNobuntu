@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from './base.controller';
 import { GetApplicationFromDirectoryUseCase } from '../../../useCases/application/getApplicationFromDirectory.useCase';
-import { AzureADService } from '../../../domain/services/azureAD.service';
+import { EntraIdService } from '../../../domain/services/entraId.service';
 import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware';
 
 export class ApplicationController {
 	async findAll(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const getApplicationFromDirectoryUseCase: GetApplicationFromDirectoryUseCase =
 				new GetApplicationFromDirectoryUseCase(azureADService);
 
