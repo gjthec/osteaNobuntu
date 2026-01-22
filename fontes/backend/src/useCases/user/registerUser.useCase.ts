@@ -46,15 +46,7 @@ export class RegisterUserUseCase {
 		}
 
 		//Verificar se dados do usuário são válidos novamente (verificar se o registro de confirmação de email foi validado)
-		if (
-			(await this.verificationEmailRepository.ifEmailWasValidated(
-				input.email
-			)) == false
-		) {
-			throw new ValidationError('EMAIL_VERIFICATION_REQUIRED', {
-				cause: 'Verificação de email não realizada!'
-			});
-		}
+		// TODO: Email verification is currently optional for signup.
 
 		let registeredUserOnIdentityServer: IUser;
 
