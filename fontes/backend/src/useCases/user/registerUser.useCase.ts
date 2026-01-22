@@ -28,7 +28,7 @@ export class RegisterUserUseCase {
 
 	async execute(input: signupInputDTO): Promise<IUser> {
 		if (checkEmailIsValid(input.email) == false) {
-			throw new ValidationError('VALITADION', { cause: 'Email is invalid.' });
+			throw new ValidationError('EMAIL_INVALID', { cause: 'Email is invalid.' });
 		}
 
 		let user: IUser | null = null;
@@ -40,7 +40,7 @@ export class RegisterUserUseCase {
 		}
 
 		if (user != null) {
-			throw new ValidationError('VALITADION', {
+			throw new ValidationError('USER_ALREADY_EXISTS', {
 				cause: 'User already exists.'
 			});
 		}
