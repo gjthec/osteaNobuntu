@@ -37,14 +37,23 @@ export class AzureADService implements IidentityService {
 	private authenticationFlowDomainName: string;
 
 	constructor() {
+		const {
+			CLIENT_ID,
+			CLIENT_SECRET,
+			TENANT_ID,
+			SCOPE,
+			DOMAIN_NAME,
+			AUTHENTICATION_FLOW_DOMAIN_NAME
+		} = process.env;
+
 		const authEnvStatus = {
-			CLIENT_ID: process.env.CLIENT_ID !== undefined,
-			CLIENT_SECRET: process.env.CLIENT_SECRET !== undefined,
-			TENANT_ID: process.env.TENANT_ID !== undefined,
-			SCOPE: process.env.SCOPE !== undefined,
-			DOMAIN_NAME: process.env.DOMAIN_NAME !== undefined,
+			CLIENT_ID: CLIENT_ID !== undefined,
+			CLIENT_SECRET: CLIENT_SECRET !== undefined,
+			TENANT_ID: TENANT_ID !== undefined,
+			SCOPE: SCOPE !== undefined,
+			DOMAIN_NAME: DOMAIN_NAME !== undefined,
 			AUTHENTICATION_FLOW_DOMAIN_NAME:
-				process.env.AUTHENTICATION_FLOW_DOMAIN_NAME !== undefined
+				AUTHENTICATION_FLOW_DOMAIN_NAME !== undefined
 		};
 
 		if (Object.values(authEnvStatus).some((value) => value === false)) {
@@ -55,13 +64,13 @@ export class AzureADService implements IidentityService {
 			});
 		}
 
-		this.clientId = process.env.CLIENT_ID;
-		this.clientSecret = process.env.CLIENT_SECRET;
-		this.tenantID = process.env.TENANT_ID;
-		this.scope = process.env.SCOPE;
-		this.domainName = process.env.DOMAIN_NAME;
+		this.clientId = CLIENT_ID as string;
+		this.clientSecret = CLIENT_SECRET as string;
+		this.tenantID = TENANT_ID as string;
+		this.scope = SCOPE as string;
+		this.domainName = DOMAIN_NAME as string;
 		this.authenticationFlowDomainName =
-			process.env.AUTHENTICATION_FLOW_DOMAIN_NAME;
+			AUTHENTICATION_FLOW_DOMAIN_NAME as string;
 	}
 
 	/**
