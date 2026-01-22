@@ -78,22 +78,25 @@ export class UserMenuComponent implements OnInit {
     if (!this.currentUser) {
       return '';
     }
-    if ('name' in this.currentUser && this.currentUser.name) {
+    if (this.isAuthUser(this.currentUser) && this.currentUser.name) {
       return this.currentUser.name;
     }
-    const userName =
-      [this.currentUser.firstName, this.currentUser.lastName]
-        .filter(Boolean)
-        .join(' ')
-        .trim() || this.currentUser.userName;
-    return userName || this.displayEmail;
+    if (this.isAppUser(this.currentUser)) {
+      const userName =
+        [this.currentUser.firstName, this.currentUser.lastName]
+          .filter(Boolean)
+          .join(' ')
+          .trim() || this.currentUser.userName;
+      return userName || this.displayEmail;
+    }
+    return this.displayEmail;
   }
 
   get displayEmail(): string {
     if (!this.currentUser) {
       return '';
     }
-    if ('email' in this.currentUser && this.currentUser.email) {
+    if (this.currentUser.email) {
       return this.currentUser.email;
     }
     return '';
@@ -118,6 +121,14 @@ export class UserMenuComponent implements OnInit {
   getInactiveUserInitial(user: IUser): string {
     const base = this.getInactiveUserDisplayName(user);
     return base ? base[0] : '';
+  }
+
+  private isAuthUser(user: IAuthUser | IUser): user is IAuthUser {
+    return 'roles' in user;
+  }
+
+  private isAppUser(user: IAuthUser | IUser): user is IUser {
+    return 'userName' in user;
   }
 
   setCurrentMenu(menu: { id: string, fileName: string }) {
