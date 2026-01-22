@@ -32,6 +32,7 @@ export class AzureADService implements IidentityService {
 	private clientId: string;
 	private clientSecret: string;
 	private tenantID: string;
+	private tenantDomain: string;
 	private scope: string;
 	private domainName: string;
 	private authenticationFlowDomainName: string;
@@ -41,6 +42,7 @@ export class AzureADService implements IidentityService {
 			CLIENT_ID,
 			CLIENT_SECRET,
 			TENANT_ID,
+			TENANT_DOMAIN,
 			SCOPE,
 			DOMAIN_NAME,
 			AUTHENTICATION_FLOW_DOMAIN_NAME
@@ -50,6 +52,7 @@ export class AzureADService implements IidentityService {
 			CLIENT_ID: CLIENT_ID !== undefined,
 			CLIENT_SECRET: CLIENT_SECRET !== undefined,
 			TENANT_ID: TENANT_ID !== undefined,
+			TENANT_DOMAIN: TENANT_DOMAIN !== undefined,
 			SCOPE: SCOPE !== undefined,
 			DOMAIN_NAME: DOMAIN_NAME !== undefined,
 			AUTHENTICATION_FLOW_DOMAIN_NAME:
@@ -67,6 +70,7 @@ export class AzureADService implements IidentityService {
 		this.clientId = CLIENT_ID as string;
 		this.clientSecret = CLIENT_SECRET as string;
 		this.tenantID = TENANT_ID as string;
+		this.tenantDomain = TENANT_DOMAIN as string;
 		this.scope = SCOPE as string;
 		this.domainName = DOMAIN_NAME as string;
 		this.authenticationFlowDomainName =
@@ -247,8 +251,6 @@ export class AzureADService implements IidentityService {
 
 			const accessToken: string = await this.getAccessToken();
 
-			const domainName: string = await this.getDomainName(accessToken);
-
 			const _user = {
 				accountEnabled: true,
 				displayName: user.userName, //Nome completo
@@ -256,7 +258,7 @@ export class AzureADService implements IidentityService {
 				surname: user.lastName,
 				mailNickname: this.getUsernameFromEmail(user.email!),
 				userPrincipalName:
-					this.getUsernameFromEmail(user.email!) + '@' + this.domainName, //TODO tem que ser dominio do azure AD
+					this.getUsernameFromEmail(user.email!) + '@' + this.tenantDomain,
 				passwordProfile: {
 					forceChangePasswordNextSignIn: false, //Aqui estava como verdadeiro
 					password: user.password
@@ -344,12 +346,12 @@ export class AzureADService implements IidentityService {
 			username: useExternalEmail == true ? userPrincipalName : username,
 			password: password,
 			// deve incluir openid para obter o token de ID e offline_access para obter o refresh token
-			scope: this.scope + ' openid offline_access'
+			scope: this.scope
 		});
 
 		try {
 			const signInResponse = await axios.post(
-				`https://${this.authenticationFlowDomainName}/${this.domainName}/oauth2/v2.0/token`,
+				`https://login.microsoftonline.com/${this.tenantID}/oauth2/v2.0/token`,
 				urlSearchParams.toString(),
 				{
 					headers: {
