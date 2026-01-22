@@ -11,7 +11,7 @@
     <!-- Caso o usuário não tenha foto irá apresentar essa tag -->
     <div id="user-icon-image" *ngIf="userProfilePhotoEnabled == false">
       <!-- Apresenta a primeira letra do nome do usuário -->
-      <span class="letter">{{ currentUser.name[0] }}</span>
+      <span class="letter">{{ displayInitial }}</span>
     </div>
   </button>
 
@@ -20,12 +20,12 @@
 
       <!-- Painel que mostra o usuário atual -->
       <div class="current-user">
-        <p>{{currentUser.email}}</p>
+        <p>{{displayEmail}}</p>
 
         <!-- <img *ngIf="userProfilePhotoEnabled == true" src="assets/images/user-image-test.jpg" alt="user image" id="user-image"> -->
 
         <div id="user-image" *ngIf="userProfilePhotoEnabled == false">
-          <span class="letter">{{ currentUser.name[0] }}</span>
+          <span class="letter">{{ displayInitial }}</span>
         </div>
 
         <h4>{{t("hi")}} {{firstName}}!</h4>
@@ -71,7 +71,7 @@
               alt="user image" class="other-users-panel-description-image"> -->
             <div *ngFor="let inactiveUser of inactiveUsers" alt="user image"
               class="other-users-panel-description-image">
-              <span class="letter">{{ inactiveUser.name[0] }}</span>
+              <span class="letter">{{ getInactiveUserInitial(inactiveUser) }}</span>
             </div>
           </mat-panel-description>
 
@@ -87,11 +87,11 @@
               <img src="assets/images/user-image-test.jpg" alt="user image" class="other-users-list-image">
             </div> -->
             <div id="inactive-user-default-image" *ngIf="userProfilePhotoEnabled == false">
-              <span class="letter">{{ inactiveUser.name[0] }}</span>
+              <span class="letter">{{ getInactiveUserInitial(inactiveUser) }}</span>
             </div>
             <!-- Coluna dos dados da conta -->
             <div class="user-info">
-              <div>{{inactiveUser.name + " " + inactiveUser.lastName}}</div>
+              <div>{{getInactiveUserDisplayName(inactiveUser)}}</div>
               <div>{{inactiveUser.email}}</div>
             </div>
             <!-- Coluna do estado atual da conta, sendo sessão expirada ou não -->

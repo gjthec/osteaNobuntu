@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { INameForm } from '../name-form/name-form.component';
-
 export interface IBirthDayAndGenderForm {
   birthDay: number;
   birthMonth: number;
@@ -18,10 +16,10 @@ export class BirthDayAndGenderFormComponent implements OnInit {
   /**
    * Campo para inserçào dos dados iniciais
    */
-  @Input() inputData: INameForm;
+  @Input() inputData: IBirthDayAndGenderForm | null = null;
 
   //Campos de saída
-  @Output() onFieldsChange = new EventEmitter<INameForm>();
+  @Output() onFieldsChange = new EventEmitter<IBirthDayAndGenderForm>();
 
   //Campos de saída
   @Output() buttonFunction = new EventEmitter<boolean>();
@@ -48,7 +46,9 @@ export class BirthDayAndGenderFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Preenche o formulário com os dados recebidos do componente pai
-    this.birthDayAndGenderFormGroup.patchValue(this.inputData);
+    if (this.inputData) {
+      this.birthDayAndGenderFormGroup.patchValue(this.inputData);
+    }
 
     // Ouve mudanças nos campos
     this.birthDayAndGenderFormGroup.valueChanges.subscribe(value => {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'app/core/auth/user.model';
-import { UserService } from 'app/core/auth/user.service';
+import { AuthService } from 'app/core/auth/auth.service';
 import { AuthFacade } from 'app/core/azure/auth/auth.facade';
 import { IAuthUser } from 'app/core/azure/auth/models/auth.models';
+import { ConfigService } from 'app/core/config/config.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'user-menu',
@@ -31,15 +33,15 @@ export class UserMenuComponent implements OnInit {
    * Sessão do usuário atual que está realizando as requisições
    */
   // currentUser: IUser;
-  currentUser: IAuthUser;
+  currentUser: IAuthUser | IUser | null = null;
   userProfilePhotoEnabled: boolean = false;
   menus: { id: string, fileName: string }[] = JSON.parse(localStorage.getItem('menus') || '[]');
   currentMenuId: string = JSON.parse(localStorage.getItem('currentMenu') || '[]');
 
   constructor(
-    // private authService: AuthService,
+    private authService: AuthService,
     private authFacade: AuthFacade,
-    private userService: UserService,
+    private configService: ConfigService,
     private router: Router
   ) { }
 
@@ -47,10 +49,14 @@ export class UserMenuComponent implements OnInit {
     this.updateUserState();
 
     //Obtem a sessão de usuário atual para manipular o componente
-    // this.currentUser = this.authService.currentUser;
-    this.currentUser = this.authFacade.getUser();
+    this.currentUser = this.configService.isNormal
+      ? this.authService.currentUser
+      : this.authFacade.getUser();
     //Obtem informação dos usuário com acesso
-    // this.users = this.authService.getUsers();
+    if (this.configService.isNormal) {
+      this.users = this.authService.getUsers() ?? [];
+      this.inactiveUsers = this.authService.getInactiveUsers() ?? [];
+    }
     //Obtem informações dos usuários com acesso mas não ativos
     // this.inactiveUsers = this.authService.getInactiveUsers();
 
@@ -60,15 +66,69 @@ export class UserMenuComponent implements OnInit {
   }
 
   get firstName(): string {
-    if (!this.currentUser?.name) return '';
+    const name = this.displayName;
+    if (!name) return '';
     // Pega até a vírgula ou espaço, o que vier primeiro
-    let name = this.currentUser.name.split(',')[0].split(' ')[0];
+    let trimmed = name.split(',')[0].split(' ')[0];
     // Limita a 15 caracteres
-    return name.substring(0, 13);
+    return trimmed.substring(0, 13);
+  }
+
+  get displayName(): string {
+    if (!this.currentUser) {
+      return '';
+    }
+    if (this.isAuthUser(this.currentUser) && this.currentUser.name) {
+      return this.currentUser.name;
+    }
+    if (this.isAppUser(this.currentUser)) {
+      const userName =
+        [this.currentUser.firstName, this.currentUser.lastName]
+          .filter(Boolean)
+          .join(' ')
+          .trim() || this.currentUser.userName;
+      return userName || this.displayEmail;
+    }
+    return this.displayEmail;
+  }
+
+  get displayEmail(): string {
+    if (!this.currentUser) {
+      return '';
+    }
+    if (this.currentUser.email) {
+      return this.currentUser.email;
+    }
+    return '';
+  }
+
+  get displayInitial(): string {
+    const base = this.displayName || this.displayEmail;
+    return base ? base[0] : '';
   }
 
   checkUserExpired(user: IUser) {
 
+  }
+
+  getInactiveUserDisplayName(user: IUser): string {
+    const name =
+      [user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+      user.userName;
+    return name || user.email || '';
+  }
+
+  getInactiveUserInitial(user: IUser): string {
+    const base = this.getInactiveUserDisplayName(user);
+    return base ? base[0] : '';
+  }
+
+  private isAuthUser(user: IAuthUser | IUser): user is IAuthUser {
+    return 'roles' in user;
+  }
+
+  private isAppUser(user: IAuthUser | IUser): user is IUser {
+    return 'userName' in user;
   }
 
   setCurrentMenu(menu: { id: string, fileName: string }) {
@@ -77,11 +137,12 @@ export class UserMenuComponent implements OnInit {
   }
 
   updateUserState() {
-    // this.authService.check().subscribe((res) => {
-    //   if (res) {
-    //     this.isLoggedIn = true;
-    //   }
-    // });
+    if (this.configService.isNormal) {
+      this.authService.check().pipe(take(1)).subscribe((res) => {
+        this.isLoggedIn = res;
+      });
+      return;
+    }
     this.isLoggedIn = this.authFacade.isAuthenticated();
   }
 
@@ -122,12 +183,15 @@ export class UserMenuComponent implements OnInit {
     window.location.reload();
   }
   */
-  signOutUser(user: IUser) {
-    // this.authService.signOutUser(user);
+  async signOutUser() {
     try {
-      this.authFacade.logout().then(()=>{
-        this.router.navigate(['/']);
-      });
+      if (this.configService.isNormal) {
+        await this.authService.signOutAllUsers();
+        this.router.navigate(['/signin']);
+        return;
+      }
+      await this.authFacade.logout();
+      this.router.navigate(['/']);
     } catch (error) {
       console.error("Error to logout");
     }

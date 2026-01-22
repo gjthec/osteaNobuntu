@@ -32,6 +32,8 @@
     "create-product-account": "Cria uma conta do Ortia",
     "insert-your-name": "Insira seu nome",
     "set-your-email": "Insira seu e-mail",
+    "set-your-password": "Set your password",
+    "password": "Password",
     "name": "Name",
     "lastName": "Sobrenome",
     "birthDay": "Dia de nascimento",
@@ -54,8 +56,16 @@
     "error-birthYear-invalidFormat": "Ano de nascimento tem formato incorreto.",
     "error-email-required": "E-mail é necessário ser preenchido",
     "error-email-pattern": "E-mail tem formato incorreto",
+    "error-password-required": "Password is required",
+    "error-password-pattern": "Password format is invalid",
     "set-your-emailVerificationCode": "Define seu codigo de verificação de email",
-    "error-password-strength": "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais."
+    "error-password-strength": "Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters.",
+    "show-password": "Show password",
+    "confirmPassword": "Confirm your password",
+    "error-confirmPassword-required": "Password confirmation is required",
+    "error-confirmPassword-invalid": "Passwords do not match",
+    "error-confirmPassword-minlength": "Password must be longer",
+    "error-confirmPassword-maxlength": "Password exceeds maximum length"
   },
   "reset-password": {
     "set-your-password": "Set your password",

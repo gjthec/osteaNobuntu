@@ -15,7 +15,7 @@ export class PasswordFormComponent {
   /**
   * Campo para inserçào dos dados
   */
-  @Input() inputData: IPasswordForm;
+  @Input() inputData: IPasswordForm | null = null;
 
   //Campos de saída
   @Output() onFieldsChange = new EventEmitter<IPasswordForm>();
@@ -30,7 +30,6 @@ export class PasswordFormComponent {
   * Controla a visibilidade da senha
   */
   passwordHide: boolean = false;
-  passwordHideCheckBoxEnabled: boolean = true;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -45,7 +44,9 @@ export class PasswordFormComponent {
 
   ngOnInit(): void {
     // Preenche o formulário com os dados recebidos do componente pai
-    this.passwordFormGroup.patchValue(this.inputData);
+    if (this.inputData) {
+      this.passwordFormGroup.patchValue(this.inputData);
+    }
 
     // Ouve mudanças nos campos
     this.passwordFormGroup.valueChanges.subscribe(value => {

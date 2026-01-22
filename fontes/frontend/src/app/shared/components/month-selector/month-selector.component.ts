@@ -33,6 +33,12 @@ export class MonthSelectorComponent implements OnInit {
     });    
   }
 
+  setDefaultIfEmpty(): void {
+    if (!this.monthControl.value) {
+      this.setInitialValue();
+    }
+  }
+
 
   // Mapeia a chave do mês para o índice e emite para o pai
   onMonthSelect(selectedMonthKey: string): void {

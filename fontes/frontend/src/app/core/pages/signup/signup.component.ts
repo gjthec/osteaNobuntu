@@ -32,9 +32,14 @@ enum SignUpPageState {
 })
 export class SignupComponent {
 
-  nameForm: INameForm;
-  passwordForm: IPasswordForm;
-  birthDayAndGenderForm: IBirthDayAndGenderForm;
+  nameForm: INameForm = { firstName: '', lastName: '' };
+  passwordForm: IPasswordForm = { password: '' };
+  birthDayAndGenderForm: IBirthDayAndGenderForm = {
+    birthDay: 0,
+    birthMonth: 1,
+    birthYear: 0,
+    gender: 0
+  };
 
   emailFormGroup: FormGroup = this._formBuilder.group({
     email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],
@@ -103,39 +108,10 @@ export class SignupComponent {
     }
 
     this.snackBar.dismiss(); // Limpa qualquer mensagem anterior
-    const email: string = this.emailFormGroup.value.email;
-    this.emailFormGroup.get("email").disable;
-    this.isLoading = true;
-
-    this.authService.sendVerificationEmailCodeToEmail(email).pipe(
-      take(1),
-    ).subscribe({
-      next: (data) => {
-
-        this.snackBar.open('Código de verificação enviado com sucesso!', 'Fechar', {
-          duration: 3000,
-        });
-        this.pageState = SignUpPageState.ValidateEmailVerificationCode;
-      },
-      error: (error) => {
-
-        this.emailFormGroup.get("email").enable;
-        this.isLoading = false;
-
-        if (error.status == 409) {
-          this.snackBar.open('Erro ao enviar código. Código já enviado para o email.', 'Fechar', {
-            duration: 3000,
-          });
-          this.pageState = SignUpPageState.ValidateEmailVerificationCode;
-        } else if (error.status == 500) {
-          this.router.navigate(['/error']);
-        } else {
-          this.snackBar.open('Erro ao enviar código. Por favor, tente novamente.', 'Fechar', {
-            duration: 3000,
-          });
-        }
-      },
+    this.snackBar.open('Verificação de e-mail desativada. Continue para criar sua conta.', 'Fechar', {
+      duration: 3000,
     });
+    this.pageState = SignUpPageState.SetPassword;
   }
 
   validateEmailVerificationCode() {

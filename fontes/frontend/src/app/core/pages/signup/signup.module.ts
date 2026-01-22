@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 //Nobuntu Components
 import { ChangeLanguageButtonModule } from 'app/shared/components/change-language-button/change-language-button.module';
 import { NameFormComponent } from './name-form/name-form.component';
@@ -42,6 +43,7 @@ import { MonthSelectorModule } from 'app/shared/components/month-selector/month-
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatIconModule,
     //Nobuntu components
     ChangeLanguageButtonModule,
     MonthSelectorModule

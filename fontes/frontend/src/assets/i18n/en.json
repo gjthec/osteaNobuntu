@@ -3,8 +3,8 @@
     "do-login": "Fazer login", 
     "test-now": "Teste agora", 
     "product-name": "Osteo", 
-    "short-product-description": "", 
-    "long-product-description": "", 
+    "short-product-description": "Platform for clinical and administrative management.", 
+    "long-product-description": "Centralize patients, evaluations, and scheduling in one place to keep the clinic organized.", 
     "workspace": "WorkSpace" 
   },
 
