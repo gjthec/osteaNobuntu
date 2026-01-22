@@ -4,7 +4,7 @@ import { GetUserProfilePhotoOutputDTO } from '../../useCases/user/getUserProfile
 import { IUser } from '../entities/user.model';
 import { IidentityService } from './Iidentity.service';
 import { NotFoundError, ValidationError } from '../../errors/client.error';
-import { InternalServerError } from '../../errors/internal.error';
+import { BadGatewayError, InternalServerError } from '../../errors/internal.error';
 
 export interface IAzureAdUser {
 	businessPhones: string[];
@@ -296,8 +296,15 @@ export class AzureADService implements IidentityService {
 				userName: createUserResponse.data.displayName
 			};
 		} catch (error: any) {
-			// console.dir(error, { depth: null });
-			throw new Error('Error to create user on Azure services.');
+			if (error?.response) {
+				console.error('Azure create user error:', {
+					status: error.response.status,
+					data: error.response.data
+				});
+			} else {
+				console.error('Azure create user error:', error);
+			}
+			throw new BadGatewayError('AZURE_CREATE_USER_FAILED', { cause: error });
 		}
 	}
 
