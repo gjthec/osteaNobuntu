@@ -8,6 +8,7 @@ export type MessageCode =
 	| 'FIELD_REQUIRED'
 	| 'VALITADION'
 	| 'EMAIL_VERIFICATION_REQUIRED'
+	| 'AUTH_CONFIG_MISSING'
 	| 'VALIDATION_FAILED_FORMAT'
 	| 'VALIDATION_FAILED_LENGTH'
 	| 'UNAUTHORIZED'
@@ -27,6 +28,7 @@ export const catalogs: Catalog = {
 		FIELD_REQUIRED: 'The field {field} is required.',
 		VALITADION: 'Validation error.',
 		EMAIL_VERIFICATION_REQUIRED: 'Email verification is required.',
+		AUTH_CONFIG_MISSING: 'Authentication configuration is missing.',
 		VALIDATION_FAILED_FORMAT: 'The field {field} is incorrect format.',
 		VALIDATION_FAILED_LENGTH:
 			'The field {field} length must be {min_length}-{max_length}.',
@@ -44,6 +46,7 @@ export const catalogs: Catalog = {
 		VALITADION: 'Erro de validação.',
 		FIELD_REQUIRED: 'O campo {field} é obrigatório.',
 		EMAIL_VERIFICATION_REQUIRED: 'A verificação de email é obrigatória.',
+		AUTH_CONFIG_MISSING: 'A configuração de autenticação está ausente.',
 		VALIDATION_FAILED_FORMAT: 'O campo {field} está em formato incorreto.',
 		VALIDATION_FAILED_LENGTH:
 			'O campo {field} deve conter tamanho entre {min_length} e {max_length}.',
@@ -61,6 +64,7 @@ export const catalogs: Catalog = {
 		VALITADION: 'Erro de validação.',
 		FIELD_REQUIRED: 'O campo {field} é obrigatório.',
 		EMAIL_VERIFICATION_REQUIRED: 'A verificação de email é obrigatória.',
+		AUTH_CONFIG_MISSING: 'A configuração de autenticação está ausente.',
 		VALIDATION_FAILED_FORMAT: 'O campo {field} está em formato incorreto.',
 		VALIDATION_FAILED_LENGTH:
 			'O campo {field} deve conter tamanho entre {min_length} e {max_length}.',

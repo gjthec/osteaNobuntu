@@ -3,7 +3,8 @@ import { SignInOutputDTO } from '../../useCases/authentication/signIn.useCase';
 import { GetUserProfilePhotoOutputDTO } from '../../useCases/user/getUserProfilePhoto.useCase';
 import { IUser } from '../entities/user.model';
 import { IidentityService } from './Iidentity.service';
-import { NotFoundError, ValidationError } from '../../errors/client.error';
+import { ValidationError } from '../../errors/client.error';
+import { InternalServerError } from '../../errors/internal.error';
 
 export interface IAzureAdUser {
 	businessPhones: string[];
@@ -44,7 +45,7 @@ export class AzureADService implements IidentityService {
 			process.env.DOMAIN_NAME === undefined ||
 			process.env.AUTHENTICATION_FLOW_DOMAIN_NAME === undefined
 		) {
-			throw new NotFoundError('NOT_FOUND', {
+			throw new InternalServerError('AUTH_CONFIG_MISSING', {
 				cause:
 					'Dados relacionados as requisições nos serviços da Azure não estão contidos nas variáveis ambiente'
 			});
