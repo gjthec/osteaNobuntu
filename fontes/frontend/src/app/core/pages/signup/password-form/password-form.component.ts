@@ -30,7 +30,6 @@ export class PasswordFormComponent {
   * Controla a visibilidade da senha
   */
   passwordHide: boolean = false;
-  passwordHideCheckBoxEnabled: boolean = true;
 
   constructor(
     private _formBuilder: FormBuilder,
