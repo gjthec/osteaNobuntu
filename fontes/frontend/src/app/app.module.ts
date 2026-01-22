@@ -9,7 +9,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { TranslocoRootModule } from './transloco-root.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './core/azure/auth/auth.module';
+import { AuthModule } from './core/auth/auth.module';
 import { IconsModule } from './core/icons/icons.module';
 import { appInitProviders } from './app.config';
 import { ServiceWorkerModule } from '@angular/service-worker';

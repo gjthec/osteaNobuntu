@@ -7,7 +7,7 @@ export const environment = {
 	menuPath: '../../../../assets/dicionario/menu/menu.json',
 	jsonPath: '../../../../assets/dicionario/',
 
-	authMethod: 'MSAL' as AuthMethod, // ou 'OutroMetodo'
+	authMethod: 'NORMAL' as AuthMethod, // ou 'OutroMetodo'
 
 	enableTenantSwitch: false,
 
