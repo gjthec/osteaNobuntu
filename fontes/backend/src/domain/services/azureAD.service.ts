@@ -37,14 +37,18 @@ export class AzureADService implements IidentityService {
 	private authenticationFlowDomainName: string;
 
 	constructor() {
-		if (
-			process.env.CLIENT_ID === undefined ||
-			process.env.CLIENT_SECRET === undefined ||
-			process.env.TENANT_ID === undefined ||
-			process.env.SCOPE === undefined ||
-			process.env.DOMAIN_NAME === undefined ||
-			process.env.AUTHENTICATION_FLOW_DOMAIN_NAME === undefined
-		) {
+		const authEnvStatus = {
+			CLIENT_ID: process.env.CLIENT_ID !== undefined,
+			CLIENT_SECRET: process.env.CLIENT_SECRET !== undefined,
+			TENANT_ID: process.env.TENANT_ID !== undefined,
+			SCOPE: process.env.SCOPE !== undefined,
+			DOMAIN_NAME: process.env.DOMAIN_NAME !== undefined,
+			AUTHENTICATION_FLOW_DOMAIN_NAME:
+				process.env.AUTHENTICATION_FLOW_DOMAIN_NAME !== undefined
+		};
+
+		if (Object.values(authEnvStatus).some((value) => value === false)) {
+			console.error('Azure auth environment variables status:', authEnvStatus);
 			throw new InternalServerError('AUTH_CONFIG_MISSING', {
 				cause:
 					'Dados relacionados as requisições nos serviços da Azure não estão contidos nas variáveis ambiente'
