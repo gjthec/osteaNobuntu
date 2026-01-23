@@ -8,13 +8,24 @@ import {
 } from '../session/session.service';
 import { AuthenticatedRequest } from './checkUserAccess.middleware';
 
+function getSessionIdFromRequest(req: AuthenticatedRequest): string | undefined {
+	const headerSessionId = req.headers['x-session-id'];
+	if (typeof headerSessionId === 'string' && headerSessionId.length > 0) {
+		return headerSessionId;
+	}
+	if (Array.isArray(headerSessionId) && headerSessionId[0]) {
+		return headerSessionId[0];
+	}
+	return req.cookies?.[getSessionCookieName()];
+}
+
 export async function requireAuth(
 	req: AuthenticatedRequest,
 	res: Response,
 	next: NextFunction
 ): Promise<void> {
 	try {
-		const sessionId = req.cookies?.[getSessionCookieName()];
+		const sessionId = getSessionIdFromRequest(req);
 		if (!sessionId) {
 			throw new UnauthorizedError('UNAUTHORIZED', {
 				cause: 'Session not found.'
@@ -60,7 +71,7 @@ export async function optionalAuth(
 	res: Response,
 	next: NextFunction
 ): Promise<void> {
-	const sessionId = req.cookies?.[getSessionCookieName()];
+	const sessionId = getSessionIdFromRequest(req);
 	if (!sessionId) {
 		return next();
 	}

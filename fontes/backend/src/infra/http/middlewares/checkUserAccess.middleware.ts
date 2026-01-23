@@ -55,11 +55,16 @@ export async function checkUserAccess(
 			hasCookies: Boolean(req.cookies && Object.keys(req.cookies).length > 0),
 			cookieKeys: req.cookies ? Object.keys(req.cookies) : [],
 			cookieHeader: req.headers.cookie || '',
+			sessionHeader: req.headers['x-session-id'],
 			origin: req.headers.origin,
 			referer: req.headers.referer,
 			host: req.headers.host
 		});
-		const sessionId = req.cookies?.[getSessionCookieName()];
+		const sessionIdHeader = req.headers['x-session-id'];
+		const sessionId =
+			(typeof sessionIdHeader === 'string' && sessionIdHeader) ||
+			(Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : undefined) ||
+			req.cookies?.[getSessionCookieName()];
 		if (!sessionId) {
 			console.warn('checkUserAccess: missing session cookie', {
 				cookieName: getSessionCookieName()

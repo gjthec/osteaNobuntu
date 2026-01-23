@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { TenantService } from '../tenant/tenant.service';
+import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 
 /**
@@ -14,6 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
    */
   constructor(
     private tenantService: TenantService,
+    private authService: AuthService,
     private router: Router
   ) {
   }
@@ -35,9 +37,11 @@ export class AuthInterceptor implements HttpInterceptor {
 			);
 		}
 
+    const sessionId = this.authService.getSessionId();
     newReq = req.clone({
       setHeaders: {
         "X-Tenant-ID": databaseUsedInRequest,
+        ...(sessionId ? { "X-Session-Id": sessionId } : {}),
       },
       withCredentials: true,
     });

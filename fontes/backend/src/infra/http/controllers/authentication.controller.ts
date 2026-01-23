@@ -23,12 +23,7 @@ import TenantRepository from '../../../domain/repositories/tenant.repository';
 import { SingleSignOnUseCase } from '../../../useCases/authentication/singleSignOn.useCase';
 import DatabaseCredentialRepository from '../../../domain/repositories/databaseCredential.repository';
 import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware';
-import {
-	buildSessionCookieOptions,
-	getSessionCookieName,
-	getSessionTtlSeconds,
-	SessionService
-} from '../session/session.service';
+import { SessionService } from '../session/session.service';
 
 export class AuthenticationController {
 	constructor() {
@@ -142,34 +137,16 @@ export class AuthenticationController {
 				result.tokens.accessToken
 			);
 
-			const maxAgeMs = getSessionTtlSeconds() * 1000;
-			const cookieOptions = buildSessionCookieOptions(maxAgeMs);
-			res.cookie(
-				getSessionCookieName(),
-				session.id,
-				cookieOptions
-			);
-			console.log('AuthenticationController: session cookie set', {
-				cookieName: getSessionCookieName(),
-				secure: cookieOptions.secure,
-				sameSite: cookieOptions.sameSite,
-				domain: cookieOptions.domain,
-				maxAgeMs,
-				protocol: req.protocol,
-				secureRequest: req.secure,
-				hasOrigin: Boolean(req.headers.origin),
-				origin: req.headers.origin
+			console.log('AuthenticationController: session created', {
+				sessionId: session.id,
+				userId: result.user.id
 			});
-			if (cookieOptions.sameSite === 'none' && !cookieOptions.secure) {
-				console.warn(
-					'AuthenticationController: SameSite=None without Secure may be rejected by browsers'
-				);
-			}
 
 			//Envia dados do usuário e roles
 			return res.status(200).send({
 				user: result.user,
-				roles
+				roles,
+				sessionId: session.id
 			});
 		} catch (error) {
 			console.error('AuthenticationController: signIn failed', error);
@@ -179,7 +156,10 @@ export class AuthenticationController {
 
 	async signOut(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
-			const sessionId = req.cookies?.[getSessionCookieName()];
+			const sessionIdHeader = req.headers['x-session-id'];
+			const sessionId =
+				(typeof sessionIdHeader === 'string' && sessionIdHeader) ||
+				(Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : undefined);
 			if (!sessionId) {
 				throw new UnauthorizedError('UNAUTHORIZED', {
 					cause: 'Session not found.'
@@ -189,7 +169,6 @@ export class AuthenticationController {
 			const sessionService = SessionService.getInstance();
 			await sessionService.deleteSession(sessionId);
 
-			res.clearCookie(getSessionCookieName(), buildSessionCookieOptions(0));
 			return res.status(200).send({});
 		} catch (error) {
 			next(error);

@@ -47,6 +47,7 @@ export interface SignupDTO {
 export interface SignInResponse {
   user: IUser;
   roles: string[];
+  sessionId: string;
 }
 
 export interface SessionResponse {

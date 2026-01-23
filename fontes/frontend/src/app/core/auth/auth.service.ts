@@ -15,6 +15,7 @@ export class AuthService {
 
   // private _currentUserSession: IUserSession | null = null;
   private _currentUser: IUser | null = null;
+  private sessionIdKey = 'sessionId';
 
   private url;
 
@@ -189,6 +190,7 @@ export class AuthService {
       tap((response) => {
         if (response?.user) {
           response.user.roles = response.roles;
+          localStorage.setItem(this.sessionIdKey, response.sessionId);
         }
       })
     );
@@ -199,7 +201,12 @@ export class AuthService {
   }
 
   signout() {
+    localStorage.removeItem(this.sessionIdKey);
     return this.httpClient.post<IUser>(`${this.url}/logout`, {}, { withCredentials: true });
+  }
+
+  getSessionId(): string | null {
+    return localStorage.getItem(this.sessionIdKey);
   }
 
   checkEmailExist(email: string): Observable<boolean> {
