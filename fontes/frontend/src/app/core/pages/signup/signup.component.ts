@@ -161,6 +161,7 @@ export class SignupComponent {
       firstName: this.nameForm.firstName,
       lastName: this.nameForm.lastName,
       userName: this.nameForm.firstName,
+      invitedTenantsToken: ''
     }).pipe(take(1)).subscribe({
       next: (value) => {
         this.snackBar.open('Conta criada com exito', 'Fechar', {
