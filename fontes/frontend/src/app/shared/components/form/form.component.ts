@@ -308,10 +308,7 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
     this.matSnackBar.open(this.translocoService.translate("componentsBase.Alerts.defaultSuccessMessage"), 'OK', { duration: 3000 });
 
     // redirect/reload component page
-    this.router.navigateByUrl(baseComponentPath, { skipLocationChange: false }).then(
-      () => this.router.navigate([baseComponentPath, resource.id, "edit"]) //Nesse caso, ao criar ou editar ele ficará na mesma pagina
-      // () => this.router.navigate([baseComponentPath])
-    )
+    this.router.navigateByUrl(baseComponentPath, { skipLocationChange: false });
   }
 
   protected actionsForError(error) {
