@@ -190,10 +190,15 @@ export async function registerUserOnApplication(
 	});
 
 	if (user == undefined || user == null) {
-		try {
-			const fullName =
-				authenticatedUser.userName ||
-				`${authenticatedUser.firstName || ''} ${authenticatedUser.lastName || ''}`.trim();
+			try {
+				const email = authenticatedUser.email;
+				if (!email) {
+					throw new InternalServerError('Missing user email for session.');
+				}
+
+				const fullName =
+					authenticatedUser.userName ||
+					`${authenticatedUser.firstName || ''} ${authenticatedUser.lastName || ''}`.trim();
 			const indexSeparationFirstName = fullName.indexOf(' ');
 			let _lastName: string = '';
 
@@ -207,8 +212,8 @@ export async function registerUserOnApplication(
 			}
 
 			//TODO tirar isso e usar o User como input do caso de uso
-			const userData: IUserDataInputDTO = {
-				email: authenticatedUser.email,
+				const userData: IUserDataInputDTO = {
+					email,
 				firstName: fullName.substring(
 					0,
 					indexSeparationFirstName
@@ -219,11 +224,11 @@ export async function registerUserOnApplication(
 				lastName: _lastName
 			};
 
-			await userRepository.create({
-				userName: fullName,
-				identityProviderUID: authenticatedUser.identityProviderUID,
-				provider: 'entraId',
-				email: authenticatedUser.email,
+				await userRepository.create({
+					userName: fullName,
+					identityProviderUID: authenticatedUser.identityProviderUID,
+					provider: 'entraId',
+					email,
 				tenantUID: process.env.TENANT_ID,
 				firstName: fullName.substring(
 					0,
