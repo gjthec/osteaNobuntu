@@ -32,12 +32,12 @@ enum SignUpPageState {
 })
 export class SignupComponent {
 
-  nameForm: INameForm = { firstName: '', lastName: '' };
-  passwordForm: IPasswordForm = { password: 'adminN123@' };
+  nameForm: INameForm = { firstName: 'Tesla', lastName: 'Eletronico' };
+  passwordForm: IPasswordForm = { password: 'adminN123@', confirmPassword: 'adminN123@' };
   birthDayAndGenderForm: IBirthDayAndGenderForm = {
-    birthDay: 0,
+    birthDay: 15,
     birthMonth: 1,
-    birthYear: 0,
+    birthYear: 1990,
     gender: 0
   };
 
