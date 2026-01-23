@@ -158,13 +158,14 @@ export class AzureADService implements IidentityService {
 
 	async refreshToken(refreshToken: string): Promise<SignInOutputDTO> {
 		try {
-			const tokenEndpoint = `https://${this.authenticationFlowDomainName}/${this.tenantID}/oauth2/v2.0/token?p=b2c_1_ropc`;
+			const tokenEndpoint = `https://login.microsoftonline.com/${this.tenantID}/oauth2/v2.0/token`;
 
 			const urlSearchParams = new URLSearchParams({
 				grant_type: 'refresh_token',
 				client_id: this.clientId,
+				client_secret: this.clientSecret,
 				refresh_token: refreshToken,
-				scope: this.scope + ' openid offline_access'
+				scope: this.scope
 			});
 
 			// Realiza a requisição no servidor da Azure para obter o novo access token
@@ -180,15 +181,24 @@ export class AzureADService implements IidentityService {
 
 			//Informações detalhadas do perfil do usuário autenticado.
 			const userData = this.parseJwt(tokenResponse.data.access_token);
+			const resolvedDisplayName = userData.name || '';
+			const nameParts = resolvedDisplayName ? resolvedDisplayName.split(' ') : [];
+			const firstName =
+				userData.given_name || nameParts[0] || resolvedDisplayName || '';
+			const lastName =
+				userData.family_name || nameParts.slice(1).join(' ') || '';
+			const email =
+				userData.upn || userData.unique_name || userData.preferred_username || '';
+			const identityProviderUID = userData.oid || userData.sub;
 
 			const accessData: SignInOutputDTO = {
 				user: {
-					identityProviderUID: userData.sub,
+					identityProviderUID,
 					tenantUID: '',
-					userName: userData.name,
-					firstName: userData.given_name,
-					lastName: userData.family_name,
-					email: ''
+					userName: resolvedDisplayName || email,
+					firstName,
+					lastName,
+					email
 				},
 				tokens: {
 					accessToken: tokenResponse.data.access_token,
