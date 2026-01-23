@@ -2,7 +2,7 @@ import { AuthMethod } from 'app/core/config/config.service';
 
 export const environment = {
 	applicationTitle: 'Osteo',
-	backendUrl: '',
+	backendUrl: 'http://localhost:8080',
 	frontendUrl: 'https://osteofrontend-455563875480.us-central1.run.app',
 	menuPath: '../../../../assets/dicionario/menu/menu.json',
 	jsonPath: '../../../../assets/dicionario/',

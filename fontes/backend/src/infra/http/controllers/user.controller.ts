@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { BaseController } from './base.controller';
 import { NotFoundError } from '../../../errors/client.error';
 import { IidentityService } from '../../../domain/services/Iidentity.service';
-import { AzureADService } from '../../../domain/services/azureAD.service';
+import { EntraIdService } from '../../../domain/services/entraId.service';
 import { GetUserProfilePhotoUseCase } from '../../../useCases/user/getUserProfilePhoto.useCase';
 import { UpdateUserProfilePhotoUseCase } from '../../../useCases/user/updateUserProfilePhoto.UseCase';
 import { UnauthorizedError } from '../../../errors/client.error';
@@ -211,7 +211,7 @@ export class UserController {
 		next: NextFunction
 	) {
 		try {
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 			const getUserProfilePhotoUseCase: GetUserProfilePhotoUseCase =
 				new GetUserProfilePhotoUseCase(identityService);
 
@@ -248,7 +248,7 @@ export class UserController {
 				throw new UnauthorizedError('UNAUTHORIZED');
 			}
 
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 			const updateUserProfilePhotoUseCase: UpdateUserProfilePhotoUseCase =
 				new UpdateUserProfilePhotoUseCase(identityService);
 
@@ -286,7 +286,7 @@ export class UserController {
 				throw new UnauthorizedError('UNAUTHORIZED');
 			}
 
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 
 			const getUserGroupsUseCase: GetUserGroupsUseCase =
 				new GetUserGroupsUseCase(identityService);

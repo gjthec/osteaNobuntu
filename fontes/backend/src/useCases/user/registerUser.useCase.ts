@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../errors/client.error';
 import { IidentityService } from '../../domain/services/Iidentity.service';
 import { TokenGenerator } from '../../utils/tokenGenerator';
 import { IUser, User } from '../../domain/entities/user.model';
@@ -15,7 +14,7 @@ export type signupInputDTO = {
 	lastName: string;
 	email: string;
 	password: string;
-	invitedTenantsToken: string;
+	invitedTenantsToken?: string;
 };
 
 export class RegisterUserUseCase {
@@ -28,8 +27,12 @@ export class RegisterUserUseCase {
 	) {}
 
 	async execute(input: signupInputDTO): Promise<IUser> {
+		console.log('RegisterUserUseCase: start', {
+			email: input.email,
+			hasInvitedTenantsToken: Boolean(input.invitedTenantsToken)
+		});
 		if (checkEmailIsValid(input.email) == false) {
-			throw new ValidationError('VALITADION', { cause: 'Email is invalid.' });
+			throw new ValidationError('EMAIL_INVALID', { cause: 'Email is invalid.' });
 		}
 
 		let user: IUser | null = null;
@@ -41,21 +44,13 @@ export class RegisterUserUseCase {
 		}
 
 		if (user != null) {
-			throw new ValidationError('VALITADION', {
+			throw new ValidationError('USER_ALREADY_EXISTS', {
 				cause: 'User already exists.'
 			});
 		}
 
 		//Verificar se dados do usuário são válidos novamente (verificar se o registro de confirmação de email foi validado)
-		if (
-			(await this.verificationEmailRepository.ifEmailWasValidated(
-				input.email
-			)) == false
-		) {
-			throw new NotFoundError('NOT_FOUND', {
-				cause: 'Verificação de email não realizada!'
-			});
-		}
+		// TODO: Email verification is currently optional for signup.
 
 		let registeredUserOnIdentityServer: IUser;
 
@@ -67,8 +62,13 @@ export class RegisterUserUseCase {
 				userName: input.userName,
 				password: input.password
 			});
+			console.log('RegisterUserUseCase: identity user created', {
+				identityProviderUID: registeredUserOnIdentityServer.identityProviderUID,
+				email: registeredUserOnIdentityServer.email
+			});
 		} catch (error) {
-			throw new Error('Error to register user on identity server.');
+			console.error('RegisterUserUseCase: createUser failed', error);
+			throw error;
 		}
 
 		let userWillBeAdministrator: boolean = false;
@@ -85,12 +85,20 @@ export class RegisterUserUseCase {
 
 		let newUser: IUser | null = null;
 
+		const provider = 'entraId';
+
 		try {
+			console.log('RegisterUserUseCase: creating database user', {
+				email: input.email,
+				tenantUID,
+				provider
+			});
 			//Registra o usuário no banco de dados
 			newUser = await this.userRepository.create(
 				new User({
 					identityProviderUID:
 						registeredUserOnIdentityServer.identityProviderUID, //UID do servidor de identidade
+					provider,
 					userName: input.userName,
 					firstName: input.firstName,
 					lastName: input.lastName,
@@ -99,15 +107,17 @@ export class RegisterUserUseCase {
 					tenantUID: tenantUID
 				})
 			);
+			console.log('RegisterUserUseCase: database user created', {
+				userId: newUser.id,
+				email: newUser.email
+			});
 		} catch (error) {
+			console.error('RegisterUserUseCase: database create failed', error);
 			throw new Error('Error to create user. Details: ' + error);
 		}
 
-		if (
-			input.invitedTenantsToken != null &&
-			input.invitedTenantsToken != undefined &&
-			input.invitedTenantsToken != ''
-		) {
+		if (input.invitedTenantsToken) {
+			console.log('RegisterUserUseCase: invitedTenantsToken provided');
 			//Validar JWT e pegar o payload (dados contidos dentro do JWT)
 			const data = this.tokenGenerator.verifyToken(
 				input.invitedTenantsToken

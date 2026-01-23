@@ -7,6 +7,11 @@ export type MessageCode =
 	| 'INVALID_TENANT'
 	| 'FIELD_REQUIRED'
 	| 'VALITADION'
+	| 'EMAIL_VERIFICATION_REQUIRED'
+	| 'AUTH_CONFIG_MISSING'
+	| 'AZURE_CREATE_USER_FAILED'
+	| 'EMAIL_INVALID'
+	| 'USER_ALREADY_EXISTS'
 	| 'VALIDATION_FAILED_FORMAT'
 	| 'VALIDATION_FAILED_LENGTH'
 	| 'UNAUTHORIZED'
@@ -25,6 +30,11 @@ export const catalogs: Catalog = {
 		INVALID_TENANT: 'Invalid tenant.',
 		FIELD_REQUIRED: 'The field {field} is required.',
 		VALITADION: 'Validation error.',
+		EMAIL_VERIFICATION_REQUIRED: 'Email verification is required.',
+		AUTH_CONFIG_MISSING: 'Authentication configuration is missing.',
+		AZURE_CREATE_USER_FAILED: 'Failed to create user in Azure.',
+		EMAIL_INVALID: 'Email is invalid.',
+		USER_ALREADY_EXISTS: 'User already exists.',
 		VALIDATION_FAILED_FORMAT: 'The field {field} is incorrect format.',
 		VALIDATION_FAILED_LENGTH:
 			'The field {field} length must be {min_length}-{max_length}.',
@@ -41,6 +51,11 @@ export const catalogs: Catalog = {
 		INVALID_TENANT: 'Tenant inválido.',
 		VALITADION: 'Erro de validação.',
 		FIELD_REQUIRED: 'O campo {field} é obrigatório.',
+		EMAIL_VERIFICATION_REQUIRED: 'A verificação de email é obrigatória.',
+		AUTH_CONFIG_MISSING: 'A configuração de autenticação está ausente.',
+		AZURE_CREATE_USER_FAILED: 'Falha ao criar usuário no Azure.',
+		EMAIL_INVALID: 'Email inválido.',
+		USER_ALREADY_EXISTS: 'Usuário já existe.',
 		VALIDATION_FAILED_FORMAT: 'O campo {field} está em formato incorreto.',
 		VALIDATION_FAILED_LENGTH:
 			'O campo {field} deve conter tamanho entre {min_length} e {max_length}.',
@@ -57,6 +72,11 @@ export const catalogs: Catalog = {
 		INVALID_TENANT: 'Tenant inválido.',
 		VALITADION: 'Erro de validação.',
 		FIELD_REQUIRED: 'O campo {field} é obrigatório.',
+		EMAIL_VERIFICATION_REQUIRED: 'A verificação de email é obrigatória.',
+		AUTH_CONFIG_MISSING: 'A configuração de autenticação está ausente.',
+		AZURE_CREATE_USER_FAILED: 'Falha ao criar usuário no Azure.',
+		EMAIL_INVALID: 'Email inválido.',
+		USER_ALREADY_EXISTS: 'Usuário já existe.',
 		VALIDATION_FAILED_FORMAT: 'O campo {field} está em formato incorreto.',
 		VALIDATION_FAILED_LENGTH:
 			'O campo {field} deve conter tamanho entre {min_length} e {max_length}.',

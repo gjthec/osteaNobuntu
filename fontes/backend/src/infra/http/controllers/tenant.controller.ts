@@ -12,7 +12,7 @@ import { TenantConnection } from '../../../domain/entities/tenantConnection.mode
 import TenantRepository from '../../../domain/repositories/tenant.repository';
 import { InviteUserToTenantUseCase } from '../../../useCases/tenant/inviteUserToTenant.userCase';
 import { EmailService } from '../../../domain/services/email.service';
-import { AzureADService } from '../../../domain/services/azureAD.service';
+import { EntraIdService } from '../../../domain/services/entraId.service';
 import { TokenGenerator } from '../../../utils/tokenGenerator';
 import DatabaseCredentialRepository from '../../../domain/repositories/databaseCredential.repository';
 import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware';
@@ -296,7 +296,7 @@ export class TenantController {
 			}
 
 			const emailService: EmailService = new EmailService();
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
 			const inviteUserToTenantUseCase: InviteUserToTenantUseCase =
 				new InviteUserToTenantUseCase(

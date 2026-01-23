@@ -47,4 +47,5 @@ export interface SignupDTO {
   lastName: string;
   email: string;
   password: string;
+  invitedTenantsToken?: string;
 }

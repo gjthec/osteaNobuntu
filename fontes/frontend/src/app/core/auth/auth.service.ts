@@ -211,7 +211,7 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<IUser[]> {
-    return this.httpClient.get<IUser[]>(`${this.url}/refresh-token`);
+    return this.httpClient.get<IUser[]>(`${this.url}/refresh-token`, { withCredentials: true });
   }
 
   singleSignOn(): Observable<IUser[]> {

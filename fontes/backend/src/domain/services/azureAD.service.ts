@@ -4,6 +4,7 @@ import { GetUserProfilePhotoOutputDTO } from '../../useCases/user/getUserProfile
 import { IUser } from '../entities/user.model';
 import { IidentityService } from './Iidentity.service';
 import { NotFoundError, ValidationError } from '../../errors/client.error';
+import { BadGatewayError, InternalServerError } from '../../errors/internal.error';
 
 export interface IAzureAdUser {
 	businessPhones: string[];
@@ -31,32 +32,49 @@ export class AzureADService implements IidentityService {
 	private clientId: string;
 	private clientSecret: string;
 	private tenantID: string;
+	private tenantDomain: string;
 	private scope: string;
 	private domainName: string;
 	private authenticationFlowDomainName: string;
 
 	constructor() {
-		if (
-			process.env.CLIENT_ID === undefined ||
-			process.env.CLIENT_SECRET === undefined ||
-			process.env.TENANT_ID === undefined ||
-			process.env.SCOPE === undefined ||
-			process.env.DOMAIN_NAME === undefined ||
-			process.env.AUTHENTICATION_FLOW_DOMAIN_NAME === undefined
-		) {
-			throw new NotFoundError('NOT_FOUND', {
+		const {
+			CLIENT_ID,
+			CLIENT_SECRET,
+			TENANT_ID,
+			TENANT_DOMAIN,
+			SCOPE,
+			DOMAIN_NAME,
+			AUTHENTICATION_FLOW_DOMAIN_NAME
+		} = process.env;
+
+		const authEnvStatus = {
+			CLIENT_ID: CLIENT_ID !== undefined,
+			CLIENT_SECRET: CLIENT_SECRET !== undefined,
+			TENANT_ID: TENANT_ID !== undefined,
+			TENANT_DOMAIN: TENANT_DOMAIN !== undefined,
+			SCOPE: SCOPE !== undefined,
+			DOMAIN_NAME: DOMAIN_NAME !== undefined,
+			AUTHENTICATION_FLOW_DOMAIN_NAME:
+				AUTHENTICATION_FLOW_DOMAIN_NAME !== undefined
+		};
+
+		if (Object.values(authEnvStatus).some((value) => value === false)) {
+			console.error('Azure auth environment variables status:', authEnvStatus);
+			throw new InternalServerError('AUTH_CONFIG_MISSING', {
 				cause:
 					'Dados relacionados as requisições nos serviços da Azure não estão contidos nas variáveis ambiente'
 			});
 		}
 
-		this.clientId = process.env.CLIENT_ID;
-		this.clientSecret = process.env.CLIENT_SECRET;
-		this.tenantID = process.env.TENANT_ID;
-		this.scope = process.env.SCOPE;
-		this.domainName = process.env.DOMAIN_NAME;
+		this.clientId = CLIENT_ID as string;
+		this.clientSecret = CLIENT_SECRET as string;
+		this.tenantID = TENANT_ID as string;
+		this.tenantDomain = TENANT_DOMAIN as string;
+		this.scope = SCOPE as string;
+		this.domainName = DOMAIN_NAME as string;
 		this.authenticationFlowDomainName =
-			process.env.AUTHENTICATION_FLOW_DOMAIN_NAME;
+			AUTHENTICATION_FLOW_DOMAIN_NAME as string;
 	}
 
 	/**
@@ -140,13 +158,14 @@ export class AzureADService implements IidentityService {
 
 	async refreshToken(refreshToken: string): Promise<SignInOutputDTO> {
 		try {
-			const tokenEndpoint = `https://${this.authenticationFlowDomainName}/${this.tenantID}/oauth2/v2.0/token?p=b2c_1_ropc`;
+			const tokenEndpoint = `https://login.microsoftonline.com/${this.tenantID}/oauth2/v2.0/token`;
 
 			const urlSearchParams = new URLSearchParams({
 				grant_type: 'refresh_token',
 				client_id: this.clientId,
+				client_secret: this.clientSecret,
 				refresh_token: refreshToken,
-				scope: this.scope + ' openid offline_access'
+				scope: this.scope
 			});
 
 			// Realiza a requisição no servidor da Azure para obter o novo access token
@@ -162,15 +181,24 @@ export class AzureADService implements IidentityService {
 
 			//Informações detalhadas do perfil do usuário autenticado.
 			const userData = this.parseJwt(tokenResponse.data.access_token);
+			const resolvedDisplayName = userData.name || '';
+			const nameParts = resolvedDisplayName ? resolvedDisplayName.split(' ') : [];
+			const firstName =
+				userData.given_name || nameParts[0] || resolvedDisplayName || '';
+			const lastName =
+				userData.family_name || nameParts.slice(1).join(' ') || '';
+			const email =
+				userData.upn || userData.unique_name || userData.preferred_username || '';
+			const identityProviderUID = userData.oid || userData.sub;
 
 			const accessData: SignInOutputDTO = {
 				user: {
-					identityProviderUID: userData.sub,
+					identityProviderUID,
 					tenantUID: '',
-					userName: userData.name,
-					firstName: userData.given_name,
-					lastName: userData.family_name,
-					email: ''
+					userName: resolvedDisplayName || email,
+					firstName,
+					lastName,
+					email
 				},
 				tokens: {
 					accessToken: tokenResponse.data.access_token,
@@ -233,16 +261,18 @@ export class AzureADService implements IidentityService {
 
 			const accessToken: string = await this.getAccessToken();
 
-			const domainName: string = await this.getDomainName(accessToken);
+			const mailNickname = this.getUsernameFromEmail(user.email!);
+			const displayName =
+				[user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+				user.userName ||
+				mailNickname;
+			const userPrincipalName = `${mailNickname}@${this.tenantDomain}`;
 
 			const _user = {
 				accountEnabled: true,
-				displayName: user.userName, //Nome completo
-				givenName: user.firstName,
-				surname: user.lastName,
-				mailNickname: this.getUsernameFromEmail(user.email!),
-				userPrincipalName:
-					this.getUsernameFromEmail(user.email!) + '@' + this.domainName, //TODO tem que ser dominio do azure AD
+				displayName,
+				mailNickname,
+				userPrincipalName,
 				passwordProfile: {
 					forceChangePasswordNextSignIn: false, //Aqui estava como verdadeiro
 					password: user.password
@@ -256,8 +286,7 @@ export class AzureADService implements IidentityService {
 				//     issuerAssignedId: user.email,
 				//   },
 				// ],
-				// mail: user.email,
-				// Armazene o Gmail como atributo para busca posterior
+				// Armazene o email informado para suportar busca por mail
 				mail: user.email
 			};
 
@@ -269,16 +298,40 @@ export class AzureADService implements IidentityService {
 				}
 			});
 
+			const responseData = createUserResponse.data;
+			const resolvedDisplayName =
+				responseData.displayName ||
+				[responseData.givenName, responseData.surname]
+					.filter(Boolean)
+					.join(' ')
+					.trim();
+			const displayNameParts = resolvedDisplayName
+				? resolvedDisplayName.split(' ')
+				: [];
+			const fallbackFirstName =
+				responseData.givenName || displayNameParts[0] || '';
+			const fallbackLastName =
+				responseData.surname ||
+				displayNameParts.slice(1).join(' ') ||
+				'';
+
 			return {
-				email: createUserResponse.data.mail,
-				firstName: createUserResponse.data.givenName,
-				lastName: createUserResponse.data.surname,
-				identityProviderUID: createUserResponse.data.id,
-				userName: createUserResponse.data.displayName
+				email: responseData.mail || responseData.userPrincipalName,
+				firstName: fallbackFirstName,
+				lastName: fallbackLastName,
+				identityProviderUID: responseData.id,
+				userName: resolvedDisplayName || responseData.userPrincipalName
 			};
 		} catch (error: any) {
-			// console.dir(error, { depth: null });
-			throw new Error('Error to create user on Azure services.');
+			if (error?.response) {
+				console.error('Azure create user error:', {
+					status: error.response.status,
+					data: error.response.data
+				});
+			} else {
+				console.error('Azure create user error:', error);
+			}
+			throw new BadGatewayError('AZURE_CREATE_USER_FAILED', { cause: error });
 		}
 	}
 
@@ -330,12 +383,12 @@ export class AzureADService implements IidentityService {
 			username: useExternalEmail == true ? userPrincipalName : username,
 			password: password,
 			// deve incluir openid para obter o token de ID e offline_access para obter o refresh token
-			scope: this.scope + ' openid offline_access'
+			scope: this.scope
 		});
 
 		try {
 			const signInResponse = await axios.post(
-				`https://${this.authenticationFlowDomainName}/${this.domainName}/oauth2/v2.0/token`,
+				`https://login.microsoftonline.com/${this.tenantID}/oauth2/v2.0/token`,
 				urlSearchParams.toString(),
 				{
 					headers: {
@@ -346,14 +399,23 @@ export class AzureADService implements IidentityService {
 			//Informações detalhadas do perfil do usuário autenticado.
 			const userData = this.parseJwt(signInResponse.data.access_token);
 			console.log(userData);
+			const resolvedDisplayName = userData.name || '';
+			const nameParts = resolvedDisplayName ? resolvedDisplayName.split(' ') : [];
+			const firstName =
+				userData.given_name || nameParts[0] || resolvedDisplayName || '';
+			const lastName =
+				userData.family_name || nameParts.slice(1).join(' ') || '';
+			const email =
+				userData.upn || userData.unique_name || userData.preferred_username || '';
+			const identityProviderUID = userData.oid || userData.sub;
 			return {
 				user: {
-					identityProviderUID: userData.sub,
+					identityProviderUID,
 					tenantUID: '',
-					userName: userData.name,
-					firstName: userData.given_name,
-					lastName: userData.family_name,
-					email: ''
+					userName: resolvedDisplayName || email,
+					firstName,
+					lastName,
+					email
 				},
 				tokens: {
 					accessToken: signInResponse.data.access_token,
