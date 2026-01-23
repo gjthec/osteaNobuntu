@@ -1,4 +1,4 @@
-import { createClient } from "redis";
+import { createClient, RedisClientType } from "redis";
 
 type CacheEntry = {
   value: string;
@@ -6,7 +6,7 @@ type CacheEntry = {
 };
 
 export class RedisCache {
-  private client;
+  private client?: RedisClientType;
   private isConnected = false;
   private memoryCache: Map<string, CacheEntry> = new Map();
 
@@ -41,7 +41,7 @@ export class RedisCache {
 
   async set(key: string, value: any, ttl: number): Promise<void> {
     const serializedValue = JSON.stringify(value);
-    if (this.isConnected) {
+    if (this.isConnected && this.client) {
       await this.client.set(key, serializedValue, { EX: ttl });
       return;
     }
@@ -50,7 +50,7 @@ export class RedisCache {
   }
 
   async get<T>(key: string): Promise<T | null> {
-    if (this.isConnected) {
+    if (this.isConnected && this.client) {
       const value = await this.client.get(key);
       return value ? JSON.parse(value) : null;
     }
@@ -66,7 +66,7 @@ export class RedisCache {
   }
 
   async delete(key: string): Promise<void> {
-    if (this.isConnected) {
+    if (this.isConnected && this.client) {
       await this.client.del(key);
       return;
     }
@@ -74,7 +74,7 @@ export class RedisCache {
   }
 
   async clear(): Promise<void> {
-    if (this.isConnected) {
+    if (this.isConnected && this.client) {
       await this.client.flushDb();
       return;
     }
