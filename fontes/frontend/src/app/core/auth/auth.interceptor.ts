@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { catchError, Observable, take, throwError } from 'rxjs';
-import { AuthService } from './auth.service';
+import { catchError, Observable, throwError } from 'rxjs';
 import { TenantService } from '../tenant/tenant.service';
+import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 
 /**
@@ -10,13 +10,12 @@ import { Router } from '@angular/router';
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private hasTriedToRefresh: boolean = false;
   /**
    * Constructor
    */
   constructor(
-    private authService: AuthService,
     private tenantService: TenantService,
+    private authService: AuthService,
     private router: Router
   ) {
   }
@@ -29,14 +28,8 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let newReq = req.clone();
 
-    //Indica qual usuário está fazendo a requisição
-    let user: string = "";
     //Indica qual tenant (banco de dados) será a requisição
     let databaseUsedInRequest: string = "";
-
-    if (this.authService.currentUser != null) {
-      user = String(this.authService.currentUser.id);
-    }
 
     if (this.tenantService.currentTenant != null) {
 			databaseUsedInRequest = String(
@@ -44,10 +37,11 @@ export class AuthInterceptor implements HttpInterceptor {
 			);
 		}
 
+    const sessionId = this.authService.getSessionId();
     newReq = req.clone({
       setHeaders: {
-        "usersession": user,
         "X-Tenant-ID": databaseUsedInRequest,
+        ...(sessionId ? { "X-Session-Id": sessionId } : {}),
       },
       withCredentials: true,
     });
@@ -59,31 +53,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         // Caso obter "401 Unauthorized" (status de não autorizado para fazer a requisição) como erro
         if (error instanceof HttpErrorResponse && error.status === 401) {
-
-          if (this.hasTriedToRefresh == false) {
-
-            this.hasTriedToRefresh = true;
-
-            //Tenta obter o token de acesso
-            this.authService.handleToken().pipe(take(1)).subscribe({
-              next: (value) => {
-
-                if (value == true) {
-                  this.hasTriedToRefresh = false;
-                  location.reload();//TODO verificar se pode entrar em loop
-                } else {
-                  //Se não conseguir o token ele é jogado fora
-                  localStorage.clear();
-                  this.router.navigate(['/']);
-                }
-
-              },
-            });
-
-          } else {
-
-            this.router.navigate(['/home']);
-          }
+          this.router.navigate(['/signin']);
 
         }
         return throwError(() => error);

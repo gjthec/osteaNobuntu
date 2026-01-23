@@ -1,16 +1,17 @@
 import { Response, NextFunction } from 'express';
 import { errorHandler } from './errorHandler.middleware';
-import { AuthenticatedUser } from '../../../useCases/authentication/validateAccessToken.useCase';
-import { checkEnvironmentVariableIsEmpty } from '../../../utils/verifiers.util';
-import { InternalServerError } from '../../../errors/internal.error';
 import {
 	AuthenticatedRequest,
-	checkAccessToken,
 	checkUserIsRegisteredOnApplication,
 	registerUserOnApplication
 } from './checkUserAccess.middleware';
 import { TenantConnection } from '../../../domain/entities/tenantConnection.model';
 import { GetSecurityTenantConnectionUseCase } from '../../../useCases/tenant/getSecurityTenantConnection.useCase';
+import {
+	getSessionCookieName,
+	SessionService
+} from '../session/session.service';
+import { UnauthorizedError } from '../../../errors/client.error';
 
 /**
  * Verifica se o usuário foi cadastrado no servidor de identidade
@@ -20,26 +21,44 @@ export async function verifyIdentityProviderUserRegistered(
 	res: Response,
 	next: NextFunction
 ): Promise<void> {
-	const clientId = process.env.CLIENT_ID;
-	const issuer = process.env.TOKEN_ISSUER;
-	const jwksUri = process.env.JWKsUri;
-
-	if (
-		checkEnvironmentVariableIsEmpty(clientId!) == true ||
-		checkEnvironmentVariableIsEmpty(issuer!) == true ||
-		checkEnvironmentVariableIsEmpty(jwksUri!) == true
-	) {
-		throw new InternalServerError(
-			'Identity provider environment variables not defined.'
-		);
-	}
-
 	try {
-		const authHeader = req.headers.authorization;
+		console.log('verifyIdentityProviderUserRegistered: start', {
+			path: req.originalUrl,
+			hasCookies: Boolean(req.cookies && Object.keys(req.cookies).length > 0),
+			cookieHeader: req.headers.cookie || '',
+			sessionHeader: req.headers['x-session-id'],
+			origin: req.headers.origin,
+			referer: req.headers.referer,
+			host: req.headers.host
+		});
+		const sessionIdHeader = req.headers['x-session-id'];
+		const sessionId =
+			(typeof sessionIdHeader === 'string' && sessionIdHeader) ||
+			(Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : undefined) ||
+			req.cookies?.[getSessionCookieName()];
+		if (!sessionId) {
+			console.warn('verifyIdentityProviderUserRegistered: missing session cookie', {
+				cookieName: getSessionCookieName(),
+				cookieKeys: req.cookies ? Object.keys(req.cookies) : []
+			});
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Session not found.'
+			});
+		}
 
-		const authenticatedUser: AuthenticatedUser = await checkAccessToken(
-			authHeader!
-		);
+		const sessionService = SessionService.getInstance();
+		const session = await sessionService.getSession(sessionId);
+		if (!session) {
+			console.warn('verifyIdentityProviderUserRegistered: session not found', {
+				sessionId
+			});
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Session expired.'
+			});
+		}
+		console.log('verifyIdentityProviderUserRegistered: session loaded', {
+			identityProviderUID: session.user.identityProviderUID
+		});
 
 		const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 			new GetSecurityTenantConnectionUseCase();
@@ -50,16 +69,16 @@ export async function verifyIdentityProviderUserRegistered(
 
 		const isUserRegisteredOnApplication =
 			await checkUserIsRegisteredOnApplication(
-				authenticatedUser,
+				session.user,
 				securityTenantConnection
 			);
 
 		if (isUserRegisteredOnApplication == false) {
-			await registerUserOnApplication(authenticatedUser);
+			await registerUserOnApplication(session.user);
 		}
 
 		req.user = {
-			identityProviderUID: authenticatedUser.uid
+			identityProviderUID: session.user.identityProviderUID
 		};
 
 		next();

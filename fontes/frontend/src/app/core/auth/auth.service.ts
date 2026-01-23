@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { catchError, firstValueFrom, from, Observable, of, switchMap, take, throwError } from 'rxjs';
+import { catchError, firstValueFrom, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { IUser, SignupDTO } from './user.model';
+import { IUser, SignupDTO, SignInResponse, SessionResponse } from './user.model';
 import { TenantService } from '../tenant/tenant.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -15,6 +15,7 @@ export class AuthService {
 
   // private _currentUserSession: IUserSession | null = null;
   private _currentUser: IUser | null = null;
+  private sessionIdKey = 'sessionId';
 
   private url;
 
@@ -170,16 +171,29 @@ export class AuthService {
    */
   check(): Observable<boolean> {
 
-    if (this.currentUser != null &&
-      this.tenantService.currentTenant != null) {
-      return of(true);
-    }
-
-    return of(false);
+    return this.httpClient.get<SessionResponse>(`${this.url}/me`, { withCredentials: true }).pipe(
+      tap((response) => {
+        if (response?.user) {
+          response.user.roles = response.roles;
+          this.currentUser = response.user;
+          this.userService.setCurrentUserOnLocalStorage(response.user);
+          this.tenantService.getTenantsAndSaveInLocalStorage(response.user.UID);
+        }
+      }),
+      switchMap(() => of(true)),
+      catchError(() => of(false))
+    );
   }
 
-  signin(email: string, password: string): Observable<IUser> {
-    return this.httpClient.post<IUser>(`${this.url}/signin`, { email, password }, { withCredentials: true });//"{withCredentials: true}" instrui o Angular a incluir cookies em requisições HTTP
+  signin(email: string, password: string): Observable<SignInResponse> {
+    return this.httpClient.post<SignInResponse>(`${this.url}/login`, { email, password }, { withCredentials: true }).pipe(
+      tap((response) => {
+        if (response?.user) {
+          response.user.roles = response.roles;
+          localStorage.setItem(this.sessionIdKey, response.sessionId);
+        }
+      })
+    );
   }
 
   signup(signupDTO: SignupDTO): Observable<IUser> {
@@ -187,7 +201,12 @@ export class AuthService {
   }
 
   signout() {
-    return this.httpClient.post<IUser>(`${this.url}/signout`, {});
+    localStorage.removeItem(this.sessionIdKey);
+    return this.httpClient.post<IUser>(`${this.url}/logout`, {}, { withCredentials: true });
+  }
+
+  getSessionId(): string | null {
+    return localStorage.getItem(this.sessionIdKey);
   }
 
   checkEmailExist(email: string): Observable<boolean> {
@@ -210,46 +229,8 @@ export class AuthService {
     return this.httpClient.post(`${this.url}/validate-verification-email-code`, { verificationEmailCode });
   }
 
-  refreshAccessToken(): Observable<IUser[]> {
-    return this.httpClient.get<IUser[]>(`${this.url}/refresh-token`);
-  }
-
   singleSignOn(): Observable<IUser[]> {
     return this.httpClient.get<IUser[]>(`${this.url}/single-sign-on`);
-  }
-
-  /**
-   * Obtem dados de usuário e tenants para armazenamento local
-   */
-  handleToken(): Observable<boolean> {
-
-    return from(this.refreshAccessToken().pipe(take(1))).pipe(
-      switchMap((usersData: IUser[]) => {
-
-        if (usersData.length === 0) {
-          return throwError(() => new Error("Nenhum usuário retornado após a atualização do token."));
-        }
-
-        if (this.userService.getCurrentUserFromLocalStorage() == null) {
-          this.userService.setCurrentUserOnLocalStorage(usersData[0]);
-          this.userService.moveUserToFirstPositionOnLocalStorage(usersData[0].UID);
-          this.currentUser = usersData[0];
-        }
-
-        usersData.forEach((userData: IUser) => {
-          this.userService.addUserOnLocalStorage(userData);
-          this.tenantService.getTenantsAndSaveInLocalStorage(userData.UID);
-        });
-
-        let currentTennat = this.tenantService.currentTenant;
-
-        return of(true);
-      }),
-      catchError((error) => {
-        console.error("Erro ao atualizar token:", error);
-        return of(false);
-      })
-    );
   }
 
 }

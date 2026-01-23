@@ -231,20 +231,8 @@ export class UserController {
 		next: NextFunction
 	) {
 		try {
-			const authorizationHeader = req.headers['authorization'];
-
-			if (
-				authorizationHeader == undefined ||
-				authorizationHeader == null ||
-				authorizationHeader == ''
-			) {
-				throw new UnauthorizedError('UNAUTHORIZED');
-			}
-
-			const accessToken =
-				authorizationHeader && authorizationHeader.split(' ')[1];
-
-			if (accessToken == undefined) {
+			const accessToken = req.session?.accessToken;
+			if (!accessToken) {
 				throw new UnauthorizedError('UNAUTHORIZED');
 			}
 
@@ -269,20 +257,8 @@ export class UserController {
 		next: NextFunction
 	) {
 		try {
-			const authorizationHeader = req.headers['authorization'];
-
-			if (
-				authorizationHeader == undefined ||
-				authorizationHeader == null ||
-				authorizationHeader == ''
-			) {
-				throw new UnauthorizedError('UNAUTHORIZED');
-			}
-
-			const accessToken =
-				authorizationHeader && authorizationHeader.split(' ')[1];
-
-			if (accessToken == undefined) {
+			const accessToken = req.session?.accessToken;
+			if (!accessToken) {
 				throw new UnauthorizedError('UNAUTHORIZED');
 			}
 

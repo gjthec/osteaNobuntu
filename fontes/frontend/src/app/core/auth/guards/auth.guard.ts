@@ -6,7 +6,7 @@ import {
 	RouterStateSnapshot,
 	UrlTree
 } from '@angular/router';
-import { catchError, Observable, of, switchMap, take } from 'rxjs';
+import { Observable, of, switchMap, take } from 'rxjs';
 import { AuthService } from 'app/core/auth/auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -60,24 +60,10 @@ export class AuthGuard implements CanActivate {
 
 		return this._authService.check().pipe(
 			switchMap((authenticated) => {
-				// Se o usuário não estiver autenticado
 				if (!authenticated) {
-					return this._authService.handleToken().pipe(
-						take(1),
-						switchMap((success) => {
-							if (success) {
-								return of(true);
-							}
-
-							return this.redirectToSignIn(url);
-						}),
-						catchError(() => {
-							return this.redirectToSignIn(url);
-						})
-					);
+					return this.redirectToSignIn(url);
 				}
 
-				// Permite o acesso
 				return of(true);
 			}),
 			take(1)

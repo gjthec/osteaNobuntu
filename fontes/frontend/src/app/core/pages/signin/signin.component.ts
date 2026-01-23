@@ -134,7 +134,7 @@ export class SigninComponent {
 
     this.authService.signin(this.emailFormGroup.value.email, this.passwordFormGroup.value.password).pipe(take(1)).subscribe({
       next:(value) => {
-        user = value;
+        user = value.user;
 
         this.userService.addUserOnLocalStorage(user);
         this.userService.setCurrentUserOnLocalStorage(user);

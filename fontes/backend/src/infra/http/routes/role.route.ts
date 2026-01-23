@@ -6,6 +6,7 @@ import {
 	findAllRoleValidator
 } from '../validators/role.validator';
 import { checkUserAccess } from '../middlewares/checkUserAccess.middleware';
+import { requireRole } from '../middlewares/session.middleware';
 /**
  * Irá definir as rotas da entidade
  * @param app Instância da aplicação express
@@ -17,7 +18,7 @@ export default function defineRoute(app: Application) {
 	//Create a new
 	router.post(
 		'/',
-		[checkUserAccess, ...createNewRoleValidator, validateHeaders],
+		[checkUserAccess, requireRole('ADMIN'), ...createNewRoleValidator, validateHeaders],
 		controller.create
 	);
 	//Find all by user
@@ -33,11 +34,11 @@ export default function defineRoute(app: Application) {
 	//Find by id
 	router.get('/:id', controller.findById);
 	//Update
-	router.put('/:id', controller.update);
+	router.put('/:id', [checkUserAccess, requireRole('ADMIN')], controller.update);
 	//Delete all
-	router.delete('/all', controller.deleteAll);
+	router.delete('/all', [checkUserAccess, requireRole('ADMIN')], controller.deleteAll);
 	//Delete
-	router.delete('/:id', controller.delete);
+	router.delete('/:id', [checkUserAccess, requireRole('ADMIN')], controller.delete);
 
 	app.use('/api/role', router);
 }

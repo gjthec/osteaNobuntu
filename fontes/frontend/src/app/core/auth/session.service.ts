@@ -18,7 +18,7 @@ export class SessionService extends BaseResourceService<Session> {
     super(url, injector, Session.fromJson) 
   }
 
-  registerNewSession(uid: string, userid: string, token: string): Observable<Session> {
+  registerNewSession(uid: string, userid: string): Observable<Session> {
     const newSession: Session = {
       finishSessionDate: new Date(),
       hashValidationLogin: "test",
@@ -26,9 +26,7 @@ export class SessionService extends BaseResourceService<Session> {
       initialDate: new Date(),
       stayConnected: false,
       tenantUID: environment.tenant_id,
-      accessToken: token,
       userUID: uid,
-      accessTokenExpirationDate: new Date(),
       user: userid,
     }
 

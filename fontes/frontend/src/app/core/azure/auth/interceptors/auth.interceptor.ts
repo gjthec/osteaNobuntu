@@ -18,7 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
       //Obtem o token de acesso
       return from(this.authFacade.getAccessToken()).pipe(
         switchMap(token => {
-          if (token) {
+          const accessToken = token || localStorage.getItem('accessToken');
+          if (accessToken) {
 
              //Indica qual usuário está fazendo a requisição
             let user: string = "";
@@ -32,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
             //Coloca o token de acesso no cabeçario da requisição
             const authRequest = request.clone({
               setHeaders: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${accessToken}`,
                 "usersession": user,
                 "X-Tenant-ID": databaseUsedInRequest,
               }
