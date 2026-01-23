@@ -22,8 +22,16 @@ export async function verifyIdentityProviderUserRegistered(
 	next: NextFunction
 ): Promise<void> {
 	try {
+		console.log('verifyIdentityProviderUserRegistered: start', {
+			path: req.originalUrl,
+			hasCookies: Boolean(req.cookies && Object.keys(req.cookies).length > 0)
+		});
 		const sessionId = req.cookies?.[getSessionCookieName()];
 		if (!sessionId) {
+			console.warn('verifyIdentityProviderUserRegistered: missing session cookie', {
+				cookieName: getSessionCookieName(),
+				cookieKeys: req.cookies ? Object.keys(req.cookies) : []
+			});
 			throw new UnauthorizedError('UNAUTHORIZED', {
 				cause: 'Session not found.'
 			});
@@ -32,10 +40,16 @@ export async function verifyIdentityProviderUserRegistered(
 		const sessionService = SessionService.getInstance();
 		const session = await sessionService.getSession(sessionId);
 		if (!session) {
+			console.warn('verifyIdentityProviderUserRegistered: session not found', {
+				sessionId
+			});
 			throw new UnauthorizedError('UNAUTHORIZED', {
 				cause: 'Session expired.'
 			});
 		}
+		console.log('verifyIdentityProviderUserRegistered: session loaded', {
+			identityProviderUID: session.user.identityProviderUID
+		});
 
 		const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 			new GetSecurityTenantConnectionUseCase();

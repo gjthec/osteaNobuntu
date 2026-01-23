@@ -50,8 +50,16 @@ export async function checkUserAccess(
 	next: NextFunction
 ) {
 	try {
+		console.log('checkUserAccess: start', {
+			path: req.originalUrl,
+			hasCookies: Boolean(req.cookies && Object.keys(req.cookies).length > 0),
+			cookieKeys: req.cookies ? Object.keys(req.cookies) : []
+		});
 		const sessionId = req.cookies?.[getSessionCookieName()];
 		if (!sessionId) {
+			console.warn('checkUserAccess: missing session cookie', {
+				cookieName: getSessionCookieName()
+			});
 			throw new UnauthorizedError('UNAUTHORIZED', {
 				cause: 'Session not found.'
 			});
@@ -60,10 +68,14 @@ export async function checkUserAccess(
 		const sessionService = SessionService.getInstance();
 		let session = await sessionService.getSession(sessionId);
 		if (!session) {
+			console.warn('checkUserAccess: session not found', { sessionId });
 			throw new UnauthorizedError('UNAUTHORIZED', {
 				cause: 'Session expired.'
 			});
 		}
+		console.log('checkUserAccess: session loaded', {
+			identityProviderUID: session.user.identityProviderUID
+		});
 
 		const remainingMs = session.expiresAt - Date.now();
 		if (remainingMs <= getSessionRefreshThresholdMs()) {
