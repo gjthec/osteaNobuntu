@@ -186,24 +186,36 @@ export class TenantController {
 		next: NextFunction
 	) {
 		try {
+			console.log('TenantController: findByUserID start', {
+				identityProviderUID: req.user?.identityProviderUID
+			});
 			const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 				new GetSecurityTenantConnectionUseCase();
 			const securityTenantConnection: TenantConnection =
 				await getSecurityTenantConnectionUseCase.execute();
 
+			console.log('TenantController: security tenant connection ready', {
+				databaseType: securityTenantConnection.databaseType
+			});
 			const databaseCredentialRepository: DatabaseCredentialRepository =
 				new DatabaseCredentialRepository(securityTenantConnection);
 
 			if (!req.user) {
+				console.error('TenantController: user not defined');
 				throw new NotFoundError('NOT_FOUND', { cause: 'User not defined.' });
 			}
 
+			console.log(
+				'TenantController: fetching accessible tenants for user',
+				req.user.identityProviderUID
+			);
 			const databaseCredentialList =
 				await databaseCredentialRepository.advancedSearches.getAccessibleByUserIdentityProviderUID(
 					req.user.identityProviderUID
 				);
 
 			if (!databaseCredentialList) {
+				console.error('TenantController: no accessible tenants found');
 				throw new NotFoundError('NOT_FOUND', {
 					cause: "User don't have tenants to access."
 				});
@@ -217,8 +229,12 @@ export class TenantController {
 				})
 			);
 
+			console.log('TenantController: findByUserID success', {
+				count: filteredTenantList.length
+			});
 			return res.status(200).send(filteredTenantList);
 		} catch (error) {
+			console.error('TenantController: findByUserID failed', error);
 			next(error);
 		}
 	}

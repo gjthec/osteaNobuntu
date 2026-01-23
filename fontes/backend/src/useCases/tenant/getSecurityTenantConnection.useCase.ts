@@ -22,6 +22,9 @@ export class GetSecurityTenantConnectionUseCase {
 	 */
 	async execute(): Promise<TenantConnection> {
 		const tenantCredentialId: number = 0;
+		console.log('GetSecurityTenantConnectionUseCase: start', {
+			tenantCredentialId
+		});
 
 		const databaseCredential: DatabaseCredential = new DatabaseCredential({
 			id: 0,
@@ -73,12 +76,18 @@ export class GetSecurityTenantConnectionUseCase {
 			);
 
 		if (tenantConnection != null) {
+			console.log('GetSecurityTenantConnectionUseCase: cache hit');
 			return tenantConnection;
 		}
 
 		try {
+			console.log('GetSecurityTenantConnectionUseCase: connecting to database');
 			tenantConnection = await connectToDatabase(databaseCredential, true);
 		} catch (error) {
+			console.error(
+				'GetSecurityTenantConnectionUseCase: initial connection failed',
+				error
+			);
 			let databaseInitializer: DatabaseInitializer;
 
 			if (databaseCredential.type === 'mongodb') {
@@ -114,6 +123,7 @@ export class GetSecurityTenantConnectionUseCase {
 			tenantConnectionAccessService.tenantConnectionCache.saveUserAccessOnMemory(
 				tenantConnection
 			);
+			console.log('GetSecurityTenantConnectionUseCase: cache updated');
 		} catch (error) {
 			throw new InternalServerError(
 				'Error on save users access tenants on memory.',

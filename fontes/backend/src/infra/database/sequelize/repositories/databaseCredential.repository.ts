@@ -698,6 +698,14 @@ export class DatabaseCredentialRepositorySequelize
 		pageSize?: number,
 		page?: number
 	): Promise<DatabaseCredential[]> {
+		console.log(
+			'DatabaseCredentialRepository: getAccessibleByUserIdentityProviderUID start',
+			{
+				identityProviderUID,
+				pageSize,
+				page
+			}
+		);
 		const userRepository: UserRepository = new UserRepository(
 			this.tenantConnection
 		);
@@ -708,6 +716,10 @@ export class DatabaseCredentialRepositorySequelize
 		});
 
 		if (!user || user.id == undefined) {
+			console.error(
+				'DatabaseCredentialRepository: user not found for identityProviderUID',
+				identityProviderUID
+			);
 			throw new NotFoundError('USER_NOT_FOUND', { cause: "User don't exist." });
 		}
 
@@ -751,10 +763,20 @@ export class DatabaseCredentialRepositorySequelize
 				databaseCredentialListQuery
 			)) as IDatabaseCredential[];
 
+			console.log(
+				'DatabaseCredentialRepository: getAccessibleByUserIdentityProviderUID success',
+				{
+					count: databaseCredentialList.length
+				}
+			);
 			return databaseCredentialList.map((databaseCredential) =>
 				DatabaseCredential.fromJson(databaseCredential)
 			);
 		} catch (error) {
+			console.error(
+				'DatabaseCredentialRepository: getAccessibleByUserIdentityProviderUID failed',
+				error
+			);
 			throw new InternalServerError('Error to get database credential list.', {
 				cause: error
 			});
