@@ -167,28 +167,9 @@ export class SignupComponent {
         this.snackBar.open('Conta criada com exito', 'Fechar', {
           duration: 3000,
         });
-
-        //Realizar o acesso do novo usuário
-        this.authService.signin(this.emailFormGroup.value.email, this.passwordForm.password).pipe(take(1)).subscribe({
-          next: (value) => {
-            let user: IUser = value.user;
-
-            this.userService.addUserOnLocalStorage(user);
-            this.userService.setCurrentUserOnLocalStorage(user);
-            this.userService.moveUserToFirstPositionOnLocalStorage(user.UID);
-            this.authService.currentUser = user;
-            this.tenantService.getTenantsAndSaveInLocalStorage(user.UID);
-
-            this.router.navigate(['/home']);
-          },
-          error: (error) => {
-            this.snackBar.open('Erro inesperado ao realizar o cadastro.', 'Fechar', {
-              duration: 3000,
-            });
-            this.isLoading = false;
-            this.emailFormGroup.enable();
-          },
-        })
+        this.isLoading = false;
+        this.emailFormGroup.enable();
+        this.router.navigate(['/signin']);
       },
 
       error: (error) => {
