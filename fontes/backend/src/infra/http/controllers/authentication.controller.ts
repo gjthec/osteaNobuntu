@@ -134,7 +134,7 @@ export class AuthenticationController {
 					tenantUID: result.user.tenantUID,
 					roles
 				},
-				result.tokens.accessToken
+				result.tokens
 			);
 
 			console.log('AuthenticationController: session created', {

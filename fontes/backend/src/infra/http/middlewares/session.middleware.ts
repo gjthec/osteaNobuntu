@@ -7,8 +7,12 @@ import {
 	SessionService
 } from '../session/session.service';
 import { AuthenticatedRequest } from './checkUserAccess.middleware';
+import { EntraIdService } from '../../../domain/services/entraId.service';
+import { RefreshTokenUseCase } from '../../../useCases/authentication/refreshToken.useCase';
 
-function getSessionIdFromRequest(req: AuthenticatedRequest): string | undefined {
+export function getSessionIdFromRequest(
+	req: AuthenticatedRequest
+): string | undefined {
 	const headerSessionId = req.headers['x-session-id'];
 	if (typeof headerSessionId === 'string' && headerSessionId.length > 0) {
 		return headerSessionId;
@@ -19,40 +23,85 @@ function getSessionIdFromRequest(req: AuthenticatedRequest): string | undefined 
 	return req.cookies?.[getSessionCookieName()];
 }
 
+export async function resolveSession(
+	req: AuthenticatedRequest,
+	res: Response
+): Promise<{ session: NonNullable<AuthenticatedRequest['session']>; updated: boolean }> {
+	const sessionId = getSessionIdFromRequest(req);
+	if (!sessionId) {
+		throw new UnauthorizedError('UNAUTHORIZED', {
+			cause: 'Session not found.'
+		});
+	}
+
+	const sessionService = SessionService.getInstance();
+	let session = await sessionService.getSession(sessionId);
+	if (!session) {
+		throw new UnauthorizedError('UNAUTHORIZED', {
+			cause: 'Session expired.'
+		});
+	}
+
+	if (!session.accessTokenExpiresAt && !session.refreshTokenExpiresAt) {
+		throw new UnauthorizedError('UNAUTHORIZED', {
+			cause: 'Token metadata missing for session.'
+		});
+	}
+
+	if (session.expiresAt <= Date.now()) {
+		await sessionService.deleteSession(sessionId);
+		throw new UnauthorizedError('UNAUTHORIZED', {
+			cause: 'Session expired.'
+		});
+	}
+
+	let updated = false;
+	if (
+		session.accessTokenExpiresAt &&
+		session.accessTokenExpiresAt - Date.now() <= getSessionRefreshThresholdMs()
+	) {
+		if (!session.refreshToken) {
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Refresh token missing for session.'
+			});
+		}
+
+		const refreshTokenUseCase = new RefreshTokenUseCase(new EntraIdService());
+		const refreshResponse = await refreshTokenUseCase.execute({
+			refreshToken: session.refreshToken
+		});
+
+		const updatedSession = await sessionService.updateSessionTokens(
+			sessionId,
+			refreshResponse.tokens
+		);
+		if (!updatedSession) {
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Unable to refresh session tokens.'
+			});
+		}
+		session = updatedSession;
+		updated = true;
+	}
+
+	if (updated) {
+		const maxAgeMs = session.expiresAt - Date.now();
+		if (maxAgeMs > 0) {
+			res.cookie(getSessionCookieName(), sessionId, buildSessionCookieOptions(maxAgeMs));
+		}
+	}
+
+	return { session, updated };
+}
+
 export async function requireAuth(
 	req: AuthenticatedRequest,
 	res: Response,
 	next: NextFunction
 ): Promise<void> {
 	try {
-		const sessionId = getSessionIdFromRequest(req);
-		if (!sessionId) {
-			throw new UnauthorizedError('UNAUTHORIZED', {
-				cause: 'Session not found.'
-			});
-		}
-
-		const sessionService = SessionService.getInstance();
-		const session = await sessionService.getSession(sessionId);
-		if (!session) {
-			throw new UnauthorizedError('UNAUTHORIZED', {
-				cause: 'Session expired.'
-			});
-		}
-
-		const remainingMs = session.expiresAt - Date.now();
-		if (remainingMs <= getSessionRefreshThresholdMs()) {
-			const refreshed = await sessionService.refreshSession(sessionId);
-			if (refreshed) {
-				const maxAgeMs = refreshed.expiresAt - Date.now();
-				res.cookie(getSessionCookieName(), sessionId, buildSessionCookieOptions(maxAgeMs));
-				req.session = refreshed;
-			} else {
-				req.session = session;
-			}
-		} else {
-			req.session = session;
-		}
+		const { session } = await resolveSession(req, res);
+		req.session = session;
 
 		req.user = {
 			id: session.user.id,
@@ -71,20 +120,16 @@ export async function optionalAuth(
 	res: Response,
 	next: NextFunction
 ): Promise<void> {
-	const sessionId = getSessionIdFromRequest(req);
-	if (!sessionId) {
-		return next();
-	}
-
-	const sessionService = SessionService.getInstance();
-	const session = await sessionService.getSession(sessionId);
-	if (session) {
+	try {
+		const { session } = await resolveSession(req, res);
 		req.session = session;
 		req.user = {
 			id: session.user.id,
 			identityProviderUID: session.user.identityProviderUID,
 			roles: session.user.roles
 		};
+	} catch (error) {
+		// Optional auth should not block when no valid session is present.
 	}
 	return next();
 }

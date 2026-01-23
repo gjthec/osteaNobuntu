@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { RedisCache } from '../../cache/redis';
+import { IUserAccessData } from '../../../domain/entities/userAcessData.model';
 
 export type SessionUser = {
 	id?: number;
@@ -16,6 +17,9 @@ export type SessionData = {
 	id: string;
 	user: SessionUser;
 	accessToken?: string;
+	refreshToken?: string;
+	accessTokenExpiresAt?: number;
+	refreshTokenExpiresAt?: number;
 	issuedAt: number;
 	expiresAt: number;
 };
@@ -78,20 +82,88 @@ export class SessionService {
 		return SessionService.instance;
 	}
 
-	async createSession(user: SessionUser, accessToken?: string): Promise<SessionData> {
+	private resolveAccessTokenExpiry(
+		issuedAt: number,
+		tokens?: IUserAccessData
+	): number | undefined {
+		if (!tokens) {
+			return undefined;
+		}
+		if (tokens.expiresOn) {
+			const expiresOnMs = Number(tokens.expiresOn) * 1000;
+			if (!Number.isNaN(expiresOnMs) && expiresOnMs > 0) {
+				return expiresOnMs;
+			}
+		}
+		if (tokens.expiresIn) {
+			return issuedAt + tokens.expiresIn * 1000;
+		}
+		return undefined;
+	}
+
+	private resolveRefreshTokenExpiry(
+		issuedAt: number,
+		tokens?: IUserAccessData
+	): number | undefined {
+		if (!tokens || !tokens.refreshTokenExpiresIn) {
+			return undefined;
+		}
+		return issuedAt + tokens.refreshTokenExpiresIn * 1000;
+	}
+
+	private resolveSessionExpiry(
+		issuedAt: number,
+		accessTokenExpiresAt?: number,
+		refreshTokenExpiresAt?: number
+	): number {
+		if (refreshTokenExpiresAt) {
+			return refreshTokenExpiresAt;
+		}
+		if (accessTokenExpiresAt) {
+			return accessTokenExpiresAt;
+		}
+		return issuedAt + getSessionTtlSeconds() * 1000;
+	}
+
+	private resolveCacheTtlSeconds(expiresAt: number): number {
+		const remainingMs = expiresAt - Date.now();
+		const ttlSeconds = Math.floor(remainingMs / 1000);
+		return ttlSeconds > 0 ? ttlSeconds : 1;
+	}
+
+	private async persistSession(sessionId: string, session: SessionData): Promise<void> {
+		await this.cache.set(
+			buildSessionKey(sessionId),
+			session,
+			this.resolveCacheTtlSeconds(session.expiresAt)
+		);
+	}
+
+	async createSession(
+		user: SessionUser,
+		tokens?: IUserAccessData
+	): Promise<SessionData> {
 		const sessionId = randomUUID();
 		const issuedAt = Date.now();
-		const ttlSeconds = getSessionTtlSeconds();
-		const expiresAt = issuedAt + ttlSeconds * 1000;
+		const accessTokenExpiresAt = this.resolveAccessTokenExpiry(issuedAt, tokens);
+		const refreshTokenExpiresAt = this.resolveRefreshTokenExpiry(issuedAt, tokens);
+		const expiresAt = this.resolveSessionExpiry(
+			issuedAt,
+			accessTokenExpiresAt,
+			refreshTokenExpiresAt
+		);
 		const session: SessionData = {
 			id: sessionId,
 			user,
-			accessToken,
+			accessToken: tokens?.accessToken,
+			refreshToken: tokens?.refreshToken,
+			accessTokenExpiresAt,
+			refreshTokenExpiresAt,
 			issuedAt,
 			expiresAt
 		};
 
-		await this.cache.set(buildSessionKey(sessionId), session, ttlSeconds);
+		await this.persistSession(sessionId, session);
 		return session;
 	}
 
@@ -104,16 +176,55 @@ export class SessionService {
 		if (!existing) {
 			return null;
 		}
-		const ttlSeconds = getSessionTtlSeconds();
 		const issuedAt = Date.now();
-		const expiresAt = issuedAt + ttlSeconds * 1000;
+		const expiresAt = this.resolveSessionExpiry(
+			issuedAt,
+			existing.accessTokenExpiresAt,
+			existing.refreshTokenExpiresAt
+		);
 		const refreshed: SessionData = {
 			...existing,
 			issuedAt,
 			expiresAt
 		};
-		await this.cache.set(buildSessionKey(sessionId), refreshed, ttlSeconds);
+		await this.persistSession(sessionId, refreshed);
 		return refreshed;
+	}
+
+	async updateSessionTokens(
+		sessionId: string,
+		tokens: IUserAccessData
+	): Promise<SessionData | null> {
+		const existing = await this.getSession(sessionId);
+		if (!existing) {
+			return null;
+		}
+
+		const issuedAt = Date.now();
+		const accessTokenExpiresAt =
+			this.resolveAccessTokenExpiry(issuedAt, tokens) ??
+			existing.accessTokenExpiresAt;
+		const refreshTokenExpiresAt =
+			this.resolveRefreshTokenExpiry(issuedAt, tokens) ??
+			existing.refreshTokenExpiresAt;
+		const expiresAt = this.resolveSessionExpiry(
+			issuedAt,
+			accessTokenExpiresAt,
+			refreshTokenExpiresAt
+		);
+
+		const updated: SessionData = {
+			...existing,
+			accessToken: tokens.accessToken ?? existing.accessToken,
+			refreshToken: tokens.refreshToken ?? existing.refreshToken,
+			accessTokenExpiresAt,
+			refreshTokenExpiresAt,
+			issuedAt,
+			expiresAt
+		};
+
+		await this.persistSession(sessionId, updated);
+		return updated;
 	}
 
 	async deleteSession(sessionId: string): Promise<void> {
