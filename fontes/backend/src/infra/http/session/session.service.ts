@@ -38,9 +38,14 @@ export function getSessionRefreshThresholdMs(): number {
 }
 
 export function buildSessionCookieOptions(maxAgeMs: number) {
+	const secureFromEnv = process.env.COOKIE_SECURE;
+	const secure =
+		secureFromEnv !== undefined
+			? secureFromEnv.toLowerCase() === 'true'
+			: process.env.NODE_ENV === 'production';
 	return {
 		httpOnly: true,
-		secure: true,
+		secure,
 		sameSite: 'lax' as const,
 		path: '/',
 		maxAge: maxAgeMs
