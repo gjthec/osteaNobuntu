@@ -50,17 +50,13 @@ export class RegisterUserUseCase {
 
 		let registeredUserOnIdentityServer: IUser;
 
-		try {
-			registeredUserOnIdentityServer = await this.identityService.createUser({
-				email: input.email,
-				firstName: input.firstName,
-				lastName: input.lastName,
-				userName: input.userName,
-				password: input.password
-			});
-		} catch (error) {
-			throw new Error('Error to register user on identity server.');
-		}
+		registeredUserOnIdentityServer = await this.identityService.createUser({
+			email: input.email,
+			firstName: input.firstName,
+			lastName: input.lastName,
+			userName: input.userName,
+			password: input.password
+		});
 
 		let userWillBeAdministrator: boolean = false;
 		//Verificar se é o primeiro usuário da aplicação, para assim definir ele como admin
