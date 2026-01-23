@@ -33,7 +33,7 @@ enum SignUpPageState {
 export class SignupComponent {
 
   nameForm: INameForm = { firstName: '', lastName: '' };
-  passwordForm: IPasswordForm = { password: '' };
+  passwordForm: IPasswordForm = { password: 'adminN123@' };
   birthDayAndGenderForm: IBirthDayAndGenderForm = {
     birthDay: 0,
     birthMonth: 1,
@@ -42,7 +42,7 @@ export class SignupComponent {
   };
 
   emailFormGroup: FormGroup = this._formBuilder.group({
-    email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],
+    email: ['teslaeletronico@gmail.com', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],
   });
 
   emailVerificationCodeFormGroup: FormGroup = this._formBuilder.group({
