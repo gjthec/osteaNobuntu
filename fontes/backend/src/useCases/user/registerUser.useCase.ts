@@ -85,18 +85,20 @@ export class RegisterUserUseCase {
 
 		let newUser: IUser | null = null;
 
+		const provider = 'entraId';
+
 		try {
 			console.log('RegisterUserUseCase: creating database user', {
 				email: input.email,
 				tenantUID,
-				provider: 'entraId'
+				provider
 			});
 			//Registra o usuário no banco de dados
 			newUser = await this.userRepository.create(
 				new User({
 					identityProviderUID:
 						registeredUserOnIdentityServer.identityProviderUID, //UID do servidor de identidade
-					provider: 'entraId',
+					provider,
 					userName: input.userName,
 					firstName: input.firstName,
 					lastName: input.lastName,
