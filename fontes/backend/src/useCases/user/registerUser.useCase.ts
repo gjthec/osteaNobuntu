@@ -27,6 +27,10 @@ export class RegisterUserUseCase {
 	) {}
 
 	async execute(input: signupInputDTO): Promise<IUser> {
+		console.log('RegisterUserUseCase: start', {
+			email: input.email,
+			hasInvitedTenantsToken: Boolean(input.invitedTenantsToken)
+		});
 		if (checkEmailIsValid(input.email) == false) {
 			throw new ValidationError('EMAIL_INVALID', { cause: 'Email is invalid.' });
 		}
@@ -58,6 +62,10 @@ export class RegisterUserUseCase {
 				userName: input.userName,
 				password: input.password
 			});
+			console.log('RegisterUserUseCase: identity user created', {
+				identityProviderUID: registeredUserOnIdentityServer.identityProviderUID,
+				email: registeredUserOnIdentityServer.email
+			});
 		} catch (error) {
 			console.error('RegisterUserUseCase: createUser failed', error);
 			throw error;
@@ -78,6 +86,10 @@ export class RegisterUserUseCase {
 		let newUser: IUser | null = null;
 
 		try {
+			console.log('RegisterUserUseCase: creating database user', {
+				email: input.email,
+				tenantUID
+			});
 			//Registra o usuário no banco de dados
 			newUser = await this.userRepository.create(
 				new User({
@@ -92,12 +104,17 @@ export class RegisterUserUseCase {
 					tenantUID: tenantUID
 				})
 			);
+			console.log('RegisterUserUseCase: database user created', {
+				userId: newUser.id,
+				email: newUser.email
+			});
 		} catch (error) {
 			console.error('RegisterUserUseCase: database create failed', error);
 			throw new Error('Error to create user. Details: ' + error);
 		}
 
 		if (input.invitedTenantsToken) {
+			console.log('RegisterUserUseCase: invitedTenantsToken provided');
 			//Validar JWT e pegar o payload (dados contidos dentro do JWT)
 			const data = this.tokenGenerator.verifyToken(
 				input.invitedTenantsToken
