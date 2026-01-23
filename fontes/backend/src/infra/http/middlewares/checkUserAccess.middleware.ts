@@ -17,12 +17,10 @@ import UserRepository from '../../../domain/repositories/user.repository';
 import { UserRouteAccessService } from '../../../domain/services/userRouteAccess.service';
 import { TenantConnectionAccessService } from '../../../domain/services/tenantConnection.service';
 import {
-	buildSessionCookieOptions,
 	getSessionCookieName,
-	getSessionRefreshThresholdMs,
-	SessionData,
-	SessionService
+	SessionData
 } from '../session/session.service';
+import { resolveSession } from './session.middleware';
 
 /**
  * Interface personalizada que irá armazenar informações do usuário
@@ -74,31 +72,10 @@ export async function checkUserAccess(
 			});
 		}
 
-		const sessionService = SessionService.getInstance();
-		let session = await sessionService.getSession(sessionId);
-		if (!session) {
-			console.warn('checkUserAccess: session not found', { sessionId });
-			throw new UnauthorizedError('UNAUTHORIZED', {
-				cause: 'Session expired.'
-			});
-		}
+		const { session } = await resolveSession(req, res);
 		console.log('checkUserAccess: session loaded', {
 			identityProviderUID: session.user.identityProviderUID
 		});
-
-		const remainingMs = session.expiresAt - Date.now();
-		if (remainingMs <= getSessionRefreshThresholdMs()) {
-			const refreshed = await sessionService.refreshSession(sessionId);
-			if (refreshed) {
-				const maxAgeMs = refreshed.expiresAt - Date.now();
-				res.cookie(
-					getSessionCookieName(),
-					sessionId,
-					buildSessionCookieOptions(maxAgeMs)
-				);
-				session = refreshed;
-			}
-		}
 
 		req.session = session;
 
