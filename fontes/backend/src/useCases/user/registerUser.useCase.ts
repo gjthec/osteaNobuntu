@@ -83,6 +83,7 @@ export class RegisterUserUseCase {
 				new User({
 					identityProviderUID:
 						registeredUserOnIdentityServer.identityProviderUID, //UID do servidor de identidade
+					provider: 'entraId',
 					userName: input.userName,
 					firstName: input.firstName,
 					lastName: input.lastName,
