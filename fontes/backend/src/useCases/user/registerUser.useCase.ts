@@ -50,13 +50,18 @@ export class RegisterUserUseCase {
 
 		let registeredUserOnIdentityServer: IUser;
 
-		registeredUserOnIdentityServer = await this.identityService.createUser({
-			email: input.email,
-			firstName: input.firstName,
-			lastName: input.lastName,
-			userName: input.userName,
-			password: input.password
-		});
+		try {
+			registeredUserOnIdentityServer = await this.identityService.createUser({
+				email: input.email,
+				firstName: input.firstName,
+				lastName: input.lastName,
+				userName: input.userName,
+				password: input.password
+			});
+		} catch (error) {
+			console.error('RegisterUserUseCase: createUser failed', error);
+			throw error;
+		}
 
 		let userWillBeAdministrator: boolean = false;
 		//Verificar se é o primeiro usuário da aplicação, para assim definir ele como admin
@@ -87,6 +92,7 @@ export class RegisterUserUseCase {
 				})
 			);
 		} catch (error) {
+			console.error('RegisterUserUseCase: database create failed', error);
 			throw new Error('Error to create user. Details: ' + error);
 		}
 
