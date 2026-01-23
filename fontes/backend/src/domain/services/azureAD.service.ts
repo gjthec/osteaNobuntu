@@ -389,14 +389,23 @@ export class AzureADService implements IidentityService {
 			//Informações detalhadas do perfil do usuário autenticado.
 			const userData = this.parseJwt(signInResponse.data.access_token);
 			console.log(userData);
+			const resolvedDisplayName = userData.name || '';
+			const nameParts = resolvedDisplayName ? resolvedDisplayName.split(' ') : [];
+			const firstName =
+				userData.given_name || nameParts[0] || resolvedDisplayName || '';
+			const lastName =
+				userData.family_name || nameParts.slice(1).join(' ') || '';
+			const email =
+				userData.upn || userData.unique_name || userData.preferred_username || '';
+			const identityProviderUID = userData.oid || userData.sub;
 			return {
 				user: {
-					identityProviderUID: userData.sub,
+					identityProviderUID,
 					tenantUID: '',
-					userName: userData.name,
-					firstName: userData.given_name,
-					lastName: userData.family_name,
-					email: ''
+					userName: resolvedDisplayName || email,
+					firstName,
+					lastName,
+					email
 				},
 				tokens: {
 					accessToken: signInResponse.data.access_token,
