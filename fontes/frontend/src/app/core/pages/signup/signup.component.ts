@@ -169,7 +169,7 @@ export class SignupComponent {
         });
         this.isLoading = false;
         this.emailFormGroup.enable();
-        this.router.navigate(['/signin']);
+        this.router.navigate(['/home']);
       },
 
       error: (error) => {
