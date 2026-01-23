@@ -124,8 +124,8 @@ export class AuthenticationController {
 				maxAge: 24 * 60 * 60 * 1000 // 1 dia
 			});
 
-			//Só será enviado dados do usuário
-			return res.status(200).send(result.user);
+			//Envia dados do usuário e tokens
+			return res.status(200).send(result);
 		} catch (error) {
 			next(error);
 		}

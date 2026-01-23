@@ -49,3 +49,8 @@ export interface SignupDTO {
   password: string;
   invitedTenantsToken?: string;
 }
+
+export interface SignInResponse {
+  user: IUser;
+  tokens: ITokens;
+}

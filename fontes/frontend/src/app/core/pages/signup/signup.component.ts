@@ -171,7 +171,7 @@ export class SignupComponent {
         //Realizar o acesso do novo usuário
         this.authService.signin(this.emailFormGroup.value.email, this.passwordForm.password).pipe(take(1)).subscribe({
           next: (value) => {
-            let user: IUser = value;
+            let user: IUser = value.user;
 
             this.userService.addUserOnLocalStorage(user);
             this.userService.setCurrentUserOnLocalStorage(user);

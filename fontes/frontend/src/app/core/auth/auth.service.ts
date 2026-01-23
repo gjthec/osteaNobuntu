@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { catchError, firstValueFrom, from, Observable, of, switchMap, take, throwError } from 'rxjs';
+import { catchError, firstValueFrom, from, Observable, of, switchMap, take, throwError, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { IUser, SignupDTO } from './user.model';
+import { IUser, SignupDTO, SignInResponse } from './user.model';
 import { TenantService } from '../tenant/tenant.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -178,8 +178,10 @@ export class AuthService {
     return of(false);
   }
 
-  signin(email: string, password: string): Observable<IUser> {
-    return this.httpClient.post<IUser>(`${this.url}/signin`, { email, password }, { withCredentials: true });//"{withCredentials: true}" instrui o Angular a incluir cookies em requisições HTTP
+  signin(email: string, password: string): Observable<SignInResponse> {
+    return this.httpClient.post<SignInResponse>(`${this.url}/signin`, { email, password }, { withCredentials: true }).pipe(
+      tap((response) => this.storeTokens(response.tokens))
+    );//"{withCredentials: true}" instrui o Angular a incluir cookies em requisições HTTP
   }
 
   signup(signupDTO: SignupDTO): Observable<IUser> {
@@ -188,6 +190,11 @@ export class AuthService {
 
   signout() {
     return this.httpClient.post<IUser>(`${this.url}/signout`, {});
+  }
+
+  private storeTokens(tokens: SignInResponse['tokens']): void {
+    localStorage.setItem('accessToken', tokens.accessToken);
+    localStorage.setItem('refreshToken', tokens.refreshToken);
   }
 
   checkEmailExist(email: string): Observable<boolean> {
