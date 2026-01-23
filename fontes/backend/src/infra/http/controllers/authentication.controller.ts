@@ -31,7 +31,12 @@ import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware'
 export class AuthenticationController {
 	async signUp(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
+			console.log('AuthenticationController: signUp request received', {
+				email: req.body?.email,
+				hasInvitedTenantsToken: Boolean(req.body?.invitedTenantsToken)
+			});
 			if (req.tenantConnection == undefined) {
+				console.error('AuthenticationController: tenantConnection missing');
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
@@ -63,8 +68,13 @@ export class AuthenticationController {
 				invitedTenantsToken: req.body.invitedTenantsToken
 			});
 
+			console.log('AuthenticationController: signUp succeeded', {
+				userId: user.id,
+				email: user.email
+			});
 			res.status(200).send(user);
 		} catch (error) {
+			console.error('AuthenticationController: signUp failed', error);
 			next(error);
 		}
 	}
