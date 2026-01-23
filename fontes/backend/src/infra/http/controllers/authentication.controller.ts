@@ -32,6 +32,24 @@ import {
 } from '../session/session.service';
 
 export class AuthenticationController {
+	constructor() {
+		this.signUp = this.signUp.bind(this);
+		this.signIn = this.signIn.bind(this);
+		this.signOut = this.signOut.bind(this);
+		this.refreshToken = this.refreshToken.bind(this);
+		this.singleSignOn = this.singleSignOn.bind(this);
+		this.sendVerificationEmailCodeToEmail =
+			this.sendVerificationEmailCodeToEmail.bind(this);
+		this.validateVerificationEmailCode =
+			this.validateVerificationEmailCode.bind(this);
+		this.sendPasswordResetLinkToEmail =
+			this.sendPasswordResetLinkToEmail.bind(this);
+		this.resetPassword = this.resetPassword.bind(this);
+		this.inviteUser = this.inviteUser.bind(this);
+		this.me = this.me.bind(this);
+		this.checkEmailExist = this.checkEmailExist.bind(this);
+	}
+
 	async signUp(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
 			console.log('AuthenticationController: signUp request received', {
