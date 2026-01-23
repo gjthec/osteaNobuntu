@@ -69,10 +69,10 @@ export class ValidateAccessTokenUseCase {
 			// return verifiedToken;
 
 			// Extrair dados do usuário baseado no provedor
-			const authenticatedUser = this.extractUserData(
-				verifiedToken,
-				options.issuer
-			);
+				const authenticatedUser = this.extractUserData(
+					verifiedToken,
+					options.issuer
+				);
 
 			return authenticatedUser;
 		} catch (error) {
@@ -103,9 +103,10 @@ export class ValidateAccessTokenUseCase {
 	 */
 	private extractUserData(
 		token: DecodedToken,
-		issuer: string
+		issuer: string | string[]
 	): AuthenticatedUser {
-		const provider = this.detectProvider(issuer);
+		const issuerValue = Array.isArray(issuer) ? issuer[0] : issuer;
+		const provider = this.detectProvider(issuerValue);
 		const config = AUTH_PROVIDERS[provider] || AUTH_PROVIDERS['generic'];
 
 		const uid = token[config.uidField];
