@@ -288,12 +288,29 @@ export class AzureADService implements IidentityService {
 				}
 			});
 
+			const responseData = createUserResponse.data;
+			const resolvedDisplayName =
+				responseData.displayName ||
+				[responseData.givenName, responseData.surname]
+					.filter(Boolean)
+					.join(' ')
+					.trim();
+			const displayNameParts = resolvedDisplayName
+				? resolvedDisplayName.split(' ')
+				: [];
+			const fallbackFirstName =
+				responseData.givenName || displayNameParts[0] || '';
+			const fallbackLastName =
+				responseData.surname ||
+				displayNameParts.slice(1).join(' ') ||
+				'';
+
 			return {
-				email: createUserResponse.data.mail,
-				firstName: createUserResponse.data.givenName,
-				lastName: createUserResponse.data.surname,
-				identityProviderUID: createUserResponse.data.id,
-				userName: createUserResponse.data.displayName
+				email: responseData.mail || responseData.userPrincipalName,
+				firstName: fallbackFirstName,
+				lastName: fallbackLastName,
+				identityProviderUID: responseData.id,
+				userName: resolvedDisplayName || responseData.userPrincipalName
 			};
 		} catch (error: any) {
 			if (error?.response) {
