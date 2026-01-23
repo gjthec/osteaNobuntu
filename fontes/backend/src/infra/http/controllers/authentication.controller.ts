@@ -153,10 +153,18 @@ export class AuthenticationController {
 				cookieName: getSessionCookieName(),
 				secure: cookieOptions.secure,
 				sameSite: cookieOptions.sameSite,
+				domain: cookieOptions.domain,
 				maxAgeMs,
+				protocol: req.protocol,
+				secureRequest: req.secure,
 				hasOrigin: Boolean(req.headers.origin),
 				origin: req.headers.origin
 			});
+			if (cookieOptions.sameSite === 'none' && !cookieOptions.secure) {
+				console.warn(
+					'AuthenticationController: SameSite=None without Secure may be rejected by browsers'
+				);
+			}
 
 			//Envia dados do usuário e roles
 			return res.status(200).send({

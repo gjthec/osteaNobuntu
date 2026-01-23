@@ -43,10 +43,17 @@ export function buildSessionCookieOptions(maxAgeMs: number) {
 		secureFromEnv !== undefined
 			? secureFromEnv.toLowerCase() === 'true'
 			: process.env.NODE_ENV === 'production';
+	const sameSiteEnv = process.env.COOKIE_SAMESITE || 'lax';
+	const sameSite =
+		sameSiteEnv === 'none' || sameSiteEnv === 'strict' || sameSiteEnv === 'lax'
+			? (sameSiteEnv as 'none' | 'strict' | 'lax')
+			: 'lax';
+	const domain = process.env.COOKIE_DOMAIN;
 	return {
 		httpOnly: true,
 		secure,
-		sameSite: 'lax' as const,
+		sameSite,
+		domain,
 		path: '/',
 		maxAge: maxAgeMs
 	};
