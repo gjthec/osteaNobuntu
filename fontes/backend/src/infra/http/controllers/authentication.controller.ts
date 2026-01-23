@@ -84,7 +84,11 @@ export class AuthenticationController {
 
 	async signIn(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
+			console.log('AuthenticationController: signIn request received', {
+				email: req.body?.email
+			});
 			if (req.tenantConnection == undefined) {
+				console.error('AuthenticationController: tenantConnection missing');
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
@@ -99,6 +103,10 @@ export class AuthenticationController {
 			const result: SignInOutputDTO = await signInUseCase.execute({
 				email: req.body.email,
 				password: req.body.password
+			});
+			console.log('AuthenticationController: signIn succeeded', {
+				userId: result.user.id,
+				email: result.user.email
 			});
 
 			const roles = this.resolveUserRoles(result.user);
@@ -130,6 +138,7 @@ export class AuthenticationController {
 				roles
 			});
 		} catch (error) {
+			console.error('AuthenticationController: signIn failed', error);
 			next(error);
 		}
 	}
