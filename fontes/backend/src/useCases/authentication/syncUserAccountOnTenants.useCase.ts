@@ -153,6 +153,11 @@ export class SyncUserAccountOnTenantsUseCase {
 			const userRepository: UserRepository = new UserRepository(
 				tenantConnection
 			);
+			const normalizedUserData = {
+				...userData,
+				identityProviderUID: userUID,
+				tenantUID
+			};
 
 			//Busca usuário
 			let user: User | null = await userRepository.findOne({
@@ -171,15 +176,8 @@ export class SyncUserAccountOnTenantsUseCase {
 				try {
 					user = await userRepository.create(
 						new User({
-							// identityProviderUID: userData.identityProviderUID,
-							// provider: userData.provider,
-							// userName: userData.userName,
-							// firstName: userData.firstName,
-							// lastName: userData.lastName,
-							isAdministrator: isAdministrator,
-							// email: userData.email,
-							tenantUID: tenantUID,
-							...userData
+							...normalizedUserData,
+							isAdministrator: isAdministrator
 						})
 					);
 				} catch (error) {
@@ -192,12 +190,7 @@ export class SyncUserAccountOnTenantsUseCase {
 				try {
 					//Atualiza os dados de usuário que estão no servidor de identidade para o banco de dados de uso
 					user = await userRepository.update(user.id!, {
-						// UID: userData.UID,//UID do servidor de identidade
-						// userName: userData.userName,
-						// firstName: userData.firstName,
-						// lastName: userData.lastName,
-						// email: userData.email,
-						...userData
+						...normalizedUserData
 					});
 				} catch (error) {
 					throw new InternalServerError(
