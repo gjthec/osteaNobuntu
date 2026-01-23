@@ -32,17 +32,17 @@ enum SignUpPageState {
 })
 export class SignupComponent {
 
-  nameForm: INameForm = { firstName: '', lastName: '' };
-  passwordForm: IPasswordForm = { password: '' };
+  nameForm: INameForm = { firstName: 'Tesla', lastName: 'Eletronico' };
+  passwordForm: IPasswordForm = { password: 'adminN123@', confirmPassword: 'adminN123@' };
   birthDayAndGenderForm: IBirthDayAndGenderForm = {
-    birthDay: 0,
+    birthDay: 15,
     birthMonth: 1,
-    birthYear: 0,
+    birthYear: 1990,
     gender: 0
   };
 
   emailFormGroup: FormGroup = this._formBuilder.group({
-    email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],
+    email: ['teslaeletronico@gmail.com', [Validators.required, Validators.minLength(3), Validators.maxLength(60), Validators.email]],
   });
 
   emailVerificationCodeFormGroup: FormGroup = this._formBuilder.group({
@@ -161,6 +161,7 @@ export class SignupComponent {
       firstName: this.nameForm.firstName,
       lastName: this.nameForm.lastName,
       userName: this.nameForm.firstName,
+      invitedTenantsToken: ''
     }).pipe(take(1)).subscribe({
       next: (value) => {
         this.snackBar.open('Conta criada com exito', 'Fechar', {
@@ -184,7 +185,8 @@ export class SignupComponent {
             this.snackBar.open('Erro inesperado ao realizar o cadastro.', 'Fechar', {
               duration: 3000,
             });
-            this.router.navigate(['/error-505']);
+            this.isLoading = false;
+            this.emailFormGroup.enable();
           },
         })
       },
@@ -199,7 +201,8 @@ export class SignupComponent {
         this.snackBar.open('Erro inesperado ao realizar o cadastro.', 'Fechar', {
           duration: 3000,
         });
-        this.router.navigate(['/error-505']);
+        this.isLoading = false;
+        this.emailFormGroup.enable();
       },
     })
   }

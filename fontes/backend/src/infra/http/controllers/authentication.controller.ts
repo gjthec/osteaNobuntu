@@ -5,7 +5,7 @@ import {
 } from '../../../useCases/authentication/refreshToken.useCase';
 import { NotFoundError } from '../../../errors/client.error';
 import { IidentityService } from '../../../domain/services/Iidentity.service';
-import { AzureADService } from '../../../domain/services/azureAD.service';
+import { EntraIdService } from '../../../domain/services/entraId.service';
 import {
 	SignInOutputDTO,
 	SignInUseCase
@@ -31,20 +31,25 @@ import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware'
 export class AuthenticationController {
 	async signUp(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
+			console.log('AuthenticationController: signUp request received', {
+				email: req.body?.email,
+				hasInvitedTenantsToken: Boolean(req.body?.invitedTenantsToken)
+			});
 			if (req.tenantConnection == undefined) {
+				console.error('AuthenticationController: tenantConnection missing');
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
 			//O Service será criado com base no tipo de banco de dados e o model usado
 			const userRepository: UserRepository = new UserRepository(
-				req.body.tenantConnection
+				req.tenantConnection
 			);
 			const verificationEmailRepository: VerificationEmailRepository =
-				new VerificationEmailRepository(req.body.tenantConnection);
-			const azureADService: AzureADService = new AzureADService();
+				new VerificationEmailRepository(req.tenantConnection);
+			const azureADService: EntraIdService = new EntraIdService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
 			const databaseCredentialRepository: DatabaseCredentialRepository =
-				new DatabaseCredentialRepository(req.body.tenantConnection);
+				new DatabaseCredentialRepository(req.tenantConnection);
 
 			const registerUserUseCase: RegisterUserUseCase = new RegisterUserUseCase(
 				userRepository,
@@ -63,8 +68,13 @@ export class AuthenticationController {
 				invitedTenantsToken: req.body.invitedTenantsToken
 			});
 
+			console.log('AuthenticationController: signUp succeeded', {
+				userId: user.id,
+				email: user.email
+			});
 			res.status(200).send(user);
 		} catch (error) {
+			console.error('AuthenticationController: signUp failed', error);
 			next(error);
 		}
 	}
@@ -81,9 +91,9 @@ export class AuthenticationController {
 			}
 
 			const userRepository: UserRepository = new UserRepository(
-				req.body.tenantConnection
+				req.tenantConnection
 			);
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const signInUseCase: SignInUseCase = new SignInUseCase(
 				azureADService,
 				userRepository
@@ -149,7 +159,7 @@ export class AuthenticationController {
 
 			const refreshToken = req.cookies['refreshToken_' + sessionUserId];
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const signoutUseCase: SignOutUseCase = new SignOutUseCase(azureADService);
 
 			await signoutUseCase.execute({
@@ -214,7 +224,7 @@ export class AuthenticationController {
 					: process.env.ACCEPTED_COOKIE_DOMAINS;
 
 			//Define o serviço de servidor de Identidade
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 
 			const newAccessData: RefreshTokenOutputDTO[] = [];
 
@@ -310,12 +320,12 @@ export class AuthenticationController {
 					: process.env.ACCEPTED_COOKIE_DOMAINS;
 
 			//Define o serviço de servidor de Identidade
-			const identityService: IidentityService = new AzureADService();
+			const identityService: IidentityService = new EntraIdService();
 
 			const newAccessData: RefreshTokenOutputDTO[] = [];
 
 			const userRepository: UserRepository = new UserRepository(
-				req.body.tenantConnection
+				req.tenantConnection
 			);
 			const singleSignOnUseCase: SingleSignOnUseCase = new SingleSignOnUseCase(
 				identityService,
@@ -383,8 +393,8 @@ export class AuthenticationController {
 			}
 
 			const verificationEmailRepository: VerificationEmailRepository =
-				new VerificationEmailRepository(req.body.tenantConnection);
-			const azureADService: AzureADService = new AzureADService();
+				new VerificationEmailRepository(req.tenantConnection);
+			const azureADService: EntraIdService = new EntraIdService();
 			const sendVerificationCodeUseCase: SendVerificationCodeToEmailUseCase =
 				new SendVerificationCodeToEmailUseCase(
 					verificationEmailRepository,
@@ -409,7 +419,7 @@ export class AuthenticationController {
 			}
 
 			const verificationEmailRepository: VerificationEmailRepository =
-				new VerificationEmailRepository(req.body.tenantConnection);
+				new VerificationEmailRepository(req.tenantConnection);
 			const validateEmailVerificationCodeUseCase: ValidateEmailVerificationCodeUseCase =
 				new ValidateEmailVerificationCodeUseCase(verificationEmailRepository);
 			const result = await validateEmailVerificationCodeUseCase.execute({
@@ -431,7 +441,7 @@ export class AuthenticationController {
 			//Definir o servico de email que será usado
 			const emailService: EmailService = new EmailService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const sendPasswordResetLinkToEmailUseCase: SendPasswordResetLinkToEmailUseCase =
 				new SendPasswordResetLinkToEmailUseCase(
 					azureADService,
@@ -458,7 +468,7 @@ export class AuthenticationController {
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const tokenGenerator: TokenGenerator = new TokenGenerator();
 			const resetUserPasswordUseCase: ResetUserPasswordUseCase =
 				new ResetUserPasswordUseCase(azureADService, tokenGenerator);
@@ -483,13 +493,13 @@ export class AuthenticationController {
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 			const userRepository: UserRepository = new UserRepository(
-				req.body.tenantConnection
+				req.tenantConnection
 			);
 			//Definir o servico de email que será usado
 			const emailService: EmailService = new EmailService();
 			//Serviço de geração de token
 			const tokenGenerator = new TokenGenerator();
-			const tenantRepository = new TenantRepository(req.body.tenantConnection);
+			const tenantRepository = new TenantRepository(req.tenantConnection);
 
 			const inviteUserToApplicationUseCase: InviteUserToApplicationUseCase =
 				new InviteUserToApplicationUseCase(
@@ -522,7 +532,7 @@ export class AuthenticationController {
 				throw new NotFoundError('TENANT_NOT_FOUND');
 			}
 
-			const azureADService: AzureADService = new AzureADService();
+			const azureADService: EntraIdService = new EntraIdService();
 			const checkEmailExistUseCase: CheckEmailExistUseCase =
 				new CheckEmailExistUseCase(azureADService);
 			const emailIsValid = await checkEmailExistUseCase.execute(req.body);

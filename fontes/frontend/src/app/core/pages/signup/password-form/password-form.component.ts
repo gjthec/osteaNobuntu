@@ -4,6 +4,7 @@ import { passwordStrengthValidator } from 'app/core/validators/passwordStregth.v
 
 export interface IPasswordForm {
   password: string,
+  confirmPassword?: string,
 }
 
 @Component({
