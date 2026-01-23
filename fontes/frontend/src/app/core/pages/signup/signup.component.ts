@@ -185,7 +185,8 @@ export class SignupComponent {
             this.snackBar.open('Erro inesperado ao realizar o cadastro.', 'Fechar', {
               duration: 3000,
             });
-            this.router.navigate(['/error-500']);
+            this.isLoading = false;
+            this.emailFormGroup.enable();
           },
         })
       },
@@ -200,7 +201,8 @@ export class SignupComponent {
         this.snackBar.open('Erro inesperado ao realizar o cadastro.', 'Fechar', {
           duration: 3000,
         });
-        this.router.navigate(['/error-500']);
+        this.isLoading = false;
+        this.emailFormGroup.enable();
       },
     })
   }
