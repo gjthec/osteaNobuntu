@@ -26,7 +26,7 @@ export function getSessionIdFromRequest(
 export async function resolveSession(
 	req: AuthenticatedRequest,
 	res: Response
-): Promise<{ session: AuthenticatedRequest['session']; updated: boolean }> {
+): Promise<{ session: NonNullable<AuthenticatedRequest['session']>; updated: boolean }> {
 	const sessionId = getSessionIdFromRequest(req);
 	if (!sessionId) {
 		throw new UnauthorizedError('UNAUTHORIZED', {

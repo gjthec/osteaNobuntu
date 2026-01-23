@@ -73,6 +73,11 @@ export async function checkUserAccess(
 		}
 
 		const { session } = await resolveSession(req, res);
+		if (!session) {
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Session not found.'
+			});
+		}
 		console.log('checkUserAccess: session loaded', {
 			identityProviderUID: session.user.identityProviderUID
 		});
