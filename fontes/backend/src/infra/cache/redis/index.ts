@@ -11,9 +11,17 @@ export class RedisCache {
   private memoryCache: Map<string, CacheEntry> = new Map();
 
   constructor() {
-    this.client = createClient({
-      url: process.env.REDIS_URL || "redis://localhost:6379",
-    });
+    const redisUrl = process.env.REDIS_URL;
+    const shouldUseRedis =
+      redisUrl !== undefined &&
+      redisUrl !== "" &&
+      redisUrl.toLowerCase() !== "disabled";
+
+    if (!shouldUseRedis) {
+      return;
+    }
+
+    this.client = createClient({ url: redisUrl });
 
     this.client.on("error", (err) => {
       console.error("Redis Client Error", err);
