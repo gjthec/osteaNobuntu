@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnauthorizedError } from '../../../errors/client.error';
 import {
-	AuthenticatedUser,
-	ValidateAccessTokenUseCase
-} from '../../../useCases/authentication/validateAccessToken.useCase';
-import {
 	DatabaseConnection,
 	getTenantConnection
 } from '../../database/database.config';
@@ -20,6 +16,13 @@ import {
 import UserRepository from '../../../domain/repositories/user.repository';
 import { UserRouteAccessService } from '../../../domain/services/userRouteAccess.service';
 import { TenantConnectionAccessService } from '../../../domain/services/tenantConnection.service';
+import {
+	buildSessionCookieOptions,
+	getSessionCookieName,
+	getSessionRefreshThresholdMs,
+	SessionData,
+	SessionService
+} from '../session/session.service';
 
 /**
  * Interface personalizada que irá armazenar informações do usuário
@@ -28,9 +31,10 @@ export interface AuthenticatedRequest extends Request {
 	user?: {
 		id?: number;
 		identityProviderUID: string;
-		roles?: number[]; //Os ids das roles
+		roles?: string[]; //Roles internas
 	};
 	tenantConnection?: TenantConnection;
+	session?: SessionData;
 }
 
 /**
@@ -46,10 +50,38 @@ export async function checkUserAccess(
 	next: NextFunction
 ) {
 	try {
-		const authHeader = req.headers.authorization;
-		const authenticatedUser: AuthenticatedUser = await checkAccessToken(
-			authHeader!
-		);
+		const sessionId = req.cookies?.[getSessionCookieName()];
+		if (!sessionId) {
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Session not found.'
+			});
+		}
+
+		const sessionService = SessionService.getInstance();
+		let session = await sessionService.getSession(sessionId);
+		if (!session) {
+			throw new UnauthorizedError('UNAUTHORIZED', {
+				cause: 'Session expired.'
+			});
+		}
+
+		const remainingMs = session.expiresAt - Date.now();
+		if (remainingMs <= getSessionRefreshThresholdMs()) {
+			const refreshed = await sessionService.refreshSession(sessionId);
+			if (refreshed) {
+				const maxAgeMs = refreshed.expiresAt - Date.now();
+				res.cookie(
+					getSessionCookieName(),
+					sessionId,
+					buildSessionCookieOptions(maxAgeMs)
+				);
+				session = refreshed;
+			}
+		}
+
+		req.session = session;
+
+		const authenticatedUser = session.user;
 
 		const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 			new GetSecurityTenantConnectionUseCase();
@@ -76,7 +108,7 @@ export async function checkUserAccess(
 		let databaseConnection: DatabaseConnection | null = null;
 		databaseConnection = await checkUserHasAccessToTenant(
 			databaseCredentialId,
-			authenticatedUser.uid
+			authenticatedUser.identityProviderUID
 		);
 
 		if (databaseConnection == null) {
@@ -84,7 +116,7 @@ export async function checkUserAccess(
 		}
 
 		req.user = {
-			identityProviderUID: authenticatedUser.uid
+			identityProviderUID: authenticatedUser.identityProviderUID
 		};
 
 		await checkUserHasAccessToRoute(
@@ -101,7 +133,7 @@ export async function checkUserAccess(
 }
 
 export async function checkUserIsRegisteredOnApplication(
-	authenticatedUser: AuthenticatedUser,
+	authenticatedUser: SessionData['user'],
 	tenantConnection: TenantConnection
 ): Promise<Boolean> {
 	const isUserOnCache = checkUserOnCache(authenticatedUser, tenantConnection);
@@ -113,7 +145,7 @@ export async function checkUserIsRegisteredOnApplication(
 	const userRepository: UserRepository = new UserRepository(tenantConnection);
 
 	const user = await userRepository.findOne({
-		identityProviderUID: authenticatedUser.uid
+		identityProviderUID: authenticatedUser.identityProviderUID
 	});
 
 	if (!user) {
@@ -124,7 +156,7 @@ export async function checkUserIsRegisteredOnApplication(
 }
 
 export function checkUserOnCache(
-	authenticatedUser: AuthenticatedUser,
+	authenticatedUser: SessionData['user'],
 	tenantWithRouteAccessRecords: TenantConnection
 ) {
 	const userRouteAccessService: UserRouteAccessService =
@@ -132,7 +164,7 @@ export function checkUserOnCache(
 
 	const isUserOnCache: Boolean =
 		userRouteAccessService.userRouteAccessCache.isUserOnCacheByUserUID(
-			authenticatedUser.uid
+			authenticatedUser.identityProviderUID
 		);
 
 	if (isUserOnCache == true) {
@@ -143,7 +175,7 @@ export function checkUserOnCache(
 }
 
 export async function registerUserOnApplication(
-	authenticatedUser: AuthenticatedUser
+	authenticatedUser: SessionData['user']
 ) {
 	const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 		new GetSecurityTenantConnectionUseCase();
@@ -154,44 +186,46 @@ export async function registerUserOnApplication(
 	);
 
 	const user = await userRepository.findOne({
-		identityProviderUID: authenticatedUser.uid
+		identityProviderUID: authenticatedUser.identityProviderUID
 	});
 
 	if (user == undefined || user == null) {
 		try {
-			const indexSeparationFirstName =
-				authenticatedUser.rawToken.name.indexOf(' ');
+			const fullName =
+				authenticatedUser.userName ||
+				`${authenticatedUser.firstName || ''} ${authenticatedUser.lastName || ''}`.trim();
+			const indexSeparationFirstName = fullName.indexOf(' ');
 			let _lastName: string = '';
 
 			if (indexSeparationFirstName === -1) {
 				// Não tem espaço, retorna o texto inteiro como primeira parte
 				_lastName = '';
 			} else {
-				_lastName = authenticatedUser.rawToken.name.substring(
+				_lastName = fullName.substring(
 					indexSeparationFirstName + 1
 				);
 			}
 
 			//TODO tirar isso e usar o User como input do caso de uso
 			const userData: IUserDataInputDTO = {
-				email: authenticatedUser.rawToken.preferred_username,
-				firstName: authenticatedUser.rawToken.name.substring(
+				email: authenticatedUser.email,
+				firstName: fullName.substring(
 					0,
 					indexSeparationFirstName
 				),
-				identityProviderUID: authenticatedUser.uid,
-				userName: authenticatedUser.rawToken.name,
-				provider: authenticatedUser.provider,
+				identityProviderUID: authenticatedUser.identityProviderUID,
+				userName: fullName,
+				provider: 'entraId',
 				lastName: _lastName
 			};
 
 			await userRepository.create({
-				userName: authenticatedUser.rawToken.name,
-				identityProviderUID: authenticatedUser.uid,
-				provider: authenticatedUser.provider,
-				email: authenticatedUser.rawToken.preferred_username,
+				userName: fullName,
+				identityProviderUID: authenticatedUser.identityProviderUID,
+				provider: 'entraId',
+				email: authenticatedUser.email,
 				tenantUID: process.env.TENANT_ID,
-				firstName: authenticatedUser.rawToken.name.substring(
+				firstName: fullName.substring(
 					0,
 					indexSeparationFirstName
 				),
@@ -209,7 +243,7 @@ export async function registerUserOnApplication(
 			const syncUserAccountOnTenantsUseCase: SyncUserAccountOnTenantsUseCase =
 				new SyncUserAccountOnTenantsUseCase();
 			await syncUserAccountOnTenantsUseCase.execute(
-				authenticatedUser.uid,
+				authenticatedUser.identityProviderUID,
 				userData
 			);
 		} catch (error: any) {
@@ -238,7 +272,7 @@ async function checkUserHasAccessToTenant(
 }
 
 export async function checkUserHasAccessToRoute(
-	authenticatedUser: AuthenticatedUser,
+	authenticatedUser: SessionData['user'],
 	request: Request,
 	tenantWithRouteAccessRecords: TenantConnection
 ) {
@@ -254,7 +288,7 @@ export async function checkUserHasAccessToRoute(
 
 	const userHasAccessToRoute =
 		await userRouteAccessService.userRouteAccessCache.hasUserAccessByUserUID(
-			authenticatedUser.uid,
+			authenticatedUser.identityProviderUID,
 			request.method.toLowerCase(),
 			requestFullRoute,
 			tenantWithRouteAccessRecords
@@ -264,46 +298,4 @@ export async function checkUserHasAccessToRoute(
 	if (userHasAccessToRoute == false) {
 		throw new ForbiddenError('FORBIDDEN');
 	}
-}
-
-export async function checkAccessToken(
-	authHeader: string
-): Promise<AuthenticatedUser> {
-	const clientId = process.env.CLIENT_ID;
-	const issuer = process.env.TOKEN_ISSUER;
-	const jwksUri = process.env.JWKsUri;
-	const configuredAudience = process.env.ACCESS_TOKEN_AUDIENCE;
-
-	if (clientId == undefined || issuer == undefined || jwksUri == undefined) {
-		throw new InternalServerError('Populate Azure environment variables.');
-	}
-
-	const issuers = issuer
-		.split(',')
-		.map((value) => value.trim())
-		.filter((value) => value.length > 0);
-
-	const audiences = (configuredAudience || clientId)
-		.split(',')
-		.map((value) => value.trim())
-		.filter((value) => value.length > 0);
-
-	if (!authHeader || !authHeader.startsWith('Bearer ')) {
-		throw new UnauthorizedError('UNAUTHORIZED', {
-			cause: 'Invalid access token.'
-		});
-	}
-
-	const accessToken = authHeader!.split(' ')[1]; // Obtém o token após "Bearer"
-
-	const validateAccessTokenUseCase: ValidateAccessTokenUseCase =
-		new ValidateAccessTokenUseCase();
-	const authenticatedUser: AuthenticatedUser =
-		await validateAccessTokenUseCase.execute(accessToken, {
-			issuer: issuers,
-			jwksUri: jwksUri!,
-			audience: audiences
-		});
-
-	return authenticatedUser;
 }

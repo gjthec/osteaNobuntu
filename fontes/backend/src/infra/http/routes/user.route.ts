@@ -7,6 +7,7 @@ import {
 } from '../validators/user.validator';
 import { checkUserAccess } from '../middlewares/checkUserAccess.middleware';
 import { getSecurityTenant } from '../middlewares/tenant.middleware';
+import { requireAuth } from '../middlewares/session.middleware';
 
 /**
  * Irá definir as rotas da entidade
@@ -16,9 +17,13 @@ export default function defineRoute(app: Application) {
 	const controller: UserController = new UserController();
 	const router: Router = Router();
 
-	router.get('/get-user-profile-photo/:id', controller.getUserProfilePhoto);
+	router.get(
+		'/get-user-profile-photo/:id',
+		[requireAuth],
+		controller.getUserProfilePhoto
+	);
 	//Get user groups
-	router.get('/get-user-groups', controller.getUserGroups);
+	router.get('/get-user-groups', [requireAuth], controller.getUserGroups);
 	//Create a new user
 	router.post(
 		'/client/signup',

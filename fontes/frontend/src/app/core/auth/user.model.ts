@@ -1,17 +1,5 @@
 import { BaseResourceModel } from "app/shared/models/base-resource.model";
 
-export interface ITokens {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresAt: number
-}
-
-export interface IUserSession {
-  user: IUser;
-  tokens: ITokens;
-}
-
 export interface IUser {
   id?: string;
   UID: string;
@@ -24,6 +12,12 @@ export interface IUser {
   tenants ?: string[];
   email?: string;
   photoUrl?: string;
+  roles?: string[];
+}
+
+export interface IUserSession {
+  user: IUser;
+  roles?: string[];
 }
 
 export class User extends BaseResourceModel implements IUser {
@@ -52,5 +46,10 @@ export interface SignupDTO {
 
 export interface SignInResponse {
   user: IUser;
-  tokens: ITokens;
+  roles: string[];
+}
+
+export interface SessionResponse {
+  user: IUser;
+  roles: string[];
 }
