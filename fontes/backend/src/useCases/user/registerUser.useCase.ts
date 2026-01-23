@@ -88,7 +88,8 @@ export class RegisterUserUseCase {
 		try {
 			console.log('RegisterUserUseCase: creating database user', {
 				email: input.email,
-				tenantUID
+				tenantUID,
+				provider: 'entraId'
 			});
 			//Registra o usuário no banco de dados
 			newUser = await this.userRepository.create(
