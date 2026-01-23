@@ -153,9 +153,12 @@ export class SyncUserAccountOnTenantsUseCase {
 			const userRepository: UserRepository = new UserRepository(
 				tenantConnection
 			);
+			const provider =
+				userData?.provider ?? process.env.AUTH_PROVIDER ?? 'entraId';
 			const normalizedUserData = {
 				...userData,
 				identityProviderUID: userUID,
+				provider,
 				tenantUID
 			};
 
