@@ -12,8 +12,8 @@ export interface AuthenticatedUser {
 }
 
 interface ValidateTokenOptions {
-	issuer: string; // O emissor esperado do token
-	audience?: string; // A audiência esperada (opcional) (nesse caso é o ClientId)
+	issuer: string | string[]; // O emissor esperado do token
+	audience?: string | string[]; // A audiência esperada (opcional) (nesse caso é o ClientId)
 	jwksUri: string;
 }
 

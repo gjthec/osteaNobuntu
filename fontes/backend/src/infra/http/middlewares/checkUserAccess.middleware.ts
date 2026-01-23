@@ -272,10 +272,21 @@ export async function checkAccessToken(
 	const clientId = process.env.CLIENT_ID;
 	const issuer = process.env.TOKEN_ISSUER;
 	const jwksUri = process.env.JWKsUri;
+	const configuredAudience = process.env.ACCESS_TOKEN_AUDIENCE;
 
 	if (clientId == undefined || issuer == undefined || jwksUri == undefined) {
 		throw new InternalServerError('Populate Azure environment variables.');
 	}
+
+	const issuers = issuer
+		.split(',')
+		.map((value) => value.trim())
+		.filter((value) => value.length > 0);
+
+	const audiences = (configuredAudience || clientId)
+		.split(',')
+		.map((value) => value.trim())
+		.filter((value) => value.length > 0);
 
 	if (!authHeader || !authHeader.startsWith('Bearer ')) {
 		throw new UnauthorizedError('UNAUTHORIZED', {
@@ -289,9 +300,9 @@ export async function checkAccessToken(
 		new ValidateAccessTokenUseCase();
 	const authenticatedUser: AuthenticatedUser =
 		await validateAccessTokenUseCase.execute(accessToken, {
-			issuer: issuer!,
+			issuer: issuers,
 			jwksUri: jwksUri!,
-			audience: clientId
+			audience: audiences
 		});
 
 	return authenticatedUser;
