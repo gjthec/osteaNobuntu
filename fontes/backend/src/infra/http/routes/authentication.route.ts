@@ -15,6 +15,7 @@ import {
 	validateVerificationEmailCodeValidator
 } from '../validators/user.validator';
 import { signInRateLimiter } from '../middlewares/signInRateLimiter.middleware';
+import { requireAuth } from '../middlewares/session.middleware';
 
 /**
  * Irá definir as rotas da entidade
@@ -45,7 +46,7 @@ export default function defineRoute(app: Application) {
 	router.post('/signout', controller.signOut);
 	router.post('/logout', controller.signOut);
 
-	router.get('/me', controller.me);
+	router.get('/me', [requireAuth], controller.me);
 
 	router.get('/refresh-token', controller.refreshToken);
 

@@ -23,7 +23,6 @@ import TenantRepository from '../../../domain/repositories/tenant.repository';
 import { SingleSignOnUseCase } from '../../../useCases/authentication/singleSignOn.useCase';
 import DatabaseCredentialRepository from '../../../domain/repositories/databaseCredential.repository';
 import { AuthenticatedRequest } from '../middlewares/checkUserAccess.middleware';
-import { requireAuth } from '../middlewares/session.middleware';
 import {
 	buildSessionCookieOptions,
 	getSessionCookieName,
@@ -436,19 +435,15 @@ export class AuthenticationController {
 
 	async me(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 		try {
-			await requireAuth(req, res, async (error) => {
-				if (error) {
-					throw error;
-				}
-				if (!req.session) {
-					throw new UnauthorizedError('UNAUTHORIZED', {
-						cause: 'Session not found.'
-					});
-				}
-				return res.status(200).send({
-					user: req.session.user,
-					roles: req.session.user.roles
+			if (!req.session) {
+				throw new UnauthorizedError('UNAUTHORIZED', {
+					cause: 'Session not found.'
 				});
+			}
+
+			return res.status(200).send({
+				user: req.session.user,
+				roles: req.session.user.roles
 			});
 		} catch (error) {
 			next(error);
