@@ -14,7 +14,7 @@ export type signupInputDTO = {
 	lastName: string;
 	email: string;
 	password: string;
-	invitedTenantsToken: string;
+	invitedTenantsToken?: string;
 };
 
 export class RegisterUserUseCase {
@@ -94,11 +94,7 @@ export class RegisterUserUseCase {
 			throw new Error('Error to create user. Details: ' + error);
 		}
 
-		if (
-			input.invitedTenantsToken != null &&
-			input.invitedTenantsToken != undefined &&
-			input.invitedTenantsToken != ''
-		) {
+		if (input.invitedTenantsToken) {
 			//Validar JWT e pegar o payload (dados contidos dentro do JWT)
 			const data = this.tokenGenerator.verifyToken(
 				input.invitedTenantsToken
