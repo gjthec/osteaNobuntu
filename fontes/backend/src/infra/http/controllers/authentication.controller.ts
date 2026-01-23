@@ -143,11 +143,20 @@ export class AuthenticationController {
 			);
 
 			const maxAgeMs = getSessionTtlSeconds() * 1000;
+			const cookieOptions = buildSessionCookieOptions(maxAgeMs);
 			res.cookie(
 				getSessionCookieName(),
 				session.id,
-				buildSessionCookieOptions(maxAgeMs)
+				cookieOptions
 			);
+			console.log('AuthenticationController: session cookie set', {
+				cookieName: getSessionCookieName(),
+				secure: cookieOptions.secure,
+				sameSite: cookieOptions.sameSite,
+				maxAgeMs,
+				hasOrigin: Boolean(req.headers.origin),
+				origin: req.headers.origin
+			});
 
 			//Envia dados do usuário e roles
 			return res.status(200).send({

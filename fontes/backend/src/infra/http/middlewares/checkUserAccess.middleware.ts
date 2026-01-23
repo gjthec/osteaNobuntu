@@ -53,7 +53,11 @@ export async function checkUserAccess(
 		console.log('checkUserAccess: start', {
 			path: req.originalUrl,
 			hasCookies: Boolean(req.cookies && Object.keys(req.cookies).length > 0),
-			cookieKeys: req.cookies ? Object.keys(req.cookies) : []
+			cookieKeys: req.cookies ? Object.keys(req.cookies) : [],
+			cookieHeader: req.headers.cookie || '',
+			origin: req.headers.origin,
+			referer: req.headers.referer,
+			host: req.headers.host
 		});
 		const sessionId = req.cookies?.[getSessionCookieName()];
 		if (!sessionId) {
