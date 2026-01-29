@@ -10,7 +10,6 @@ import MenuConfigRepository from '../domain/repositories/menuConfig.repository';
 import MenuItemRepository from '../domain/repositories/menuItem.repository';
 import { InternalServerError } from '../errors/internal.error';
 import fs from 'fs-extra';
-import menu from '../resources/menu/home.json';
 
 /**
  * Registra no banco de dados o menu gerado
