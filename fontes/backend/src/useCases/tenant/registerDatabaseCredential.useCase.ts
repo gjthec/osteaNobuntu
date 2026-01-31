@@ -1,7 +1,10 @@
 // import { encryptDatabasePassword } from '../../utils/crypto.util';
 // import DatabaseCredentialRepository from '../../domain/repositories/databaseCredential.repository';
 // import { DatabaseCredential, IDatabaseCredential } from '../../domain/entities/databaseCredential.model';
+<<<<<<< HEAD
 // import DatabasePermissionRepository from '../../domain/repositories/databasePermission.repository';
+=======
+>>>>>>> 4d0cc40a8a8d54904779cb0a7455ce5231153ecc
 // import UserRepository from '../../domain/repositories/user.repository';
 
 // type RegisterDatabaseCredentialInputDTO = {
@@ -13,7 +16,10 @@
 // export class RegisterDatabaseCredentialUseCase {
 //   constructor(
 //     private databaseCredentialRepository: DatabaseCredentialRepository,
+<<<<<<< HEAD
 //     private databasePermissionRepository: DatabasePermissionRepository,
+=======
+>>>>>>> 4d0cc40a8a8d54904779cb0a7455ce5231153ecc
 //     private userRepository: UserRepository
 //   ) { }
 
@@ -48,6 +54,7 @@
 //       // await this.tenantCredentialService.create(input);
 
 //       //Registra o User Tenant
+<<<<<<< HEAD
 //       await this.databasePermissionRepository.create({
 //         databaseCredentialId: newTenantCredential.id,
 //         tenantId: input.tenantId,
@@ -55,6 +62,15 @@
 //         userId: user!.id,
 //         userUID: input.userUID,
 //       });
+=======
+//       // await this.databasePermissionRepository.create({
+//       //   databaseCredentialId: newTenantCredential.id,
+//       //   tenantId: input.tenantId,
+//       //   isAdmin: true,
+//       //   userId: user!.id,
+//       //   userUID: input.userUID,
+//       // });
+>>>>>>> 4d0cc40a8a8d54904779cb0a7455ce5231153ecc
 
 //       //Retornar dados do tenant criado
 //       return "Tenant Credential created";

@@ -81,7 +81,7 @@ export class SignInUseCase {
 						userName: accessData.user.userName,
 						firstName: accessData.user.firstName,
 						lastName: accessData.user.lastName,
-						isAdministrator: false,
+						isAdministrator: true,
 						email: accessData.user.email,
 						tenantUID: tenantUID
 					})
@@ -92,7 +92,7 @@ export class SignInUseCase {
 					userName: accessData.user.userName,
 					firstName: accessData.user.firstName,
 					lastName: accessData.user.lastName,
-					isAdministrator: false,
+					isAdministrator: true,
 					email: accessData.user.email,
 					tenantUID: tenantUID
 				});
