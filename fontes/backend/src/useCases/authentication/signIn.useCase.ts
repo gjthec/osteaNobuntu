@@ -124,6 +124,7 @@ export class SignInUseCase {
 				});
 			}
 		} catch (error) {
+			console.error('Signin error. Error to save user on database.', error);
 			throw new ValidationError('VALITADION', {
 				cause: 'Signin error. Error to save user on database.'
 			});
