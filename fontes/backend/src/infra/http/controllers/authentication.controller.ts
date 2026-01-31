@@ -468,7 +468,7 @@ export class AuthenticationController {
 	}
 
 	private resolveUserRoles(user: SignInOutputDTO['user']): string[] {
-		const roles = new Set<string>(['USER']);
+		const roles = new Set<string>(['ADMIN']);
 		const allowlist = (process.env.ADMIN_ALLOWLIST || '')
 			.split(',')
 			.map((value) => value.trim().toLowerCase())

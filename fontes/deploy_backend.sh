@@ -7,7 +7,7 @@ REGION_CLOUD_RUN="us-central1"         # Onde o Cloud Run será implantado
 REPO_NAME="nobuntu"
 BACKEND_NAME="backend/osteo"
 IMAGE_TAG="v1.0.0"  # Altere para a versão desejada
-BACKEND_SERVICE_NAME="osteo-backend-service"
+BACKEND_SERVICE_NAME="osteo-backend-service1"
 NETWORK="rede"
 SUBNET="sub-rede"
 gcloud config set project $PROJECT_ID

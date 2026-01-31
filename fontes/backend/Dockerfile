@@ -14,7 +14,7 @@ COPY . .
 
 # Compila
 RUN npm run build
-
+COPY src/resources ./dist/resources
 # Copia resources (garantindo que o comando não falhe se a pasta não existir)
 RUN cp -r src/resources dist/resources || true
 

@@ -28,6 +28,7 @@ export class MenuController {
 		res: Response,
 		next: NextFunction
 	) {
+		console.log('getDefaultMenu called');
 		try {
 			if (req.tenantConnection == undefined) {
 				throw new NotFoundError('TENANT_NOT_FOUND');

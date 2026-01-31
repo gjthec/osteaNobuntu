@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from './base.controller';
 import { NotFoundError } from '../../../errors/client.error';
-import { RegisterDatabaseCredentialUseCase } from '../../../useCases/tenant/registerDatabaseCredential.useCase';
+// import { RegisterDatabaseCredentialUseCase } from '../../../useCases/tenant/registerDatabaseCredential.useCase';
 import {
 	IDatabaseCredentialDatabaseModel,
 	DatabaseCredential

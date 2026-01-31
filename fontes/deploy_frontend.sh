@@ -28,12 +28,10 @@ echo "Região do Cloud Run: $REGION_CLOUD_RUN"
 echo "Repositório: $REPO_NAME"
 echo "Frontend: $FRONTEND_NAME"
 echo "Tag: $IMAGE_TAG"
-read -p "Pressione Enter para finalizar..."
 
 # Fazer Login no Artifact Registry
 echo "🔑 Autenticando no Artifact Registry..."
 gcloud auth configure-docker ${REGION_ARTIFACT}-docker.pkg.dev
-read -p "Pressione Enter para finalizar..."
 
 # Construir a Imagem Docker do Frontend
 echo "🔨 Construindo a imagem Docker do Frontend..."
@@ -41,17 +39,14 @@ cd frontend
 docker build -t ${FRONTEND_IMAGE_PATH} .
 cd ..
 
-read -p "Pressione Enter para finalizar..."
 # Fazer Push do Frontend
 echo "📤 Enviando a imagem do Frontend para o Artifact Registry..."
 docker push ${FRONTEND_IMAGE_PATH}
-read -p "Pressione Enter para finalizar..."
 
 # Verificar se a Imagem foi enviada corretamente
 echo "🔍 Verificando a imagem no Artifact Registry..."
 gcloud artifacts docker images list ${REGION_ARTIFACT}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}
 
-read -p "Pressione Enter para finalizar..."
 # Deploy do Frontend no Cloud Run
 echo "🚀 Realizando deploy do Frontend no Google Cloud Run..."
 gcloud run deploy ${FRONTEND_SERVICE_NAME} \
@@ -65,6 +60,5 @@ gcloud run deploy ${FRONTEND_SERVICE_NAME} \
   --cpu 1 \
   --memory 512Mi
   
-read -p "Pressione Enter para finalizar..."
 
 echo "✅ Deploy do Frontend concluído com sucesso!"

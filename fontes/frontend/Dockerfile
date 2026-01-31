@@ -29,6 +29,6 @@ COPY mime.types /etc/nginx/mime.types
 
 # Copia os arquivos buildados para o NGINX
 COPY --from=builder /app/dist/frontend /usr/share/nginx/html
-
+COPY src/assets /usr/share/nginx/html/assets
 EXPOSE 8081
 CMD ["nginx", "-g", "daemon off;"]
