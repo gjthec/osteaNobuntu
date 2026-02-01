@@ -20,7 +20,6 @@ export class MenuService {
     if(!rolesId || rolesId.length === 0) {
       return this.getDefaultMenu();
     }
-
     const url = `${this.apiUrl}/menu-by-role?roleId=${rolesId}`;
     return this.http.get<INavList[]>(url);
   }
