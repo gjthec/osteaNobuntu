@@ -224,10 +224,9 @@ export class AzureADService implements IidentityService {
 
 	async getUserByEmail(email: string): Promise<IUser> {
 		const accessToken: string = await this.getAccessToken();
-		console.log(accessToken);
 		const userResponse = await axios.get(
 			this.graphAPIUrl +
-				`v1.0/users?$filter=mail eq '${email}' or userPrincipalName eq '${email}' or otherMails/any(x:x eq '${email}')`,
+				`v1.0/users?$filter=mail eq '${email}' or userPrincipalName eq '${email}' or otherMails/any(x:x eq '${email}')&$select=id,displayName,givenName,surname,mail,userPrincipalName`,
 			{
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
@@ -236,16 +235,19 @@ export class AzureADService implements IidentityService {
 			}
 		);
 		//TODO tem casos que retorna mais de um, isso não pode ocorrer, ver isso na Azure.
-		if (
-			userResponse.data.value.length > 0 &&
-			userResponse.data.value[0] != null
-		) {
+		if (userResponse.data.value.length > 0 && userResponse.data.value[0]) {
+			const graphUser = userResponse.data.value[0];
+			const displayName =
+				graphUser.displayName ||
+				[graphUser.givenName, graphUser.surname].filter(Boolean).join(' ');
+			const resolvedEmail =
+				graphUser.mail || graphUser.userPrincipalName || email;
 			return {
-				email: email,
-				firstName: userResponse.data.value[0].givenName,
-				lastName: userResponse.data.value[0].surname,
-				identityProviderUID: userResponse.data.value[0].id,
-				userName: userResponse.data.value[0].displayName,
+				email: resolvedEmail,
+				firstName: graphUser.givenName,
+				lastName: graphUser.surname,
+				identityProviderUID: graphUser.id,
+				userName: displayName,
 				tenantUID: this.tenantID
 			};
 		}
