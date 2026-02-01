@@ -1,3 +1,8 @@
+.sidenav-container {
+	height: 100%;
+	background: var(--app-bg);
+}
+
 .sidenav-content {
 	display: flex;
 	height: 100%;
@@ -5,14 +10,10 @@
 	background: var(--app-bg);
 }
 
-.mat-sidenav {
+.sidenav-panel {
 	width: 260px;
 	background: var(--app-surface);
 	border-right: 1px solid var(--app-border);
-}
-
-.mat-sidenav-container {
-	background: var(--app-bg);
 }
 
 .content-wrapper {
@@ -20,6 +21,16 @@
 	overflow-y: auto;
 	padding: 24px;
 	background: var(--app-bg);
+}
+
+.sidenav-title {
+	font-weight: 600;
+	font-size: 1rem;
+	color: var(--app-text);
+}
+
+.app-toolbar {
+	height: 72px;
 }
 
 .custom-button {
@@ -81,6 +92,12 @@
 		padding: 0 8px;
 	}
 
+	.mat-expansion-panel-header-title,
+	.mat-expansion-panel-header-description {
+		align-items: center;
+		gap: 10px;
+	}
+
 	.mat-expansion-panel-header.mat-expanded {
 		background: var(--app-surface-alt);
 		border-radius: 12px;
@@ -104,7 +121,7 @@
 		row-gap: 8px;
 	}
 
-	.mat-sidenav {
+	.sidenav-panel {
 		width: 220px;
 	}
 }

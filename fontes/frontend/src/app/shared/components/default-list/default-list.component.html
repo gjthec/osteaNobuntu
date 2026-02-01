@@ -1,5 +1,5 @@
-<div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-  <div style="height: 150px; padding: 10px;">
+<div class="default-list">
+  <div class="default-list__header">
 
     <search-input-field *ngIf="filterParameters != null" [filterParameters]="filterParameters" 
       [className]="className" [sortableFields]="sortableFields" 
@@ -10,18 +10,11 @@
       (clearSearchInputEvent)="clearSearchInputEvent()" [searchableFields]="searchableFields">
     </search-input-field>
 
-    <div *ngIf="isSelectable == true" style="
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        background-color: white;
-        border-radius: 5px;
-        height: 50px;
-      ">
+    <div *ngIf="isSelectable == true" class="default-list__selection-bar">
       <mat-checkbox [checked]="selectAllCheckBox" *ngIf="isSelectable && itemsDisplayed.length > 0 && itemsDisplayed.length <= selectedItemsLimit"
         (change)="onSelectedItemsCheckBoxChange($event)"></mat-checkbox>
 
-      <p style="margin: auto">
+      <p class="default-list__selection-count">
         {{ selectedItems.length }}
         <ng-container *transloco="let t; read: 'componentsBase'">{{
           t("selector-list.selectedValues")
@@ -32,21 +25,20 @@
     </div>
   </div>
 
-  <div [style.height]="isOpenedOnDialog ? '400px' : 'auto'" [style.flex]="isOpenedOnDialog ? 'none' : '1'"
-    style="overflow-y: auto; padding-left: 10px; padding-right: 10px;">
+  <div class="default-list__body" [class.default-list__body--dialog]="isOpenedOnDialog">
 
     <div [ngClass]="viewMode">
       <ng-container #placeToRender></ng-container>
     </div>
 
-    <div *ngIf="isLoading == true" style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+    <div *ngIf="isLoading == true" class="default-list__loading">
       <mat-spinner></mat-spinner>
     </div>
 
-    <div *ngIf="error" style="display: flex; flex-direction: column; width: 100%; align-items: center;">Error</div>
+    <div *ngIf="error" class="default-list__error">Error</div>
 
     <!-- Mensagem caso não tenha nada apresentado na lista -->
-    <div *ngIf="isLoading == false && itemsDisplayed.length == 0" style="margin: auto; display: flex; justify-content: center;">
+    <div *ngIf="isLoading == false && itemsDisplayed.length == 0" class="default-list__empty">
       <p>{{ "componentsBase.default-list.noData" | transloco }}</p>
     </div>
 
@@ -54,12 +46,7 @@
   </div>
 
   <!-- TODO colocar o transoco nesse componente, ler a documentacao dele pra ver como fazer -->
-  <div style="
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      background-color: white;
-    ">
+  <div class="default-list__footer">
     <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="totalItems" [pageSize]="maxDisplayedItems"
       [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[5, 10, 25, 50, 100]" [hidePageSize]="false"
       [pageIndex]="0" aria-label="Select page">
@@ -67,7 +54,7 @@
   </div>
 
   <!-- Menu fixo -->
-  <div [id]="menuIsFixedOnScreen == true ? 'fixedButtons' : ''">
+  <div [id]="menuIsFixedOnScreen == true ? 'fixedButtons' : ''" class="default-list__actions">
     <button *ngIf="isOpenedOnDialog == true" mat-fab class="px-6 ml-3" (click)="return()">
       <mat-icon svgIcon="mat_solid:keyboard_backspace"></mat-icon>
     </button>

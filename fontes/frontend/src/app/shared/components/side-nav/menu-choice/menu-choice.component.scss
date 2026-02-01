@@ -1,27 +1,30 @@
 .dialog-container {
     text-align: center;
-    padding: 24px;
+    padding: var(--app-spacing-lg);
   
     .dialog-title {
-      margin-bottom: 16px;
-      font-size: 24px;
-      font-weight: 500;
+      margin-bottom: var(--app-spacing-sm);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--app-text);
     }
   
     p {
-      margin-bottom: 24px;
+      margin-bottom: var(--app-spacing-lg);
       font-size: 16px;
-      color: rgba(0, 0, 0, 0.7);
+      color: var(--app-text-muted);
     }
   }
   
   .environment-options {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: var(--app-spacing-sm);
+    flex-wrap: wrap;
     
     button {
       min-width: 140px;
+      border-radius: 999px;
     }
   }
   

@@ -17,6 +17,85 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
   margin-left: 10px;
 }
 
+.default-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: var(--app-spacing-md);
+}
+
+.default-list__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-spacing-sm);
+  padding: var(--app-spacing-md);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  box-shadow: var(--app-shadow);
+}
+
+.default-list__selection-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--app-spacing-md);
+  width: 100%;
+  background-color: var(--app-surface);
+  border-radius: var(--app-radius-sm);
+  border: 1px solid var(--app-border);
+  padding: 0 var(--app-spacing-md);
+  min-height: 50px;
+}
+
+.default-list__selection-count {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-weight: 500;
+}
+
+.default-list__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--app-spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-spacing-md);
+}
+
+.default-list__body--dialog {
+  height: 400px;
+  flex: none;
+}
+
+.default-list__loading,
+.default-list__error,
+.default-list__empty {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-text-muted);
+  padding: var(--app-spacing-lg);
+}
+
+.default-list__footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--app-surface);
+  border-top: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  box-shadow: var(--app-shadow);
+  padding: var(--app-spacing-sm) var(--app-spacing-md);
+}
+
+.default-list__actions {
+  display: flex;
+  gap: var(--app-spacing-sm);
+}
+
 // Estilos para dispositivos pequenos (exemplo: smartphones)
 @media screen and (max-width: $breakpoint-small) {
   #fixedButtons {
@@ -26,6 +105,14 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
 
   .card-layout {
     grid-template-columns: repeat(1, minmax(200px, 1fr));
+  }
+
+  .default-list__header {
+    padding: var(--app-spacing-sm);
+  }
+
+  .default-list__body {
+    padding: 0 var(--app-spacing-sm);
   }
 }
 
@@ -53,18 +140,18 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
 .list-layout {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--app-spacing-sm);
   flex: 1;
   /* Faz .list-layout preencher o espaço vertical do seu pai flex */
   min-height: 0;
   /* Importante! Evita que o conteúdo interno force .list-layout a ser maior que o espaço flexível disponível. */
-  margin-bottom: 10px;
+  margin-bottom: var(--app-spacing-sm);
   /* Espaçamento entre .list-layout e o próximo elemento, se necessário */
 }
 
 .card-layout {
   display: grid;
-  gap: 15px;
+  gap: var(--app-spacing-md);
   /* Espaçamento entre os cards */
   box-sizing: border-box;
 }
