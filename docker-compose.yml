@@ -1,0 +1,10 @@
+version: '3'
+services:
+  backend:
+    build: ./fontes/backend
+    ports:
+      - '8080:8080'
+  frontend:
+    build: ./fontes/frontend
+    ports:
+      - '8081:80'

@@ -145,9 +145,11 @@ export class SideNavComponent implements OnInit, OnDestroy {
    * @returns Retorna um array com informações para criar o menu de navegação.
    */
   getDataToMenu(): Observable<INavList[]> {
+    console.log('Verificando menu no localStorage...');
     if (localStorage.getItem('currentMenu')) {
       return this.getDataToMenuLocalStorage(JSON.parse(localStorage.getItem('currentMenu')));
     }
+    console.log('Buscando menu por role do usuário...');
     return this.menuService.getMenuByRole().pipe(
       tap({
         next: (data: INavList[]) => {
