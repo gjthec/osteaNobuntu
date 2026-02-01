@@ -126,6 +126,7 @@ export async function checkUserAccess(
 		req.session = session;
 
 		const authenticatedUser = session.user;
+		const isAdminRole = authenticatedUser.roles?.includes('ADMIN');
 
 		const getSecurityTenantConnectionUseCase: GetSecurityTenantConnectionUseCase =
 			new GetSecurityTenantConnectionUseCase();
@@ -143,33 +144,47 @@ export async function checkUserAccess(
 		}
 
 		//Obter o tenant
-		const databaseCredentialId: number = Number(req.header('X-Tenant-ID'));
+		const databaseCredentialIdHeader = req.header('X-Tenant-ID');
+		const databaseCredentialId: number = Number(databaseCredentialIdHeader);
 
-		if (isNaN(databaseCredentialId)) {
+		if (!isAdminRole && isNaN(databaseCredentialId)) {
 			throw new UnauthorizedError('INVALID_TENANT');
 		}
 
 		let databaseConnection: DatabaseConnection | null = null;
-		databaseConnection = await checkUserHasAccessToTenant(
-			databaseCredentialId,
-			authenticatedUser.identityProviderUID
-		);
+		if (isAdminRole && !isNaN(databaseCredentialId)) {
+			const databaseCredentialRepository: DatabaseCredentialRepository =
+				new DatabaseCredentialRepository(securityTenantConnection);
+			const databaseCredential =
+				await databaseCredentialRepository.findById(databaseCredentialId);
+			if (!databaseCredential) {
+				throw new UnauthorizedError('INVALID_TENANT');
+			}
+			req.tenantConnection = await connectTenant(databaseCredential, false);
+		} else if (!isAdminRole) {
+			databaseConnection = await checkUserHasAccessToTenant(
+				databaseCredentialId,
+				authenticatedUser.identityProviderUID
+			);
 
-		if (databaseConnection == null) {
-			throw new UnauthorizedError('INVALID_TENANT');
+			if (databaseConnection == null) {
+				throw new UnauthorizedError('INVALID_TENANT');
+			}
 		}
 
 		req.user = {
 			identityProviderUID: authenticatedUser.identityProviderUID
 		};
 
-		await checkUserHasAccessToRoute(
-			authenticatedUser,
-			req,
-			databaseConnection.tenantConnection
-		);
+		if (!isAdminRole) {
+			await checkUserHasAccessToRoute(
+				authenticatedUser,
+				req,
+				databaseConnection!.tenantConnection
+			);
 
-		req.tenantConnection = databaseConnection.tenantConnection;
+			req.tenantConnection = databaseConnection!.tenantConnection;
+		}
 		next();
 	} catch (error: any) {
 		errorHandler(error, req, res, next);
