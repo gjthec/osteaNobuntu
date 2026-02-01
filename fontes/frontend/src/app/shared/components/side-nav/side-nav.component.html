@@ -61,7 +61,7 @@
       <user-menu class="user-menu toolbar-item"></user-menu>
 
     </mat-toolbar>
-    <div style="flex:1; overflow-y: auto">
+    <div class="content-wrapper">
       <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
                  Otherwise, layout changes won't be registered and the view won't be updated! -->
       <router-outlet *ngIf="true"></router-outlet>

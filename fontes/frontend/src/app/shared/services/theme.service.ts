@@ -44,10 +44,13 @@ export class ThemeService {
 
 	private applyTheme(theme: ThemeMode): void {
 		const body = this.document.body;
+		const html = this.document.documentElement;
 		if (theme === 'dark') {
 			body.classList.add('theme-dark');
+			html.classList.add('dark');
 		} else {
 			body.classList.remove('theme-dark');
+			html.classList.remove('dark');
 		}
 	}
 }
