@@ -8,11 +8,36 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
     display: grid; width: 100%; overflow: auto; align-content: space-evenly; margin: auto;
 }
 
+.app-card {
+    display: block;
+    padding: 16px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    box-shadow: var(--app-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.app-card:hover {
+    transform: translateY(-1px);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin: auto;
+}
+
 
 // Estilos para dispositivos pequenos (exemplo: smartphones)
 @media screen and (max-width: $breakpoint-small) {
     #cardBase {
         grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .card-content {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
 

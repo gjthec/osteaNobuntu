@@ -26,9 +26,16 @@ export class GetSecurityTenantConnectionUseCase {
 			tenantCredentialId
 		});
 
+		const securityDatabaseName = process.env.SECURITY_TENANT_DATABASE_NAME;
+		if (!securityDatabaseName) {
+			throw new Error(
+				'Missing SECURITY_TENANT_DATABASE_NAME environment variable.'
+			);
+		}
+
 		const databaseCredential: DatabaseCredential = new DatabaseCredential({
 			id: 0,
-			name: process.env.SECURITY_TENANT_DATABASE_NAME!.toLowerCase(),
+			name: securityDatabaseName.toLowerCase(),
 			type: process.env.SECURITY_TENANT_DATABASE_TYPE as DatabaseType,
 			username: process.env.SECURITY_TENANT_DATABASE_USERNAME,
 			password: process.env.SECURITY_TENANT_DATABASE_PASSWORD,
