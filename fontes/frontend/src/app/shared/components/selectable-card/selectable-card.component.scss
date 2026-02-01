@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  // align-items: center;
+  gap: var(--app-spacing-sm);
 }
 
 .button-container {
@@ -10,4 +10,5 @@
   flex-direction: row;
   /* Joga o botão para o final */
   justify-content: flex-end;
+  padding-top: var(--app-spacing-xs);
 }
