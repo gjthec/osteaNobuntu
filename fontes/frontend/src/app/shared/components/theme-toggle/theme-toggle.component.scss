@@ -1,0 +1,8 @@
+.mat-icon-button {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+:host-context(.theme-dark) .mat-icon-button {
+  background: rgba(15, 23, 42, 0.6);
+}

@@ -106,6 +106,7 @@ import { LanguageInterceptor } from './interceptors/language.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UploadFieldComponent } from './components/upload-field/upload-field.component';
 import { FileViwerComponent } from './components/file-viwer/file-viwer.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 
 @NgModule({
     imports: [
@@ -185,6 +186,7 @@ import { FileViwerComponent } from './components/file-viwer/file-viwer.component
         SendFormDataModule,
         // FilterMenuModule,
         LoadingDialogComponent,
+        ThemeToggleComponent,
     ],
     declarations: [
         CalculatorComponent,
@@ -244,8 +246,8 @@ import { FileViwerComponent } from './components/file-viwer/file-viwer.component
         NumberFieldComponent,
         ViewModeSelectorComponent,
         UploadFieldComponent,
-        FileViwerComponent
+        FileViwerComponent,
+        ThemeToggleComponent
     ],
 })
 export class SharedModule { }
-

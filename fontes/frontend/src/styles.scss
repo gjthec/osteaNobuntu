@@ -6,11 +6,35 @@ html, body {
   height: 100%;
 }
 
+:root {
+  --app-bg: #f5f7fb;
+  --app-surface: #ffffff;
+  --app-surface-alt: #f1f5f9;
+  --app-text: #0f172a;
+  --app-text-muted: #64748b;
+  --app-border: rgba(148, 163, 184, 0.35);
+  --app-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+  --app-toolbar: rgba(255, 255, 255, 0.92);
+  --app-chip-bg: rgba(148, 163, 184, 0.2);
+}
+
+body.theme-dark {
+  --app-bg: #0f172a;
+  --app-surface: #111827;
+  --app-surface-alt: #1f2937;
+  --app-text: #e2e8f0;
+  --app-text-muted: #94a3b8;
+  --app-border: rgba(148, 163, 184, 0.2);
+  --app-shadow: 0 16px 40px rgba(2, 6, 23, 0.6);
+  --app-toolbar: rgba(15, 23, 42, 0.9);
+  --app-chip-bg: rgba(148, 163, 184, 0.25);
+}
+
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
-  background: radial-gradient(circle at top, #f6f9ff 0%, #eef2f9 45%, #e7ecf6 100%);
-  color: #1e293b;
+  background: var(--app-bg);
+  color: var(--app-text);
 }
 
 a {
@@ -19,8 +43,8 @@ a {
 }
 
 .mat-toolbar {
-  background: rgba(255, 255, 255, 0.95);
-  color: #0f172a;
+  background: var(--app-toolbar);
+  color: var(--app-text);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(8px);
 }
@@ -29,6 +53,45 @@ a {
 .mat-mdc-button {
   border-radius: 999px;
   font-weight: 600;
+}
+
+.mat-mdc-card,
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--app-surface);
+  color: var(--app-text);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
+  border-radius: 16px;
+}
+
+.mat-mdc-card-subtitle,
+.mat-mdc-card-content,
+.mat-mdc-form-field,
+.mat-mdc-table {
+  color: var(--app-text);
+}
+
+.mat-mdc-card-content {
+  padding-top: 12px;
+}
+
+.mat-mdc-table {
+  background: var(--app-surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mat-mdc-table .mat-mdc-header-row {
+  background: var(--app-surface-alt);
+}
+
+.mat-mdc-row:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.mat-mdc-chip {
+  background: var(--app-chip-bg) !important;
+  color: var(--app-text) !important;
 }
 
 .mdc-notched-outline__notch{

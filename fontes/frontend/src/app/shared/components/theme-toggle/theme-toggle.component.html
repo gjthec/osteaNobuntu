@@ -1,0 +1,12 @@
+<button
+  type="button"
+  mat-icon-button
+  (click)="toggleTheme()"
+  [attr.aria-pressed]="(isDark$ | async) ?? false"
+  aria-label="Alternar tema"
+>
+  <mat-icon *ngIf="(isDark$ | async); else lightIcon">dark_mode</mat-icon>
+  <ng-template #lightIcon>
+    <mat-icon>light_mode</mat-icon>
+  </ng-template>
+</button>
