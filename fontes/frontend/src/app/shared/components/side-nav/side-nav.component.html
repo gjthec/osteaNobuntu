@@ -1,6 +1,6 @@
-<mat-sidenav-container style="height: 100%">
-  <mat-sidenav #drawer [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="sideNavBarIsOpened">
-    <mat-toolbar>{{ menuTitle }}</mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav-panel" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="sideNavBarIsOpened">
+    <mat-toolbar class="sidenav-title">{{ menuTitle }}</mat-toolbar>
   
     <!-- Template recursivo para a árvore de navegação -->
     <ng-template #recursiveMenu let-options>
@@ -35,8 +35,8 @@
     <!-- Inicia a renderização da árvore com a lista principal -->
     <ng-container *ngTemplateOutlet="recursiveMenu; context: { $implicit: navListOptions }"></ng-container>
   </mat-sidenav>
-  <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar id="toolbar" class="flex-container" style="height: 10vh;">
+    <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar id="toolbar" class="flex-container app-toolbar">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button
         (click)="this.sideNavBarIsOpened = !this.sideNavBarIsOpened">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>

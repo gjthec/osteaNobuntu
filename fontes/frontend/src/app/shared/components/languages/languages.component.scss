@@ -1,0 +1,10 @@
+.lang-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--app-spacing-sm);
+  border-radius: var(--app-radius-sm);
+}
+
+.lang-menu-item:hover {
+  background: var(--app-surface-alt);
+}

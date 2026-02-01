@@ -2,11 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body {
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
   height: 100%;
 }
 
 :root {
+  color-scheme: light;
   --app-bg: #f5f7fb;
   --app-surface: #ffffff;
   --app-surface-alt: #f1f5f9;
@@ -16,9 +25,23 @@ html, body {
   --app-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
   --app-toolbar: rgba(255, 255, 255, 0.92);
   --app-chip-bg: rgba(148, 163, 184, 0.2);
+  --app-radius-sm: 10px;
+  --app-radius-md: 16px;
+  --app-radius-lg: 24px;
+  --app-spacing-xs: 4px;
+  --app-spacing-sm: 8px;
+  --app-spacing-md: 16px;
+  --app-spacing-lg: 24px;
+  --app-spacing-xl: 32px;
+  --app-font-size-sm: 0.875rem;
+  --app-font-size-base: 1rem;
+  --app-font-size-lg: 1.125rem;
+  --app-font-size-xl: 1.5rem;
+  --app-line-height: 1.5;
 }
 
 body.theme-dark {
+  color-scheme: dark;
   --app-bg: #0f172a;
   --app-surface: #111827;
   --app-surface-alt: #1f2937;
@@ -35,11 +58,20 @@ body {
   font-family: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
   background: var(--app-bg);
   color: var(--app-text);
+  line-height: var(--app-line-height);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 .mat-toolbar {
@@ -50,7 +82,9 @@ a {
 }
 
 .mat-mdc-raised-button,
-.mat-mdc-button {
+.mat-mdc-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button {
   border-radius: 999px;
   font-weight: 600;
 }
@@ -61,7 +95,7 @@ a {
   color: var(--app-text);
   border: 1px solid var(--app-border);
   box-shadow: var(--app-shadow);
-  border-radius: 16px;
+  border-radius: var(--app-radius-md);
 }
 
 .mat-mdc-card-subtitle,
@@ -94,6 +128,14 @@ a {
   color: var(--app-text) !important;
 }
 
-.mdc-notched-outline__notch{
-    border-right: none;
+.mat-mdc-form-field {
+  margin-top: var(--app-spacing-xs);
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  border-radius: var(--app-radius-sm);
+}
+
+.mdc-notched-outline__notch {
+  border-right: none;
 }

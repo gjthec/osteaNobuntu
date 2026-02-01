@@ -1,20 +1,21 @@
 .user-entry {
-  padding: 10px;
-  margin-bottom: 5px;
+  padding: var(--app-spacing-sm);
+  margin-bottom: var(--app-spacing-xs);
 }
 
 .current-user {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: var(--app-spacing-md);
+  text-align: center;
 }
 
 #user-image {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff; /* Cor de fundo */
+  background-color: #2563eb; /* Cor de fundo */
   color: white; /* Cor da letra */
   width: 100px; /* Largura do círculo */
   height: 100px; /* Altura do círculo */
@@ -29,13 +30,14 @@
   border-radius: 50%; 
   height: 30px; 
   width: 30px;
+  background: transparent;
   
   // Estilo da imagem do icone de usuário com acesso
   #user-icon-image{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #007bff; /* Cor de fundo */
+    background-color: #2563eb; /* Cor de fundo */
     color: white; /* Cor da letra */
     width: 30px; /* Largura do círculo */
     height: 30px; /* Altura do círculo */
@@ -51,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff; /* Cor de fundo */
+  background-color: #2563eb; /* Cor de fundo */
   color: white; /* Cor da letra */
   width: 40px; /* Largura do círculo */
   height: 40px; /* Altura do círculo */
@@ -75,7 +77,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff; /* Cor de fundo */
+  background-color: #2563eb; /* Cor de fundo */
   color: white; /* Cor da letra */
   width: 25px;
   height: 25px;
@@ -98,7 +100,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-left: 10px;
+  margin-left: var(--app-spacing-sm);
 }
 
 // Para acessar dados do componente no angular material, fazer uso do "::ng-deep" para substituir o estilo interno de um componente do Angular Material
@@ -109,4 +111,14 @@
 mat-menu-item {
   white-space: normal;
   /* Evita que os nomes sejam cortados */
+}
+
+.current-user p {
+  margin: var(--app-spacing-xs) 0;
+  color: var(--app-text-muted);
+}
+
+.current-user h4 {
+  margin: 0;
+  font-weight: 600;
 }
