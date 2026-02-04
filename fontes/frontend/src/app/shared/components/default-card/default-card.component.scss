@@ -5,7 +5,40 @@ $breakpoint-large: 992px; // Exemplo: laptops/desktops
 $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
 
 #cardBase {
-    display: grid; width: 100%; overflow: auto; align-content: space-evenly; margin: auto;
+    display: grid;
+    width: 100%;
+    overflow: auto;
+    align-content: space-evenly;
+    margin: auto;
+}
+
+.default-card {
+    display: block;
+    padding: var(--app-spacing-md);
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-md);
+    box-shadow: var(--app-shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.default-card:hover {
+    transform: translateY(-1px);
+}
+
+.default-card__content {
+    display: flex;
+    flex-direction: row;
+    gap: var(--app-spacing-md);
+    align-items: flex-start;
+}
+
+.default-card__grid {
+    width: 100%;
+}
+
+.default-card__action {
+    align-self: flex-start;
 }
 
 
@@ -13,6 +46,11 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
 @media screen and (max-width: $breakpoint-small) {
     #cardBase {
         grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .default-card__content {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
 

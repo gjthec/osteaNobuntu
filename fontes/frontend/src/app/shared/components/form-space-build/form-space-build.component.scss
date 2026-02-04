@@ -4,6 +4,36 @@ $breakpoint-medium: 768px; // Exemplo: tablets
 $breakpoint-large: 992px; // Exemplo: laptops/desktops
 $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
 
+.form-space {
+    background: var(--app-surface);
+    border-radius: var(--app-radius-md);
+    border: 1px solid var(--app-border);
+    box-shadow: var(--app-shadow);
+}
+
+.form-card {
+    padding: var(--app-spacing-md);
+}
+
+.form-stepper {
+    background-color: var(--app-surface);
+    min-height: 300px;
+    border-radius: var(--app-radius-md);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--app-spacing-md);
+    padding: var(--app-spacing-md);
+}
+
+.form-render-area {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--app-spacing-md);
+    width: 100%;
+}
 
 #fixedButtons {
     position: fixed;
@@ -29,16 +59,22 @@ $breakpoint-extra-large: 1200px; // Exemplo: monitores grandes
     padding: 0 !important;
 }
 
+@media screen and (min-width: $breakpoint-medium) {
+    .form-grid,
+    .form-render-area {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media screen and (min-width: $breakpoint-large) {
+    .form-grid,
+    .form-render-area {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
 
 // Estilos para dispositivos pequenos (exemplo: smartphones)
 @media screen and (max-width: $breakpoint-small) {
-    #formBase {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        column-gap: 20px;
-        padding: 10px;
-    }
-
     #fixedButtons {
         bottom: 30px;
         right: 30px;

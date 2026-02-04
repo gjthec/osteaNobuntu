@@ -1,0 +1,14 @@
+.btn-tenant,
+.btn-add-tenant {
+  display: flex;
+  align-items: center;
+  gap: var(--app-spacing-sm);
+}
+
+.btn-add-tenant mat-icon {
+  color: var(--app-text-muted);
+}
+
+::ng-deep .mat-menu-panel {
+  border-radius: var(--app-radius-md);
+}
